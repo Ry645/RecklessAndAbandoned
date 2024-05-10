@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlj8swiapx12i"]
+
+[ext_resource type="Script" path="res://itemPickup/item_holder.gd" id="1_dnho3"]
+
+[node name="itemHolder" type="Node3D"]
+script = ExtResource("1_dnho3")

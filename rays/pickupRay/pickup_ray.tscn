@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://csoeasokp3edn"]
+
+[ext_resource type="Script" path="res://rays/pickupRay/pickup_ray.gd" id="1_uyqqy"]
+
+[node name="pickupRay" type="RayCast3D"]
+collide_with_areas = true
+script = ExtResource("1_uyqqy")

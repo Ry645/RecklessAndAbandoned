@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://evw47ittl8t3"]
+
+[ext_resource type="Script" path="res://itemScenesAndData/cdPlayer/cdPlayer.gd" id="1_1lfw6"]
+
+[node name="cdPlayer" type="Node3D"]
+script = ExtResource("1_1lfw6")

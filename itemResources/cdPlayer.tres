@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://0evbhe202mti"]
+
+[ext_resource type="PackedScene" uid="uid://evw47ittl8t3" path="res://itemScenesAndData/cdPlayer/cdPlayer.tscn" id="1_16isy"]
+[ext_resource type="Script" path="res://itemScripts/itemResource.gd" id="1_k8rss"]
+
+[resource]
+script = ExtResource("1_k8rss")
+scene = ExtResource("1_16isy")
+name = &"Engine"

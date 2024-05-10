@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwyhi2rshxujd"]
+
+[ext_resource type="Script" path="res://pickupArea/pickupArea.gd" id="1_qcwpo"]
+
+[node name="pickupArea" type="Area3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+script = ExtResource("1_qcwpo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true

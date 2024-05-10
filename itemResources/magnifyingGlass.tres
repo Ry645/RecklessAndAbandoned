@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://cp3wiad3lgif4"]
+
+[ext_resource type="PackedScene" uid="uid://diahpruwx0v0t" path="res://itemScenesAndData/magnifyingGlass/magnifying_glass.tscn" id="1_37uhf"]
+[ext_resource type="Script" path="res://itemScripts/itemResource.gd" id="1_qqa8a"]
+
+[resource]
+script = ExtResource("1_qqa8a")
+scene = ExtResource("1_37uhf")
+name = &"Magnifying Glass"

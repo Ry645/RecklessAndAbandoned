@@ -12,8 +12,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 #  :=  symbol means I KNOW WHAT TYPE THIS VAR IS instead of eh its whatever
 @onready var neck := %neck
 @onready var camera:Camera3D = %Camera3D
-#@onready var pickup_ray = %pickupRay
-#@onready var inventory = %inventory
+@onready var pickup_ray = %pickupRay
+@onready var inventory = %inventory
 
 func _unhandled_input(event):
 	# if not tabbed out (ie playing game)
@@ -70,10 +70,10 @@ func inputProcess(): # to be called in physics process
 	if Input.is_action_just_released("sprint"):
 		SPEED /= SPRINT_FACTOR
 	
-	#if Input.is_action_just_pressed("pickup"):
-		#pickItemForInventory()
-#
-#
-#func pickItemForInventory():
-	#var itemRes = pickup_ray.pickup()
-	#inventory.addToInventory(itemRes)
+	if Input.is_action_just_pressed("pickup"):
+		pickItemForInventory()
+
+
+func pickItemForInventory():
+	var itemRes = pickup_ray.pickup()
+	inventory.addToInventory(itemRes)

@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://diahpruwx0v0t"]
+
+[ext_resource type="Script" path="res://itemScenesAndData/magnifyingGlass/magnifying_glass.gd" id="1_n276c"]
+[ext_resource type="PackedScene" uid="uid://csbunbwgkfdq8" path="res://itemScenesAndData/magnifyingGlass/magnifyingGlass1.blend" id="1_vt0c5"]
+[ext_resource type="PackedScene" uid="uid://cwyhi2rshxujd" path="res://pickupArea/pickup_area.tscn" id="2_un10l"]
+[ext_resource type="Shape3D" uid="uid://bbpoc44soc524" path="res://itemScenesAndData/magnifyingGlass/magnifyingGlassPickupArea.tres" id="4_ep2ea"]
+
+[node name="magnifyingGlass" type="Node3D"]
+script = ExtResource("1_n276c")
+
+[node name="magnifyingGlass1" parent="." instance=ExtResource("1_vt0c5")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="pickupArea" parent="." node_paths=PackedStringArray("itemNode") instance=ExtResource("2_un10l")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.5, 0)
+itemNode = NodePath("..")
+collision = ExtResource("4_ep2ea")
+
+[node name="CollisionShape3D" parent="pickupArea" index="0"]
+shape = ExtResource("4_ep2ea")
+
+[editable path="pickupArea"]
