@@ -172,3 +172,7 @@ func _on_blocking_system_block_ended():
 
 func _on_blocking_system_parry_window_ended():
 	sword.transform = blocking_transform.transform
+
+#BUG
+func _on_grunt_damage_player(damage):
+	takeDamage(damage)

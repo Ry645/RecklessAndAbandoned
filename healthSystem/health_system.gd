@@ -10,6 +10,6 @@ signal die
 
 func takeDamage(damage):
 	health -= damage
-	print("ow: ", damage)
+	print("health: ", health)
 	if health <= minHealth:
 		emit_signal("die")

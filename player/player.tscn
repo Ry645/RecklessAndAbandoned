@@ -77,6 +77,8 @@ unique_name_in_owner = true
 
 [node name="healthSystem" parent="." instance=ExtResource("6_x2e85")]
 unique_name_in_owner = true
+maxHealth = 200.0
+health = 200.0
 
 [connection signal="attackParried" from="blockingSystem" to="." method="_on_blocking_system_attack_parried"]
 [connection signal="blockEnded" from="blockingSystem" to="." method="_on_blocking_system_block_ended"]
