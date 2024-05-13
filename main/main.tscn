@@ -1,12 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://dj28tblre2dfe"]
+[gd_scene load_steps=6 format=3 uid="uid://dj28tblre2dfe"]
 
-[ext_resource type="PackedScene" uid="uid://dkxvfhhkt7bsb" path="res://land/land.blend" id="1_fkssw"]
 [ext_resource type="PackedScene" uid="uid://daiaeolk8hlnj" path="res://player/player.tscn" id="2_hdhtc"]
-[ext_resource type="PackedScene" uid="uid://dlj8swiapx12i" path="res://itemPickup/item_holder.tscn" id="3_knw6i"]
-[ext_resource type="PackedScene" uid="uid://diahpruwx0v0t" path="res://itemScenesAndData/magnifyingGlass/magnifying_glass.tscn" id="3_sg870"]
-[ext_resource type="Resource" uid="uid://cp3wiad3lgif4" path="res://itemResources/magnifyingGlass.tres" id="4_nsmue"]
-[ext_resource type="Script" path="res://deleteOnRuntime/deleteOnRuntime.gd" id="6_gfwtn"]
-[ext_resource type="Texture2D" uid="uid://bmssehd11p2rv" path="res://player/crosshair.png" id="7_kgiam"]
+[ext_resource type="PackedScene" uid="uid://cgrftiuecsb7s" path="res://land/land.tscn" id="3_pj3ja"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,33 +24,10 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4qs63")
 
-[node name="land" parent="." instance=ExtResource("1_fkssw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
-
 [node name="Player" parent="." instance=ExtResource("2_hdhtc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.80226, 2.40807, 1.21787)
-
-[node name="itemHolder" parent="." instance=ExtResource("3_knw6i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.43722, 1, -2.44741)
-itemRes = ExtResource("4_nsmue")
-
-[node name="magnifyingGlass" parent="itemHolder" instance=ExtResource("3_sg870")]
-script = ExtResource("6_gfwtn")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 0)
 
 [node name="hudLayer" type="CanvasLayer" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="hudLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_kgiam")
-expand_mode = 1
-metadata/_edit_use_anchors_ = true
+[node name="land" parent="." instance=ExtResource("3_pj3ja")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -8, 0)
