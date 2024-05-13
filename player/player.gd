@@ -2,11 +2,14 @@ extends CharacterBody3D
 
 class_name Player
 
-@export var SPEED:float = 3.0
-@export var SPRINT_FACTOR:float = 2.0
+@export var SPEED:float = 6.0
+@export var DASH_FACTOR:float = 3.0
 @export var JUMP_VELOCITY:float = 4.5
 @export var gravityMultiplier:float = 1.0
 @export var turnSpeed:float = 10.0
+
+var b_cameraLock:bool = false
+var canTeleportSmash:bool = true
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -18,8 +21,12 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var pickup_ray = %pickupRay
 @onready var inventory = %inventory
 @onready var mesh = %mesh
-
-var b_cameraLock:bool = false
+@onready var blocking_system = %blockingSystem
+@onready var health_system = %healthSystem
+@onready var sword:Node3D = %sword
+@onready var blocking_transform = %blockingTransform
+@onready var parry_transform = %parryTransform
+@onready var stance_transform = %stanceTransform
 
 func _unhandled_input(event):
 	# if not tabbed out (ie playing game)
@@ -81,17 +88,30 @@ func _physics_process(delta):
 
 func inputProcess(): # to be called in physics process
 	
-	if Input.is_action_just_pressed("sprint"):
-		SPEED *= SPRINT_FACTOR
-	
-	if Input.is_action_just_released("sprint"):
-		SPEED /= SPRINT_FACTOR
+	#if Input.is_action_just_pressed("sprint"):
+		#SPEED *= SPRINT_FACTOR
+	#
+	#if Input.is_action_just_released("sprint"):
+		#SPEED /= SPRINT_FACTOR
+	#
+	#if Input.is_action_just_pressed("dash"):
+		#dash()
 	
 	if Input.is_action_just_pressed("pickup"):
 		pickItemForInventory()
+		takeDamage(20)
 	
 	if Input.is_action_just_pressed("cameraLock"):
 		toggleCameraLock()
+	
+	if Input.is_action_just_pressed("block"):
+		blocking_system.startBlock()
+	
+	if Input.is_action_just_released("block"):
+		blocking_system.endBlock()
+	
+	if Input.is_action_just_pressed("skill1"):
+		teleportSmash(Vector3(0,position.y,0))
 
 #to be used with camera lock
 func toggleCameraLock():
@@ -109,6 +129,46 @@ func turnPlayerTowardsMovement(direction:Vector3, delta):
 	else:
 		pass
 
+#func dash():
+	#if canDash:
+		#canDash = false
+		#SPEED = SPEED*DASH_FACTOR
+		#await get_tree().create_timer(0.5).timeout
+		#SPEED = SPEED/DASH_FACTOR
+		#await get_tree().create_timer(0.5).timeout
+		#canDash = true
+
 func pickItemForInventory():
 	var itemRes = pickup_ray.pickup()
 	inventory.addToInventory(itemRes)
+
+func teleportSmash(target:Vector3):
+	if canTeleportSmash:
+		canTeleportSmash = false
+		print("FUSTO")
+		await get_tree().create_timer(0.75).timeout
+		position = target
+		print("RA")
+		await get_tree().create_timer(1.0).timeout
+		canTeleportSmash = true
+
+func playerDeath():
+	print("die")
+
+func takeDamage(damage):
+	blocking_system.takeDamage(damage)
+
+func _on_blocking_system_attack_parried():
+	sword.transform = blocking_transform.transform
+
+
+func _on_blocking_system_block_started():
+	sword.transform = parry_transform.transform
+
+
+func _on_blocking_system_block_ended():
+	sword.transform = stance_transform.transform
+
+
+func _on_blocking_system_parry_window_ended():
+	sword.transform = blocking_transform.transform

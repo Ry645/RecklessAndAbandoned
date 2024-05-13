@@ -1,12 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=11 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://csoeasokp3edn" path="res://rays/pickupRay/pickup_ray.tscn" id="3_yehp4"]
 [ext_resource type="PackedScene" uid="uid://bgjt8mac5rclw" path="res://inventory/inventory.tscn" id="4_ctdpl"]
+[ext_resource type="PackedScene" uid="uid://cmrgi6ajxlu82" path="res://blockingSystem/blockingSystem.tscn" id="5_5thp2"]
 [ext_resource type="Shape3D" uid="uid://cch5we41l6ejk" path="res://player/playerCollision.tres" id="5_njuh6"]
+[ext_resource type="PackedScene" uid="uid://1l5roa5kttpy" path="res://healthSystem/health_system.tscn" id="6_x2e85"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_x8clj"]
 size = Vector3(1, 1, 2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fhr7g"]
+top_radius = 0.1
+bottom_radius = 0.1
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_0acr4"]
 
@@ -17,8 +23,27 @@ script = ExtResource("1_gw48f")
 
 [node name="mesh" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(-1, 1.50996e-07, -6.60024e-15, 0, -4.37114e-08, -1, -1.50996e-07, -1, 4.37114e-08, 0, 0, 0)
 mesh = SubResource("PrismMesh_x8clj")
+
+[node name="sword" type="MeshInstance3D" parent="mesh"]
+unique_name_in_owner = true
+transform = Transform3D(-7.5904e-09, -4.30473e-08, 1, -0.984808, 0.173648, 0, -0.173648, -0.984807, -4.37114e-08, 0, 0.9, -0.5)
+mesh = SubResource("CylinderMesh_fhr7g")
+
+[node name="blockingTransform" type="Node3D" parent="mesh"]
+unique_name_in_owner = true
+transform = Transform3D(-3.09086e-08, 0.707107, 0.707107, -1, -4.37114e-08, -1.77636e-15, 3.09086e-08, -0.707107, 0.707107, 0.2, 0.7, -0.5)
+rotation_edit_mode = 2
+
+[node name="parryTransform" type="Node3D" parent="mesh"]
+unique_name_in_owner = true
+transform = Transform3D(3.09086e-08, -0.707107, 0.707107, -1, -4.37114e-08, 0, 3.09086e-08, -0.707107, -0.707107, -0.2, 0.7, -0.5)
+rotation_edit_mode = 2
+
+[node name="stanceTransform" type="Node3D" parent="mesh"]
+unique_name_in_owner = true
+transform = Transform3D(-7.5904e-09, -4.30473e-08, 1, -0.984808, 0.173648, 2.00713e-15, -0.173648, -0.984808, -4.37114e-08, 0, 0.9, -0.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = ExtResource("5_njuh6")
@@ -46,3 +71,16 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 target_position = Vector3(0, 0, -5)
+
+[node name="blockingSystem" parent="." instance=ExtResource("5_5thp2")]
+unique_name_in_owner = true
+
+[node name="healthSystem" parent="." instance=ExtResource("6_x2e85")]
+unique_name_in_owner = true
+
+[connection signal="attackParried" from="blockingSystem" to="." method="_on_blocking_system_attack_parried"]
+[connection signal="blockEnded" from="blockingSystem" to="." method="_on_blocking_system_block_ended"]
+[connection signal="blockStarted" from="blockingSystem" to="." method="_on_blocking_system_block_started"]
+[connection signal="damageHealth" from="blockingSystem" to="healthSystem" method="takeDamage"]
+[connection signal="parryWindowEnded" from="blockingSystem" to="." method="_on_blocking_system_parry_window_ended"]
+[connection signal="die" from="healthSystem" to="." method="playerDeath"]

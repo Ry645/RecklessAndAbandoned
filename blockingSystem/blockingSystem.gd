@@ -5,6 +5,9 @@ class_name ParrySystem
 signal damageHealth(damage)
 signal attackParried
 signal attackBlocked
+signal blockStarted
+signal blockEnded
+signal parryWindowEnded
 
 var elapsedBlockTime:float = 0.0
 
@@ -21,6 +24,7 @@ var isCoyoteParrying:bool = false
 
 func startBlock():
 	if canStartBlock:
+		emit_signal("blockStarted")
 		elapsedBlockTime = 0.0
 		canParry = true # you can parry
 		recentlyParried = false # no you just started a block
@@ -39,6 +43,7 @@ func endBlock():
 	isCoyoteParrying = false
 	isBlocking = false
 	elapsedBlockTime = 0.0
+	emit_signal("blockEnded")
 	if recentlyParried: # skip parry cooldown
 		canStartBlock = true
 	else: # wait it out
@@ -63,6 +68,9 @@ func takeDamage(damage):
 func _process(delta):
 	if isBlocking:
 		elapsedBlockTime += delta
+		if elapsedBlockTime >= parryWindow && canParry:
+			emit_signal("parryWindowEnded")
+			canParry = false
 
 
 
