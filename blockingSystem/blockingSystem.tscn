@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmrgi6ajxlu82"]
+
+[ext_resource type="Script" path="res://blockingSystem/blockingSystem.gd" id="1_nu7dy"]
+
+[node name="blockingSystem" type="Node"]
+script = ExtResource("1_nu7dy")
