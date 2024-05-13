@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwroxvcp0kf32"]
+
+[ext_resource type="Script" path="res://grunt/grunt.gd" id="1_e3166"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rx80g"]
+
+[node name="grunt" type="Node3D"]
+script = ExtResource("1_e3166")
+
+[node name="attackIntervalTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+process_callback = 0
+one_shot = true
+autostart = true
+
+[node name="attackStartupTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="attackCooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_rx80g")
+
+[connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
+[connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]
+[connection signal="timeout" from="attackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dj28tblre2dfe"]
+[gd_scene load_steps=7 format=3 uid="uid://dj28tblre2dfe"]
 
 [ext_resource type="PackedScene" uid="uid://daiaeolk8hlnj" path="res://player/player.tscn" id="2_hdhtc"]
+[ext_resource type="PackedScene" uid="uid://dwroxvcp0kf32" path="res://grunt/grunt.tscn" id="3_helk4"]
 [ext_resource type="PackedScene" uid="uid://cgrftiuecsb7s" path="res://land/land.tscn" id="3_pj3ja"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
@@ -31,3 +32,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 0)
 
 [node name="land" parent="." instance=ExtResource("3_pj3ja")]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -8, 0)
+
+[node name="grunt" parent="." instance=ExtResource("3_helk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -5)
+
+[connection signal="damagePlayer" from="grunt" to="Player" method="_on_grunt_damage_player"]
