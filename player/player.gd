@@ -65,8 +65,8 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 	# vector3(left/right, up/down but unused, forward/backward)
-	# basis = orientation or perspective direction
-	var direction = (h.global_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() # So earlier i used neck.transform.basis, and while it sounded right, it was actually getting the RELATIVE direction of the neck, which is always 0.
+	# basis = rotation (and scale but that doesn't matter)
+	var direction:Vector3 = (h.global_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() # So earlier i used neck.transform.basis, and while it sounded right, it was actually getting the RELATIVE direction of the neck, which is always 0.
 	#Instead I should use neck.global_basis to get the true global direction.
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -142,13 +142,14 @@ func pickItemForInventory():
 	var itemRes = pickup_ray.pickup()
 	inventory.addToInventory(itemRes)
 
+#FIXME
 func teleportSmash(target:Vector3):
 	if canTeleportSmash:
 		canTeleportSmash = false
 		print("FUSTO")
 		await get_tree().create_timer(0.75).timeout
 		position = target
-		print("RA")
+		print("RAA")
 		await get_tree().create_timer(1.0).timeout
 		canTeleportSmash = true
 
@@ -173,6 +174,6 @@ func _on_blocking_system_block_ended():
 func _on_blocking_system_parry_window_ended():
 	sword.transform = blocking_transform.transform
 
-#BUG
+#TEST
 func _on_grunt_damage_player(damage):
 	takeDamage(damage)
