@@ -7,7 +7,10 @@ class_name Grunt
 @export var engageSpeed:float = 6.0
 @export var backpedalSpeed:float = 6.0
 
-@export var surroundCircleRadius:float = 10.0
+@export var surroundCircleRadius:float = 5.0
+@export var stopRadius:float = 0.1
+
+@export var gravityMultiplier:float = 1.0
 
 #@export var steeringMagnitude:float = 2.5
 
@@ -29,16 +32,22 @@ enum attackState {
 	BACKPEDAL
 }
 
-#									TEST
+#TEST
 var currentAttackState = attackState.SURROUND
+var random
 
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+#SEED
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	random = randf()
 
 
 func _physics_process(delta):
-	move(Vector3.ZERO, wanderSpeed, delta)
+	var circlePos = get_circle_position()
+	print(circlePos)
+	move(Vector3(circlePos.x, 0, circlePos.y), wanderSpeed, delta)
 	match currentAttackState:
 		attackState.WANDER:
 			#move()
@@ -46,6 +55,11 @@ func _physics_process(delta):
 
 #INFO
 func move(targetPosition:Vector3, speed, delta):
+	#apply gravity
+	if !is_on_floor():
+		velocity.y -= gravity * delta * gravityMultiplier
+	
+	
 	#move to standard position
 	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
 	#flatten into vec2
@@ -58,12 +72,21 @@ func move(targetPosition:Vector3, speed, delta):
 	#add to actual velocity
 	if raw2.length() < 1.0:
 		desired_velocity2 = Vector2.ZERO
-	velocity = Vector3(desired_velocity2.x, 0, desired_velocity2.y)
-	print(velocity)
+	velocity.x = desired_velocity2.x
+	velocity.z = desired_velocity2.y
+	#print(velocity)
 	#move
 	move_and_slide()
 
-
+#SEED
+func get_circle_position() -> Vector2:
+	var surroundCircleCenter = targetBody.global_position
+	var angle = random * PI * 2;
+	var xPos = surroundCircleCenter.x + cos(angle) * surroundCircleRadius;
+	var yPos = surroundCircleCenter.z + sin(angle) * surroundCircleRadius;
+	
+	var surroundCirclePos:Vector2 = Vector2(xPos, yPos)
+	return surroundCirclePos
 
 func _on_attack_interval_timer_timeout():
 	position.z += 1
