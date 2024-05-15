@@ -10,6 +10,8 @@ class_name Grunt
 
 @export var surroundCircleRadius:float = 5.0
 @export var stopRadius:float = 0.1
+@export var angularVelocity:float = 0.25
+var angleSign:int = 1
 
 @export var gravityMultiplier:float = 1.0
 
@@ -28,7 +30,7 @@ signal damagePlayer(damage)
 enum aiState {
 	WANDER,
 	SURROUND,
-	STRAFE,
+	#STRAFE, # don't need it since surround can have strafe movement
 	ENGAGE,
 	HIT,
 	BACKPEDAL
@@ -37,6 +39,7 @@ enum aiState {
 #TEST
 var currentAiState = aiState.SURROUND
 var random
+var angleOffset:float # to circle strafe around player
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -44,12 +47,14 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	random = randf()
+	if randf() > 0.5:
+		angleSign *= -1
 
 #SLOW
 #TODO
 #use nav mesh later
 func _physics_process(delta):
-	var circlePos = get_circle_position()
+	var circlePos = get_circle_position(delta)
 	#print(circlePos)
 	match currentAiState:
 		aiState.WANDER:
@@ -57,9 +62,7 @@ func _physics_process(delta):
 			pass
 		aiState.SURROUND:
 			move(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed, delta)
-		aiState.STRAFE:
-			#move()
-			pass
+			move(Vector3(circlePos.x, 0, circlePos.y), strafeSpeed, delta)
 		aiState.ENGAGE:
 			move(targetBody.global_position, surroundSpeed, delta)
 		aiState.HIT:
@@ -82,23 +85,28 @@ func move(targetPosition:Vector3, speed, delta):
 	var direction2:Vector2 = raw2.normalized() # normalize here instead
 	#apply magnitude
 	var desired_velocity2:Vector2 =  direction2 * speed
-	##apply delta
-	#var velocityToAdd = (Vector3(desired_velocity2.x, 0, desired_velocity2.y) - velocity) * delta #* steeringMagnitude
+	#apply delta
+	var velocityToAdd = (Vector3(desired_velocity2.x, 0, desired_velocity2.y) - velocity) * delta #* steeringMagnitude
 	#add to actual velocity
-	if raw2.length() < 1.0:
-		desired_velocity2 = Vector2.ZERO
-	velocity.x = desired_velocity2.x
-	velocity.z = desired_velocity2.y
+	velocity.x += velocityToAdd.x
+	velocity.z += velocityToAdd.z
+	
+	#if raw2.length() < stopRadius:
+		#desired_velocity2 = Vector2.ZERO
+	#velocity.x = desired_velocity2.x
+	#velocity.z = desired_velocity2.y
 	#print(velocity)
 	#move
 	move_and_slide()
 
 #SEED
-func get_circle_position() -> Vector2:
+func get_circle_position(delta) -> Vector2:
 	var surroundCircleCenter = targetBody.global_position
-	var angle = random * PI * 2;
-	var xPos = surroundCircleCenter.x + cos(angle) * surroundCircleRadius;
-	var yPos = surroundCircleCenter.z + sin(angle) * surroundCircleRadius;
+	var angle = random * PI * 2 + angleOffset
+	angleOffset += angularVelocity * delta * angleSign
+	
+	var xPos = surroundCircleRadius * cos(angle) + surroundCircleCenter.x
+	var yPos = surroundCircleRadius * sin(angle) + surroundCircleCenter.z
 	
 	var surroundCirclePos:Vector2 = Vector2(xPos, yPos)
 	return surroundCirclePos
