@@ -9,7 +9,7 @@ class_name Grunt
 @export var backpedalSpeed:float = 6.0
 
 @export var surroundCircleRadius:float = 5.0
-@export var stopRadius:float = 0.1
+@export var stopRadius:float = 0.5
 @export var angularVelocity:float = 0.25
 var angleSign:int = 1
 
@@ -40,6 +40,7 @@ enum aiState {
 var currentAiState = aiState.SURROUND
 var random
 var angleOffset:float # to circle strafe around player
+var previousDirection:Vector2
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -82,20 +83,22 @@ func move(targetPosition:Vector3, speed, delta):
 	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
 	#flatten into vec2
 	var raw2 = Vector2(direction3.x, direction3.z)
+	if raw2.length() < stopRadius:
+		raw2 = previousDirection
 	var direction2:Vector2 = raw2.normalized() # normalize here instead
+	previousDirection = direction2
 	#apply magnitude
 	var desired_velocity2:Vector2 =  direction2 * speed
 	#apply delta
-	var velocityToAdd = (Vector3(desired_velocity2.x, 0, desired_velocity2.y) - velocity) * delta #* steeringMagnitude
-	#add to actual velocity
-	velocity.x += velocityToAdd.x
-	velocity.z += velocityToAdd.z
+	#var velocityToAdd = (Vector3(desired_velocity2.x, 0, desired_velocity2.y) - velocity) * delta #* steeringMagnitude
+	##add to actual velocity
+	#velocity.x += velocityToAdd.x
+	#velocity.z += velocityToAdd.z
 	
-	#if raw2.length() < stopRadius:
-		#desired_velocity2 = Vector2.ZERO
-	#velocity.x = desired_velocity2.x
-	#velocity.z = desired_velocity2.y
-	#print(velocity)
+	
+	velocity.x = desired_velocity2.x
+	velocity.z = desired_velocity2.y
+	print(velocity)
 	#move
 	move_and_slide()
 

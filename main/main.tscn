@@ -40,7 +40,7 @@ surroundSpeed = 6.0
 engageSpeed = 6.0
 backpedalSpeed = 6.0
 surroundCircleRadius = 5.0
-stopRadius = 0.1
+stopRadius = 0.5
 gravityMultiplier = 1.0
 targetBody = NodePath("../Player")
 
