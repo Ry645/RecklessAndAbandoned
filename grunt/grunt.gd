@@ -9,7 +9,7 @@ class_name Grunt
 @export var backpedalSpeed:float = 6.0
 
 @export var surroundCircleRadius:float = 5.0
-@export var stopRadius:float = 0.5
+@export var acceptanceRadius:float = 0.5
 @export var angularVelocity:float = 0.25
 var angleSign:int = 1
 
@@ -55,6 +55,8 @@ func _ready():
 #TODO
 #use nav mesh later
 func _physics_process(delta):
+	applyGravity(delta)
+	
 	var circlePos = get_circle_position(delta)
 	#print(circlePos)
 	match currentAiState:
@@ -63,41 +65,37 @@ func _physics_process(delta):
 			pass
 		aiState.SURROUND:
 			move(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed, delta)
-			move(Vector3(circlePos.x, 0, circlePos.y), strafeSpeed, delta)
+			#move(Vector3(circlePos.x, 0, circlePos.y), strafeSpeed, delta)
 		aiState.ENGAGE:
 			move(targetBody.global_position, surroundSpeed, delta)
 		aiState.HIT:
 			pass
 		aiState.BACKPEDAL:
 			pass
-		
+	
+
+func applyGravity(delta):
+	if !is_on_floor():
+		velocity.y -= gravity * delta * gravityMultiplier
 
 #INFO
 func move(targetPosition:Vector3, speed, delta):
-	#apply gravity
-	if !is_on_floor():
-		velocity.y -= gravity * delta * gravityMultiplier
-	
-	
 	#move to standard position
-	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
 	#flatten into vec2
-	var raw2 = Vector2(direction3.x, direction3.z)
-	if raw2.length() < stopRadius:
-		raw2 = previousDirection
-	var direction2:Vector2 = raw2.normalized() # normalize here instead
-	previousDirection = direction2
 	#apply magnitude
+	
+	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
+	var raw2 = Vector2(direction3.x, direction3.z)
+	var direction2:Vector2 = raw2.normalized() # normalize here instead
 	var desired_velocity2:Vector2 =  direction2 * speed
-	#apply delta
-	#var velocityToAdd = (Vector3(desired_velocity2.x, 0, desired_velocity2.y) - velocity) * delta #* steeringMagnitude
-	##add to actual velocity
-	#velocity.x += velocityToAdd.x
-	#velocity.z += velocityToAdd.z
 	
+	if raw2.length() < acceptanceRadius:
+		desired_velocity2 = Vector2.ZERO
 	
+	#add to actual velocity
 	velocity.x = desired_velocity2.x
 	velocity.z = desired_velocity2.y
+	
 	print(velocity)
 	#move
 	move_and_slide()
