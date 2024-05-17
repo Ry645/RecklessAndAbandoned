@@ -5,10 +5,12 @@ class_name Grunt
 @export var wanderSpeed:float = 3.0
 @export var surroundSpeed:float = 6.0
 @export var strafeSpeed:float = 1.0
-@export var engageSpeed:float = 6.0
+@export var approachSpeed:float = 6.0
 @export var backpedalSpeed:float = 6.0
 
-@export var surroundCircleRadius:float = 5.0
+
+@export var minSurroundCircleRadius:float = 5.0
+@export var maxSurroundCircleRadius:float = 15.0
 @export var stopRadius:float = 0.1
 
 @export var gravityMultiplier:float = 1.0
@@ -27,11 +29,15 @@ signal damagePlayer(damage)
 
 enum aiState {
 	WANDER,
+	NOTICE,
 	SURROUND,
 	STRAFE,
-	ENGAGE,
-	HIT,
-	BACKPEDAL
+	TARGET,
+	APPROACH,
+	ATTACK,
+	BACKPEDAL,
+	LOSE_TARGET,
+	FORGET
 }
 
 #TEST
@@ -49,20 +55,21 @@ func _ready():
 #TODO
 #use nav mesh later
 func _physics_process(delta):
-	var circlePos = get_circle_position()
-	#print(circlePos)
 	match currentAiState:
 		aiState.WANDER:
 			#move(random spot idk)
 			pass
 		aiState.SURROUND:
-			move(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed, delta)
+			var circlePos = get_circle_position(minSurroundCircleRadius)
+			var reachedDestination:bool = move(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed, delta)
+			if reachedDestination:
+				currentAiState = aiState.STRAFE
 		aiState.STRAFE:
 			#move()
 			pass
-		aiState.ENGAGE:
+		aiState.APPROACH:
 			move(targetBody.global_position, surroundSpeed, delta)
-		aiState.HIT:
+		aiState.ATTACK:
 			pass
 		aiState.BACKPEDAL:
 			pass
@@ -73,10 +80,12 @@ func applyGravity(delta):
 		velocity.y -= gravity * delta * gravityMultiplier
 
 #INFO
-func move(targetPosition:Vector3, speed, delta):
+func move(targetPosition:Vector3, speed, delta) -> bool:
 	#move to standard position
 	#flatten into vec2
 	#apply magnitude
+	var reachedDestination:bool = false
+	
 	
 	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
 	var raw2 = Vector2(direction3.x, direction3.z)
@@ -87,18 +96,21 @@ func move(targetPosition:Vector3, speed, delta):
 	#add to actual velocity
 	if raw2.length() < 1.0:
 		desired_velocity2 = Vector2.ZERO
+		reachedDestination = true
 	velocity.x = desired_velocity2.x
 	velocity.z = desired_velocity2.y
 	#print(velocity)
 	#move
 	move_and_slide()
+	
+	return reachedDestination
 
 #SEED
-func get_circle_position() -> Vector2:
+func get_circle_position(circleRadius:float) -> Vector2:
 	var surroundCircleCenter = targetBody.global_position
 	var angle = random * PI * 2;
-	var xPos = surroundCircleCenter.x + cos(angle) * surroundCircleRadius;
-	var yPos = surroundCircleCenter.z + sin(angle) * surroundCircleRadius;
+	var xPos = surroundCircleCenter.x + cos(angle) * circleRadius;
+	var yPos = surroundCircleCenter.z + sin(angle) * circleRadius;
 	
 	var surroundCirclePos:Vector2 = Vector2(xPos, yPos)
 	return surroundCirclePos
@@ -106,13 +118,13 @@ func get_circle_position() -> Vector2:
 #TEST
 func _on_attack_interval_timer_timeout():
 	#position.z += 1
-	currentAiState = aiState.ENGAGE
+	currentAiState = aiState.APPROACH
 	attack_startup_timer.start()
 
 #TEST
 func _on_attack_startup_timer_timeout():
 	#position.z += 1
-	currentAiState = aiState.HIT
+	currentAiState = aiState.ATTACK
 	emit_signal("damagePlayer", 20)
 	attack_cooldown_timer.start()
 
