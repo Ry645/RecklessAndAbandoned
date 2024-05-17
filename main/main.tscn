@@ -35,12 +35,6 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -8, 0)
 
 [node name="grunt" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.6878)
-wanderSpeed = 3.0
-surroundSpeed = 6.0
-engageSpeed = 6.0
-backpedalSpeed = 6.0
-surroundCircleRadius = 5.0
-gravityMultiplier = 1.0
 targetBody = NodePath("../Player")
 
 [connection signal="damagePlayer" from="grunt" to="Player" method="_on_grunt_damage_player"]
