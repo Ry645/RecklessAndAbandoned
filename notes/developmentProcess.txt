@@ -1,0 +1,57 @@
+NO I FRAMES
+ONLY PARRY FRAMES AND BLOCKING
+
+
+strafing:
+	like Peroxide circle around player when fighting npcs but the player actually earns the kill 
+	strafe in circle around player
+
+player attacks wildly and quickly
+early game enemies attack predictably and methodically, telegraphed attacks
+end game eneimes attack like the player
+
+blockbreaker attacks have a red flash and distinct sound (kinda like mettaton ex summon)
+	early game enemies ONLY use this attack at the end of a string OR on its own, ALWAYS gives player ample time to recover
+	end game eneimes do whatever the fuck they want idk
+
+blocking
+	player can sheathe weapon to block with hands
+	ATTACKING AND SKILLS HAVE NO EFFECT (includes healing and buffs)
+	same parry effects, but...
+	hand blocking negates ALL damage
+	sword blocking only reduces damage
+	
+	blockbreakers can only break regular sword blocks
+	
+	tutorial starts with no weapon so the player can learn
+
+
+Gist:
+    only melee Fighting game, inspired by Pilgrammed, but with constant parrying
+    1v1 fighting system with communicative ai
+
+
+Development Process:
+    tutorial
+        fight singular grunt
+            grunt ai
+                circle aorund player
+                behavior tree
+            hurtboxes
+                area3d
+                maybe add in damage type resource
+            make models and anmimations in blender
+            sync up blender anmimations with script
+            make sure everything is in its own component for resusablity
+            
+        no sword
+            block with reklite branded gauntlets
+            gauntlets block 100% of damage and negates blockbreakers
+            best for practice
+    
+    10 levels
+    journal to keep info when go back in 3 years
+    stone islands in sky
+    fights eventually devolve into unapolegetic airplane mode
+    gain skills
+    get better swords
