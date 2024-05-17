@@ -1,0 +1,36 @@
+WANDER:
+    wander randomly
+    until find player
+
+NOTICE:
+    grunt detects player
+        sight cone?
+        sound?
+
+SURROUND
+    go to min circle radius
+
+STRAFE
+    turn around player in perfect circle
+        rotate vector/velocity
+
+TARGET
+    target player
+
+APPROACH
+    walk towards player to attack them
+
+ATTACK
+    attack player with attack sequence
+        animation
+        attack hurtboxes
+
+BACKPEDAL
+    back away from player/wait for attack cooldown to end
+
+LOSE_TARGET
+    player attacks other enemy to trigger this state
+    goes back into surround phase 
+
+FORGET
+    goes into wander state
