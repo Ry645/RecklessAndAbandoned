@@ -49,15 +49,19 @@ var pointToStrafeAround
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+#TODO
 #SEED
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	random = randf()
+	#add random sign here
 
 #SLOW
 #TODO
 #use nav mesh later
-func _physics_process(_delta):
+func _physics_process(delta):
+	applyGravity(delta)
+	
 	match currentAiState:
 		aiState.WANDER:
 			#moveTo(random spot idk)
@@ -138,7 +142,6 @@ func get_circle_position(circleRadius:float) -> Vector2:
 	var surroundCircleCenter = targetBody.global_position
 	var direction3 = targetBody.global_position.direction_to(global_position)
 	var closestAngleToMove = FunctionLibrary.vec3ToVec2(direction3).angle()
-	var angle = random * PI * 2;
 	var xPos = surroundCircleCenter.x + cos(closestAngleToMove) * circleRadius;
 	var yPos = surroundCircleCenter.z + sin(closestAngleToMove) * circleRadius;
 	
