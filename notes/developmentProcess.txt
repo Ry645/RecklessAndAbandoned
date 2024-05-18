@@ -19,7 +19,7 @@ blocking
 	ATTACKING AND SKILLS HAVE NO EFFECT (includes healing and buffs)
 	same parry effects, but...
 	hand blocking negates ALL damage
-	sword blocking only reduces damage
+	sword blocking only halves damage
 	
 	blockbreakers can only break regular sword blocks
 	

@@ -11,17 +11,11 @@ script = ExtResource("1_e3166")
 [node name="attackIntervalTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 process_callback = 0
-wait_time = 3.0
 one_shot = true
 
 [node name="attackStartupTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.25
-one_shot = true
-
-[node name="attackCooldownTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.2
 one_shot = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -33,4 +27,3 @@ shape = ExtResource("2_hqj1o")
 
 [connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]
-[connection signal="timeout" from="attackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
