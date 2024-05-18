@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 class_name Grunt
 
+@export var damage:float = 20.0
+
 @export var wanderSpeed:float = 3.0
 @export var surroundSpeed:float = 6.0
 @export var strafeSpeed:float = 1.0
@@ -20,13 +22,13 @@ class_name Grunt
 
 signal targetTaken
 signal targetFreed
-#TEST
-signal damagePlayer(damage)
 
 @onready var attack_interval_timer = %attackIntervalTimer
 @onready var attack_startup_timer = %attackStartupTimer
 @onready var mesh_instance_3d = %MeshInstance3D
+@onready var hurtbox_location = %hurtboxLocation
 
+@export var hurtboxScene:PackedScene
 #TEST
 @export var targetBody:Node3D
 
@@ -176,6 +178,9 @@ func get_circle_position(circleRadius:float) -> Vector2:
 	var surroundCirclePos:Vector2 = Vector2(xPos, yPos)
 	return surroundCirclePos
 
+func setHurtboxVars(hurtbox:Hurtbox):
+	hurtbox.damageValue = damage
+
 #TEST
 func _on_attack_interval_timer_timeout():
 	currentAiState = aiState.APPROACH
@@ -183,5 +188,8 @@ func _on_attack_interval_timer_timeout():
 #TEST
 func _on_attack_startup_timer_timeout():
 	currentAiState = aiState.BACKPEDAL
-	emit_signal("damagePlayer", 20)
+	var hurtbox = hurtboxScene.instantiate()
+	setHurtboxVars(hurtbox)
+	hurtbox_location.add_child(hurtbox)
 	#attack_cooldown_timer.start()
+

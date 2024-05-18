@@ -36,5 +36,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.4391, 0)
 [node name="grunt" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.6878)
 targetBody = NodePath("../Player")
-
-[connection signal="damagePlayer" from="grunt" to="Player" method="_on_grunt_damage_player"]

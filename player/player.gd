@@ -99,7 +99,6 @@ func inputProcess(): # to be called in physics process
 	
 	if Input.is_action_just_pressed("pickup"):
 		pickItemForInventory()
-		takeDamage(20)
 	
 	if Input.is_action_just_pressed("cameraLock"):
 		toggleCameraLock()
