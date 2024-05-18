@@ -4,7 +4,7 @@ class_name Grunt
 
 @export var wanderSpeed:float = 3.0
 @export var surroundSpeed:float = 6.0
-@export var strafeSpeed:float = 1.0
+@export var strafeSpeed:float = 10.0
 @export var approachSpeed:float = 6.0
 @export var backpedalSpeed:float = 6.0
 
@@ -23,6 +23,7 @@ signal damagePlayer(damage)
 @onready var attack_interval_timer = %attackIntervalTimer
 @onready var attack_startup_timer = %attackStartupTimer
 @onready var attack_cooldown_timer = %attackCooldownTimer
+@onready var mesh_instance_3d = %MeshInstance3D
 
 #TEST
 @export var targetBody:Node3D
@@ -54,21 +55,31 @@ func _ready():
 #SLOW
 #TODO
 #use nav mesh later
-func _physics_process(delta):
+func _physics_process(_delta):
 	match currentAiState:
 		aiState.WANDER:
-			#move(random spot idk)
+			#moveTo(random spot idk)
 			pass
 		aiState.SURROUND:
 			var circlePos = get_circle_position(minSurroundCircleRadius)
-			var reachedDestination:bool = move(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed, delta)
+			var reachedDestination:bool = moveTo(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed)
 			if reachedDestination:
 				currentAiState = aiState.STRAFE
 		aiState.STRAFE:
+			var direction3 = global_position.direction_to(targetBody.global_position)
+			var direction2 = FunctionLibrary.vec3ToVec2(direction3)
+			
+			mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
+			var rightVec3 = mesh_instance_3d.global_basis.x
+			var rightVec2 = FunctionLibrary.vec3ToVec2(rightVec3)
+			var directionToMove = direction2 * rightVec2
+			print(directionToMove)
+			move(directionToMove, strafeSpeed)
+			
 			#move()
 			pass
 		aiState.APPROACH:
-			move(targetBody.global_position, surroundSpeed, delta)
+			moveTo(targetBody.global_position, surroundSpeed)
 		aiState.ATTACK:
 			pass
 		aiState.BACKPEDAL:
@@ -79,8 +90,16 @@ func applyGravity(delta):
 	if !is_on_floor():
 		velocity.y -= gravity * delta * gravityMultiplier
 
+func move(direction2:Vector2, speed):
+	var desired_velocity2:Vector2 = direction2 * speed
+	velocity.x = desired_velocity2.x
+	velocity.z = desired_velocity2.y
+	
+	move_and_slide()
+
 #INFO
-func move(targetPosition:Vector3, speed, delta) -> bool:
+func moveTo(targetPosition:Vector3, speed) -> bool:
+	#process:
 	#move to standard position
 	#flatten into vec2
 	#apply magnitude
@@ -90,10 +109,7 @@ func move(targetPosition:Vector3, speed, delta) -> bool:
 	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
 	var raw2 = Vector2(direction3.x, direction3.z)
 	var direction2:Vector2 = raw2.normalized() # normalize here instead
-	var desired_velocity2:Vector2 =  direction2 * speed
-	##apply delta
-	#var velocityToAdd = (Vector3(desired_velocity2.x, 0, desired_velocity2.y) - velocity) * delta #* steeringMagnitude
-	#add to actual velocity
+	var desired_velocity2:Vector2 = direction2 * speed
 	if raw2.length() < 1.0:
 		desired_velocity2 = Vector2.ZERO
 		reachedDestination = true

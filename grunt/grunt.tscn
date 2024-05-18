@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://grunt/grunt.gd" id="1_e3166"]
 [ext_resource type="Shape3D" uid="uid://cormmvva23cay" path="res://grunt/gruntCollision.tres" id="2_hqj1o"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_rx80g"]
+[sub_resource type="PrismMesh" id="PrismMesh_f12ks"]
 
 [node name="grunt" type="CharacterBody3D"]
 script = ExtResource("1_e3166")
@@ -24,7 +24,8 @@ wait_time = 0.2
 one_shot = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_rx80g")
+unique_name_in_owner = true
+mesh = SubResource("PrismMesh_f12ks")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = ExtResource("2_hqj1o")
