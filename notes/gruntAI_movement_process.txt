@@ -5,7 +5,7 @@ WANDER:
 NOTICE:
     grunt detects player
         sight cone?
-        sound?
+        sound detection?
 
 SURROUND
     go to min circle radius
@@ -13,6 +13,9 @@ SURROUND
 STRAFE
     turn around player in perfect circle
         rotate vector/velocity
+
+    switch to surround if player leaves max circle radius
+        check if raw2 > maxCircleRadius
 
 TARGET
     target player
