@@ -17,6 +17,8 @@ class_name Grunt
 
 #@export var steeringMagnitude:float = 2.5
 
+signal targetTaken
+signal targetFreed
 #TEST
 signal damagePlayer(damage)
 
@@ -87,7 +89,8 @@ func _physics_process(delta):
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
 		aiState.TARGET:
-			moveTo(targetBody.global_position, surroundSpeed)
+			emit_signal("targetTaken")
+			currentAiState = aiState.COMBAT
 		aiState.COMBAT:
 			pass
 		aiState.APPROACH:
