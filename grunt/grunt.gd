@@ -34,6 +34,7 @@ enum aiState {
 	SURROUND,
 	STRAFE,
 	TARGET,
+	COMBAT,
 	APPROACH,
 	ATTACK,
 	BACKPEDAL,
@@ -61,6 +62,9 @@ func _physics_process(_delta):
 		aiState.WANDER:
 			#moveTo(random spot idk)
 			pass
+		aiState.NOTICE:
+			#moveTo(random spot idk)
+			pass
 		aiState.SURROUND:
 			var circlePos = get_circle_position(surroundCircleRadius)
 			pointToStrafeAround = targetBody.global_position
@@ -78,13 +82,21 @@ func _physics_process(_delta):
 			
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
-		aiState.APPROACH:
+		aiState.TARGET:
 			moveTo(targetBody.global_position, surroundSpeed)
+		aiState.COMBAT:
+			pass
+		aiState.APPROACH:
+			pass
 		aiState.ATTACK:
 			pass
 		aiState.BACKPEDAL:
 			pass
-	
+		aiState.LOSE_TARGET:
+			pass
+		aiState.FORGET:
+			pass
+		
 
 func applyGravity(delta):
 	if !is_on_floor():

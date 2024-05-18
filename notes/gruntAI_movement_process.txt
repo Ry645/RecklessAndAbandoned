@@ -20,6 +20,9 @@ STRAFE
 TARGET
     target player
 
+COMBAT
+    strafe but in combat with player
+
 APPROACH
     walk towards player to attack them
 
