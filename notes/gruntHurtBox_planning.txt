@@ -1,0 +1,2 @@
+area3d
+maybe add in damage type resource
