@@ -70,10 +70,8 @@ func _physics_process(_delta):
 			var direction2 = FunctionLibrary.vec3ToVec2(direction3)
 			
 			mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
-			var rightVec3 = -mesh_instance_3d.global_basis.x
-			var rightVec2 = FunctionLibrary.vec3ToVec2(rightVec3)
 			var directionToMove = Vector2.UP.rotated(direction2.angle())
-			print(directionToMove)
+			#print(directionToMove)
 			move(directionToMove, strafeSpeed)
 			
 			#move()
