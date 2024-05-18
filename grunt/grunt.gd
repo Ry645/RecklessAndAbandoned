@@ -70,9 +70,9 @@ func _physics_process(_delta):
 			var direction2 = FunctionLibrary.vec3ToVec2(direction3)
 			
 			mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
-			var rightVec3 = mesh_instance_3d.global_basis.x
+			var rightVec3 = -mesh_instance_3d.global_basis.x
 			var rightVec2 = FunctionLibrary.vec3ToVec2(rightVec3)
-			var directionToMove = direction2 * rightVec2
+			var directionToMove = Vector2.UP.rotated(direction2.angle())
 			print(directionToMove)
 			move(directionToMove, strafeSpeed)
 			
@@ -106,8 +106,8 @@ func moveTo(targetPosition:Vector3, speed) -> bool:
 	var reachedDestination:bool = false
 	
 	
-	var direction3:Vector3 = (targetPosition - global_position) # don't normalize here
-	var raw2 = Vector2(direction3.x, direction3.z)
+	var raw3:Vector3 = (targetPosition - global_position) # don't normalize here
+	var raw2 = Vector2(raw3.x, raw3.z)
 	var direction2:Vector2 = raw2.normalized() # normalize here instead
 	var desired_velocity2:Vector2 = direction2 * speed
 	if raw2.length() < 1.0:
