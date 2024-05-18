@@ -78,13 +78,7 @@ func _physics_process(delta):
 			if reachedDestination:
 				currentAiState = aiState.STRAFE
 		aiState.STRAFE:
-			var direction3 = global_position.direction_to(pointToStrafeAround)
-			var direction2 = FunctionLibrary.vec3ToVec2(direction3)
-			
-			mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
-			var directionToMove = Vector2.UP.rotated(direction2.angle())
-			#print(directionToMove)
-			move(directionToMove, strafeSpeed)
+			strafeAround()
 			
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
@@ -139,6 +133,15 @@ func moveTo(targetPosition:Vector3, speed) -> bool:
 	move_and_slide()
 	
 	return reachedDestination
+
+func strafeAround():
+	var direction3 = global_position.direction_to(pointToStrafeAround)
+	var direction2 = FunctionLibrary.vec3ToVec2(direction3)
+	
+	mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
+	var directionToMove = Vector2.UP.rotated(direction2.angle())
+	#print(directionToMove)
+	move(directionToMove, strafeSpeed)
 
 #SEED
 func get_circle_position(circleRadius:float) -> Vector2:
