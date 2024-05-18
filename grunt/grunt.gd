@@ -4,7 +4,7 @@ class_name Grunt
 
 @export var wanderSpeed:float = 3.0
 @export var surroundSpeed:float = 6.0
-@export var strafeSpeed:float = 10.0
+@export var strafeSpeed:float = 1.0
 @export var approachSpeed:float = 6.0
 @export var backpedalSpeed:float = 6.0
 
@@ -74,8 +74,8 @@ func _physics_process(_delta):
 			#print(directionToMove)
 			move(directionToMove, strafeSpeed)
 			
-			#move()
-			pass
+			if FunctionLibrary.vec3ToVec2(targetBody.global_position - global_position).length() >= maxSurroundCircleRadius:
+				currentAiState = aiState.SURROUND
 		aiState.APPROACH:
 			moveTo(targetBody.global_position, surroundSpeed)
 		aiState.ATTACK:
