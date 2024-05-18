@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://hurtbox/hurtbox.gd" id="1_ibbsl"]
 [ext_resource type="Shape3D" uid="uid://c1w18gsgixkbg" path="res://grunt/gruntHurtbox.tres" id="2_jd2ns"]
 
-[node name="hurtbox" type="Area3D"]
-script = ExtResource("1_ibbsl")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="hurtbox" type="ShapeCast3D"]
 shape = ExtResource("2_jd2ns")
+target_position = Vector3(0, 0, 0)
+script = ExtResource("1_ibbsl")
+damageValue = null
+activeFrames = null
