@@ -20,6 +20,7 @@ STRAFE
 TARGET
     target player
     only one enemy can target at a time
+        grunt communication
 
 COMBAT
     strafe but in combat with player

@@ -11,7 +11,7 @@ class_name Grunt
 
 @export var surroundCircleRadius:float = 5.0
 @export var maxStrafeTargetDeviation:float = 1.0
-@export var stopRadius:float = 0.1
+@export var acceptanceRadiusDefault:float = 0.1
 
 @export var gravityMultiplier:float = 1.0
 
@@ -82,19 +82,31 @@ func _physics_process(delta):
 			
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
+				
+				
+				#TEST
+				#will later have grunts communicate between each other
+				currentAiState = aiState.TARGET
+			
+			
 		aiState.TARGET:
 			emit_signal("targetTaken")
-			currentAiState = aiState.COMBAT
+			currentAiState = aiState.APPROACH
 		aiState.COMBAT:
 			pass
 		aiState.APPROACH:
-			pass
+			var reachedDestination:bool = moveTo(targetBody.global_position, surroundSpeed, 2.0)
+			if reachedDestination:
+				currentAiState = aiState.ATTACK
 		aiState.ATTACK:
-			pass
+			#TEST
+			if attack_startup_timer.is_stopped():
+				attack_startup_timer.start()
 		aiState.BACKPEDAL:
-			pass
+			currentAiState = aiState.LOSE_TARGET
 		aiState.LOSE_TARGET:
-			pass
+			emit_signal("targetFreed")
+			currentAiState = aiState.SURROUND
 		aiState.FORGET:
 			pass
 		
@@ -111,7 +123,7 @@ func move(direction2:Vector2, speed):
 	move_and_slide()
 
 #INFO
-func moveTo(targetPosition:Vector3, speed) -> bool:
+func moveTo(targetPosition:Vector3, speed, acceptanceRadius:float = acceptanceRadiusDefault) -> bool:
 	#process:
 	#move to standard position
 	#flatten into vec2
@@ -123,7 +135,7 @@ func moveTo(targetPosition:Vector3, speed) -> bool:
 	var raw2 = Vector2(raw3.x, raw3.z)
 	var direction2:Vector2 = raw2.normalized() # normalize here instead
 	var desired_velocity2:Vector2 = direction2 * speed
-	if raw2.length() < 1.0:
+	if raw2.length() < acceptanceRadius:
 		desired_velocity2 = Vector2.ZERO
 		reachedDestination = true
 	velocity.x = desired_velocity2.x
@@ -144,6 +156,8 @@ func strafeAround():
 	move(directionToMove, strafeSpeed)
 
 #SEED
+#INFO
+#used precalculus concepts for this function so that's pretty cool
 func get_circle_position(circleRadius:float) -> Vector2:
 	var surroundCircleCenter = targetBody.global_position
 	var direction3 = targetBody.global_position.direction_to(global_position)
@@ -156,24 +170,16 @@ func get_circle_position(circleRadius:float) -> Vector2:
 
 #TEST
 func _on_attack_interval_timer_timeout():
-	#position.z += 1
 	currentAiState = aiState.APPROACH
 	attack_startup_timer.start()
 
 #TEST
 func _on_attack_startup_timer_timeout():
-	#position.z += 1
-	currentAiState = aiState.ATTACK
+	currentAiState = aiState.BACKPEDAL
 	emit_signal("damagePlayer", 20)
-	attack_cooldown_timer.start()
+	#attack_cooldown_timer.start()
 
 #TEST
 func _on_attack_cooldown_timer_timeout():
 	currentAiState = aiState.SURROUND
 	attack_interval_timer.start()
-	
-	
-	
-	#position.z -= 2
-	#var randTime:float = randf_range(1, 3)
-	#attack_interval_timer.wait_time = randTime
