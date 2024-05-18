@@ -9,8 +9,8 @@ class_name Grunt
 @export var backpedalSpeed:float = 6.0
 
 
-@export var minSurroundCircleRadius:float = 5.0
-@export var maxSurroundCircleRadius:float = 15.0
+@export var surroundCircleRadius:float = 5.0
+@export var maxStrafeTargetDeviation:float = 1.0
 @export var stopRadius:float = 0.1
 
 @export var gravityMultiplier:float = 1.0
@@ -44,6 +44,7 @@ enum aiState {
 #TEST
 var currentAiState = aiState.SURROUND
 var random
+var pointToStrafeAround
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -61,12 +62,13 @@ func _physics_process(_delta):
 			#moveTo(random spot idk)
 			pass
 		aiState.SURROUND:
-			var circlePos = get_circle_position(minSurroundCircleRadius)
+			var circlePos = get_circle_position(surroundCircleRadius)
+			pointToStrafeAround = targetBody.global_position
 			var reachedDestination:bool = moveTo(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed)
 			if reachedDestination:
 				currentAiState = aiState.STRAFE
 		aiState.STRAFE:
-			var direction3 = global_position.direction_to(targetBody.global_position)
+			var direction3 = global_position.direction_to(pointToStrafeAround)
 			var direction2 = FunctionLibrary.vec3ToVec2(direction3)
 			
 			mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
@@ -74,7 +76,7 @@ func _physics_process(_delta):
 			#print(directionToMove)
 			move(directionToMove, strafeSpeed)
 			
-			if FunctionLibrary.vec3ToVec2(targetBody.global_position - global_position).length() >= maxSurroundCircleRadius:
+			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
 		aiState.APPROACH:
 			moveTo(targetBody.global_position, surroundSpeed)
@@ -122,9 +124,11 @@ func moveTo(targetPosition:Vector3, speed) -> bool:
 #SEED
 func get_circle_position(circleRadius:float) -> Vector2:
 	var surroundCircleCenter = targetBody.global_position
+	var direction3 = targetBody.global_position.direction_to(global_position)
+	var closestAngleToMove = FunctionLibrary.vec3ToVec2(direction3).angle()
 	var angle = random * PI * 2;
-	var xPos = surroundCircleCenter.x + cos(angle) * circleRadius;
-	var yPos = surroundCircleCenter.z + sin(angle) * circleRadius;
+	var xPos = surroundCircleCenter.x + cos(closestAngleToMove) * circleRadius;
+	var yPos = surroundCircleCenter.z + sin(closestAngleToMove) * circleRadius;
 	
 	var surroundCirclePos:Vector2 = Vector2(xPos, yPos)
 	return surroundCirclePos
