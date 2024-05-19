@@ -19,10 +19,10 @@ class_name Grunt
 @export var backpedalCircleRadius:float = 5.0
 @export var maxStrafeTargetDeviation:float = 1.0
 
-#@export var steeringMagnitude:float = 2.5
+signal targetNoticed(targetBody, selfRef)
 
 signal targetTaken
-signal targetFreed
+signal targetFreed(selfRef)
 
 @onready var attack_interval_timer = %attackIntervalTimer
 @onready var attack_startup_timer = %attackStartupTimer
@@ -49,7 +49,7 @@ enum aiState {
 }
 
 #TEST
-var currentAiState = aiState.SURROUND
+var currentAiState = aiState.NOTICE
 var random
 var pointToStrafeAround
 var combatManager:CombatManager
@@ -74,7 +74,7 @@ func _physics_process(delta):
 			#movement_component.moveTo(random spot idk)
 			pass
 		aiState.NOTICE:
-			#notice player or target somehow idk
+			emit_signal("targetNoticed", targetBody, self)
 			pass
 		aiState.SURROUND:
 			var circlePos = movement_component.get_circle_position(surroundCircleRadius, targetBody.global_position)
@@ -87,15 +87,7 @@ func _physics_process(delta):
 			
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
-				
-				
-				#TEST
-				#will later have grunts communicate between each other
-				currentAiState = aiState.TARGET
-			
-			
 		aiState.TARGET:
-			emit_signal("targetTaken")
 			currentAiState = aiState.APPROACH
 		aiState.COMBAT:
 			if attack_interval_timer.is_stopped():
@@ -118,11 +110,14 @@ func _physics_process(delta):
 			if reachedDestination:
 				currentAiState = aiState.COMBAT
 		aiState.LOSE_TARGET:
-			emit_signal("targetFreed")
+			emit_signal("targetFreed", self)
 			currentAiState = aiState.SURROUND
 		aiState.FORGET:
 			currentAiState = aiState.WANDER
 		
+
+func target():
+	currentAiState = aiState.TARGET
 
 func setHurtboxVars(hurtbox:Hurtbox):
 	hurtbox.damageValue = damage

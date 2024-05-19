@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dj28tblre2dfe"]
+[gd_scene load_steps=9 format=3 uid="uid://dj28tblre2dfe"]
 
+[ext_resource type="Script" path="res://main/main.gd" id="1_hg6xi"]
 [ext_resource type="PackedScene" uid="uid://daiaeolk8hlnj" path="res://player/player.tscn" id="2_hdhtc"]
 [ext_resource type="PackedScene" uid="uid://dwroxvcp0kf32" path="res://grunt/grunt.tscn" id="3_helk4"]
 [ext_resource type="PackedScene" uid="uid://cgrftiuecsb7s" path="res://land/land.tscn" id="3_pj3ja"]
+[ext_resource type="Script" path="res://combatManager/combat_manager.gd" id="5_qdibi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,6 +19,7 @@ sky = SubResource("Sky_c68fs")
 tonemap_mode = 2
 
 [node name="main" type="Node3D"]
+script = ExtResource("1_hg6xi")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -36,3 +39,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.4391, 0)
 [node name="grunt" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.6878)
 targetBody = NodePath("../Player")
+
+[node name="combatManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_qdibi")

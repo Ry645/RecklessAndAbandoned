@@ -1,0 +1,6 @@
+process:
+    enemy sees player
+    emits signal to attach itself to the combat manager
+    combat manager immediately allows enemy to attack player
+    
+
