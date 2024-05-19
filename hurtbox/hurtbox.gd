@@ -1,3 +1,8 @@
+#BUG
+#enemies take damage from their own attacks
+#so does the player
+#fix this soon
+
 extends Area3D
 
 class_name Hurtbox
