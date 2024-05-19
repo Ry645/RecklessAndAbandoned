@@ -1,3 +1,6 @@
+#TODO
+#migrate ai to a component somehow
+
 extends CharacterBody3D
 
 class_name Grunt
@@ -49,6 +52,7 @@ enum aiState {
 var currentAiState = aiState.SURROUND
 var random
 var pointToStrafeAround
+var combatManager:CombatManager
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -67,10 +71,10 @@ func _physics_process(delta):
 	
 	match currentAiState:
 		aiState.WANDER:
-			#moveTo(random spot idk)
+			#movement_component.moveTo(random spot idk)
 			pass
 		aiState.NOTICE:
-			#moveTo(random spot idk)
+			#notice player or target somehow idk
 			pass
 		aiState.SURROUND:
 			var circlePos = movement_component.get_circle_position(surroundCircleRadius, targetBody.global_position)

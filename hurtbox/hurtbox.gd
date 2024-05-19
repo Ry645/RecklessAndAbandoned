@@ -10,7 +10,7 @@ class_name Hurtbox
 #INFO
 #for anything for detecting collision or anything else
 #in the game world, use _physics_process instead of _process
-func _physics_process(delta):
+func _physics_process(_delta):
 	for body in get_overlapping_bodies():
 		if body.has_method("takeDamage"):
 			body.takeDamage(damageValue)
