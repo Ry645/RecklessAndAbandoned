@@ -9,6 +9,9 @@ var parentCharacter:CharacterBody3D
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+func _ready():
+	parentCharacter = get_parent()
+
 func applyGravity(delta):
 	if !parentCharacter.is_on_floor():
 		parentCharacter.velocity.y -= gravity * delta * gravityMultiplier
