@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=12 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
+[ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
 [ext_resource type="PackedScene" uid="uid://csoeasokp3edn" path="res://rays/pickupRay/pickup_ray.tscn" id="3_yehp4"]
 [ext_resource type="PackedScene" uid="uid://bgjt8mac5rclw" path="res://inventory/inventory.tscn" id="4_ctdpl"]
 [ext_resource type="PackedScene" uid="uid://cmrgi6ajxlu82" path="res://blockingSystem/blockingSystem.tscn" id="5_5thp2"]
@@ -20,6 +21,7 @@ bottom_radius = 0.1
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_gw48f")
+hurtboxScene = ExtResource("2_nfmsb")
 
 [node name="mesh" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true

@@ -13,6 +13,7 @@ var canTeleportSmash:bool = true
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+@export var hurtboxScene:PackedScene
 
 #  :=  symbol means I KNOW WHAT TYPE THIS VAR IS instead of eh its whatever
 @onready var h := %h
@@ -87,16 +88,6 @@ func _physics_process(delta):
 
 
 func inputProcess(): # to be called in physics process
-	
-	#if Input.is_action_just_pressed("sprint"):
-		#SPEED *= SPRINT_FACTOR
-	#
-	#if Input.is_action_just_released("sprint"):
-		#SPEED /= SPRINT_FACTOR
-	#
-	#if Input.is_action_just_pressed("dash"):
-		#dash()
-	
 	if Input.is_action_just_pressed("pickup"):
 		pickItemForInventory()
 	
@@ -111,6 +102,9 @@ func inputProcess(): # to be called in physics process
 	
 	if Input.is_action_just_pressed("skill1"):
 		teleportSmash(Vector3(0,position.y,0))
+	
+	if Input.is_action_just_pressed("attack"):
+		swingShovel()
 
 #to be used with camera lock
 func toggleCameraLock():
@@ -151,6 +145,11 @@ func teleportSmash(target:Vector3):
 		print("RAA")
 		await get_tree().create_timer(1.0).timeout
 		canTeleportSmash = true
+
+#TEST
+func swingShovel():
+	var hurtbox = hurtboxScene.instantiate()
+	hurtbox.damageValue = 20
 
 func playerDeath():
 	print("die")

@@ -18,8 +18,3 @@ func _ready():
 		enemy.connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
 		enemy.connect("died", Callable(combat_manager, "enemyForgotTarget"))
 	
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

@@ -49,3 +49,4 @@ unique_name_in_owner = true
 
 [connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]
+[connection signal="die" from="healthSystem" to="." method="die"]

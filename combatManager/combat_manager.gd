@@ -7,6 +7,10 @@ var attackingEnemies:Array[CharacterBody3D]
 var engagedEnemy:CharacterBody3D
 
 func gainTarget(attackingEnemiesIndex:int = 0):
+	if attackingEnemies.size() == 0:
+		print("no enemies left")
+		return
+	
 	attackingEnemies[attackingEnemiesIndex].target()
 	engagedEnemy = attackingEnemies[attackingEnemiesIndex]
 

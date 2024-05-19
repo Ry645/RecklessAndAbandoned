@@ -16,7 +16,7 @@ class_name Grunt
 
 
 @export var surroundCircleRadius:float = 10.0
-@export var backpedalCircleRadius:float = 5.0
+@export var backpedalCircleRadius:float = 2.0
 @export var maxStrafeTargetDeviation:float = 1.0
 
 signal targetNoticed(targetBody, selfRef)
@@ -119,8 +119,8 @@ func _physics_process(delta):
 func target():
 	currentAiState = aiState.TARGET
 
-func takeDamage(damage):
-	health_system.takeDamage(damage)
+func takeDamage(damageVal):
+	health_system.takeDamage(damageVal)
 
 func die():
 	emit_signal("died", self)
