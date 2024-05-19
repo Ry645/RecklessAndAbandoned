@@ -4,14 +4,3 @@
 
 [node name="movementComponent" type="Node"]
 script = ExtResource("1_6wb8v")
-damage = null
-wanderSpeed = null
-surroundSpeed = null
-strafeSpeed = null
-approachSpeed = null
-backpedalSpeed = null
-surroundCircleRadius = null
-backpedalCircleRadius = null
-maxStrafeTargetDeviation = null
-acceptanceRadiusDefault = null
-gravityMultiplier = null
