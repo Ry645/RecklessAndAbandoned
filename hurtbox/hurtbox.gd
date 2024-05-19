@@ -1,4 +1,4 @@
-extends ShapeCast3D
+extends Area3D
 
 class_name Hurtbox
 
@@ -7,9 +7,11 @@ class_name Hurtbox
 @export var damageValue:float
 @export var activeFrames:int = 1
 
-# Called when the node enters the scene tree for the first time.
-func _process(delta):
-	for body in whatever:
+#INFO
+#for anything for detecting collision or anything else
+#in the game world, use _physics_process instead of _process
+func _physics_process(delta):
+	for body in get_overlapping_bodies():
 		if body.has_method("takeDamage"):
 			body.takeDamage(damageValue)
 	
