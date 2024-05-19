@@ -48,7 +48,7 @@ func moveTo(targetPosition:Vector3, speed, acceptanceRadius:float = acceptanceRa
 	return reachedDestination
 
 func strafeAround(pointToStrafeAround, strafeSpeed):
-	var direction3 = pointToStrafeAround.global_position.direction_to(pointToStrafeAround)
+	var direction3 = parentCharacter.global_position.direction_to(pointToStrafeAround)
 	var direction2 = FunctionLibrary.vec3ToVec2(direction3)
 	var directionToMove = Vector2.UP.rotated(direction2.angle())
 	#print(directionToMove)

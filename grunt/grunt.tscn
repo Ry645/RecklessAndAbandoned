@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwroxvcp0kf32"]
+[gd_scene load_steps=8 format=3 uid="uid://dwroxvcp0kf32"]
 
 [ext_resource type="Script" path="res://grunt/grunt.gd" id="1_e3166"]
 [ext_resource type="Shape3D" uid="uid://cormmvva23cay" path="res://grunt/gruntCollision.tres" id="2_hqj1o"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_kaw0i"]
+[ext_resource type="PackedScene" uid="uid://dncn5ug38vug" path="res://movementComponent/movement_component.tscn" id="3_inqfa"]
 [ext_resource type="Script" path="res://deleteOnRuntime/deleteOnRuntime.gd" id="4_du8d8"]
 [ext_resource type="Shape3D" uid="uid://c1w18gsgixkbg" path="res://grunt/gruntHurtbox.tres" id="5_qdhs3"]
 
@@ -11,6 +12,9 @@
 [node name="grunt" type="CharacterBody3D"]
 script = ExtResource("1_e3166")
 hurtboxScene = ExtResource("2_kaw0i")
+
+[node name="movementComponent" parent="." instance=ExtResource("3_inqfa")]
+unique_name_in_owner = true
 
 [node name="attackIntervalTimer" type="Timer" parent="."]
 unique_name_in_owner = true

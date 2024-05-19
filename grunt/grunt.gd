@@ -7,6 +7,7 @@ class_name Grunt
 @export var wanderSpeed:float = 3.0
 @export var surroundSpeed:float = 6.0
 @export var strafeSpeed:float = 1.0
+@export var combatSpeed:float = 1.5
 @export var approachSpeed:float = 6.0
 @export var backpedalSpeed:float = 6.0
 
@@ -14,9 +15,6 @@ class_name Grunt
 @export var surroundCircleRadius:float = 10.0
 @export var backpedalCircleRadius:float = 5.0
 @export var maxStrafeTargetDeviation:float = 1.0
-@export var acceptanceRadiusDefault:float = 0.1
-
-@export var gravityMultiplier:float = 1.0
 
 #@export var steeringMagnitude:float = 2.5
 
@@ -27,6 +25,7 @@ signal targetFreed
 @onready var attack_startup_timer = %attackStartupTimer
 @onready var mesh_instance_3d = %MeshInstance3D
 @onready var hurtbox_location = %hurtboxLocation
+@onready var movement_component:MovementComponent = %movementComponent
 
 @export var hurtboxScene:PackedScene
 #TEST
@@ -64,7 +63,7 @@ func _ready():
 #TODO
 #use nav mesh later
 func _physics_process(delta):
-	applyGravity(delta)
+	movement_component.applyGravity(delta)
 	
 	match currentAiState:
 		aiState.WANDER:
@@ -74,13 +73,13 @@ func _physics_process(delta):
 			#moveTo(random spot idk)
 			pass
 		aiState.SURROUND:
-			var circlePos = get_circle_position(surroundCircleRadius)
+			var circlePos = movement_component.get_circle_position(surroundCircleRadius, targetBody.global_position)
 			pointToStrafeAround = targetBody.global_position
-			var reachedDestination:bool = moveTo(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed)
+			var reachedDestination:bool = movement_component.moveTo(Vector3(circlePos.x, 0, circlePos.y), surroundSpeed)
 			if reachedDestination:
 				currentAiState = aiState.STRAFE
 		aiState.STRAFE:
-			strafeAround()
+			movement_component.strafeAround(pointToStrafeAround, strafeSpeed)
 			
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.SURROUND
@@ -97,11 +96,11 @@ func _physics_process(delta):
 		aiState.COMBAT:
 			if attack_interval_timer.is_stopped():
 				attack_interval_timer.start()
-			strafeAround()
+			movement_component.strafeAround(pointToStrafeAround, combatSpeed)
 			if FunctionLibrary.vec3ToVec2(pointToStrafeAround - targetBody.global_position).length() >= maxStrafeTargetDeviation:
 				currentAiState = aiState.BACKPEDAL
 		aiState.APPROACH:
-			var reachedDestination:bool = moveTo(targetBody.global_position, surroundSpeed, 2.0)
+			var reachedDestination:bool = movement_component.moveTo(targetBody.global_position, surroundSpeed, 2.0)
 			if reachedDestination:
 				currentAiState = aiState.ATTACK
 		aiState.ATTACK:
@@ -109,9 +108,9 @@ func _physics_process(delta):
 			if attack_startup_timer.is_stopped():
 				attack_startup_timer.start()
 		aiState.BACKPEDAL:
-			var circlePos = get_circle_position(backpedalCircleRadius)
+			var circlePos = movement_component.get_circle_position(backpedalCircleRadius, targetBody.global_position)
 			pointToStrafeAround = targetBody.global_position
-			var reachedDestination:bool = moveTo(Vector3(circlePos.x, 0, circlePos.y), backpedalSpeed)
+			var reachedDestination:bool = movement_component.moveTo(Vector3(circlePos.x, 0, circlePos.y), backpedalSpeed)
 			if reachedDestination:
 				currentAiState = aiState.COMBAT
 		aiState.LOSE_TARGET:
@@ -120,63 +119,6 @@ func _physics_process(delta):
 		aiState.FORGET:
 			currentAiState = aiState.WANDER
 		
-
-func applyGravity(delta):
-	if !is_on_floor():
-		velocity.y -= gravity * delta * gravityMultiplier
-
-func move(direction2:Vector2, speed):
-	var desired_velocity2:Vector2 = direction2 * speed
-	velocity.x = desired_velocity2.x
-	velocity.z = desired_velocity2.y
-	
-	move_and_slide()
-
-#INFO
-func moveTo(targetPosition:Vector3, speed, acceptanceRadius:float = acceptanceRadiusDefault) -> bool:
-	#process:
-	#move to standard position
-	#flatten into vec2
-	#apply magnitude
-	var reachedDestination:bool = false
-	
-	
-	var raw3:Vector3 = (targetPosition - global_position) # don't normalize here
-	var raw2 = Vector2(raw3.x, raw3.z)
-	var direction2:Vector2 = raw2.normalized() # normalize here instead
-	var desired_velocity2:Vector2 = direction2 * speed
-	if raw2.length() < acceptanceRadius:
-		desired_velocity2 = Vector2.ZERO
-		reachedDestination = true
-	velocity.x = desired_velocity2.x
-	velocity.z = desired_velocity2.y
-	#print(velocity)
-	#move
-	move_and_slide()
-	
-	return reachedDestination
-
-func strafeAround():
-	var direction3 = global_position.direction_to(pointToStrafeAround)
-	var direction2 = FunctionLibrary.vec3ToVec2(direction3)
-	
-	mesh_instance_3d.global_rotation.y = -direction2.angle() + PI/2 #might exclude later while animating
-	var directionToMove = Vector2.UP.rotated(direction2.angle())
-	#print(directionToMove)
-	move(directionToMove, strafeSpeed)
-
-#SEED
-#INFO
-#used precalculus concepts for this function so that's pretty cool
-func get_circle_position(circleRadius:float) -> Vector2:
-	var surroundCircleCenter = targetBody.global_position
-	var direction3 = targetBody.global_position.direction_to(global_position)
-	var closestAngleToMove = FunctionLibrary.vec3ToVec2(direction3).angle()
-	var xPos = surroundCircleCenter.x + cos(closestAngleToMove) * circleRadius;
-	var yPos = surroundCircleCenter.z + sin(closestAngleToMove) * circleRadius;
-	
-	var surroundCirclePos:Vector2 = Vector2(xPos, yPos)
-	return surroundCirclePos
 
 func setHurtboxVars(hurtbox:Hurtbox):
 	hurtbox.damageValue = damage
