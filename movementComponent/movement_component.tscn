@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dncn5ug38vug"]
+
+[ext_resource type="Script" path="res://movementComponent/movement_component.gd" id="1_6wb8v"]
+
+[node name="movementComponent" type="Node"]
+script = ExtResource("1_6wb8v")
+damage = null
+wanderSpeed = null
+surroundSpeed = null
+strafeSpeed = null
+approachSpeed = null
+backpedalSpeed = null
+surroundCircleRadius = null
+backpedalCircleRadius = null
+maxStrafeTargetDeviation = null
+acceptanceRadiusDefault = null
+gravityMultiplier = null
