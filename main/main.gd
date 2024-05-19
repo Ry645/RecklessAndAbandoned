@@ -16,6 +16,7 @@ func _ready():
 	for enemy in allEnemies:
 		enemy.connect("targetFreed", Callable(combat_manager, "lostTarget"))
 		enemy.connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
+		enemy.connect("died", Callable(combat_manager, "enemyForgotTarget"))
 	
 
 

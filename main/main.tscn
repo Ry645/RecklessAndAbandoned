@@ -18,8 +18,9 @@ background_mode = 2
 sky = SubResource("Sky_c68fs")
 tonemap_mode = 2
 
-[node name="main" type="Node3D"]
+[node name="main" type="Node3D" node_paths=PackedStringArray("allEnemies")]
 script = ExtResource("1_hg6xi")
+allEnemies = [NodePath("grunt"), NodePath("grunt2"), NodePath("grunt3")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -43,3 +44,11 @@ targetBody = NodePath("../Player")
 [node name="combatManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("5_qdibi")
+
+[node name="grunt2" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.6304, 2.34375, 0)
+targetBody = NodePath("../Player")
+
+[node name="grunt3" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5424, 1.8979, 0)
+targetBody = NodePath("../Player")

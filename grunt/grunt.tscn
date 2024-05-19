@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwroxvcp0kf32"]
+[gd_scene load_steps=9 format=3 uid="uid://dwroxvcp0kf32"]
 
 [ext_resource type="Script" path="res://grunt/grunt.gd" id="1_e3166"]
 [ext_resource type="Shape3D" uid="uid://cormmvva23cay" path="res://grunt/gruntCollision.tres" id="2_hqj1o"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dncn5ug38vug" path="res://movementComponent/movement_component.tscn" id="3_inqfa"]
 [ext_resource type="Script" path="res://deleteOnRuntime/deleteOnRuntime.gd" id="4_du8d8"]
 [ext_resource type="Shape3D" uid="uid://c1w18gsgixkbg" path="res://grunt/gruntHurtbox.tres" id="5_qdhs3"]
+[ext_resource type="PackedScene" uid="uid://1l5roa5kttpy" path="res://healthSystem/health_system.tscn" id="7_yf5w2"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_f12ks"]
 
@@ -42,6 +43,9 @@ script = ExtResource("4_du8d8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hurtboxLocation/Area3D"]
 shape = ExtResource("5_qdhs3")
+
+[node name="healthSystem" parent="." instance=ExtResource("7_yf5w2")]
+unique_name_in_owner = true
 
 [connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]

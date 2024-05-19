@@ -20,15 +20,15 @@ class_name Grunt
 @export var maxStrafeTargetDeviation:float = 1.0
 
 signal targetNoticed(targetBody, selfRef)
-
-signal targetTaken
 signal targetFreed(selfRef)
+signal died(selfRef)
 
 @onready var attack_interval_timer = %attackIntervalTimer
 @onready var attack_startup_timer = %attackStartupTimer
 @onready var mesh_instance_3d = %MeshInstance3D
 @onready var hurtbox_location = %hurtboxLocation
 @onready var movement_component:MovementComponent = %movementComponent
+@onready var health_system = %healthSystem
 
 @export var hurtboxScene:PackedScene
 #TEST
@@ -74,8 +74,8 @@ func _physics_process(delta):
 			#movement_component.moveTo(random spot idk)
 			pass
 		aiState.NOTICE:
+			currentAiState = aiState.SURROUND
 			emit_signal("targetNoticed", targetBody, self)
-			pass
 		aiState.SURROUND:
 			var circlePos = movement_component.get_circle_position(surroundCircleRadius, targetBody.global_position)
 			pointToStrafeAround = targetBody.global_position
@@ -118,6 +118,14 @@ func _physics_process(delta):
 
 func target():
 	currentAiState = aiState.TARGET
+
+func takeDamage(damage):
+	health_system.takeDamage(damage)
+
+func die():
+	emit_signal("died", self)
+	print("dead")
+	queue_free()
 
 func setHurtboxVars(hurtbox:Hurtbox):
 	hurtbox.damageValue = damage

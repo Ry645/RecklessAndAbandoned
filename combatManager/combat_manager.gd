@@ -15,8 +15,9 @@ func lostTarget(selfRef):
 	attackingEnemies.append(selfRef)
 	gainTarget()
 
-func enemyForgotTarget():
-	pass
+func enemyForgotTarget(selfRef):
+	attackingEnemies.erase(selfRef)
+	gainTarget()
 
 func enemyNoticedTarget(targetBody1, selfRef):
 	targetBody = targetBody1
