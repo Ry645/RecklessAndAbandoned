@@ -38,6 +38,8 @@ BACKPEDAL
 
 LOSE_TARGET
     player attacks other enemy to trigger this state
+        player uses lock on and teleport slam for this
+        FUSTO RA
     goes back into surround phase 
 
 FORGET

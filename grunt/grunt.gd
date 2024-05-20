@@ -29,6 +29,8 @@ signal died(selfRef)
 @onready var hurtbox_location = %hurtboxLocation
 @onready var movement_component:MovementComponent = %movementComponent
 @onready var health_system = %healthSystem
+#TEST
+@onready var attack_indicator = %attackIndicator
 
 @export var hurtboxScene:PackedScene
 #TEST
@@ -101,9 +103,11 @@ func _physics_process(delta):
 				currentAiState = aiState.ATTACK
 		aiState.ATTACK:
 			#TEST
+			attack_indicator.visible = true
 			if attack_startup_timer.is_stopped():
 				attack_startup_timer.start()
 		aiState.BACKPEDAL:
+			attack_indicator.visible = false
 			var circlePos = movement_component.get_circle_position(backpedalCircleRadius, targetBody.global_position)
 			pointToStrafeAround = targetBody.global_position
 			var reachedDestination:bool = movement_component.moveTo(Vector3(circlePos.x, 0, circlePos.y), backpedalSpeed)
