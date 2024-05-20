@@ -88,3 +88,5 @@ health = 200.0
 [connection signal="damageHealth" from="blockingSystem" to="healthSystem" method="takeDamage"]
 [connection signal="parryWindowEnded" from="blockingSystem" to="." method="_on_blocking_system_parry_window_ended"]
 [connection signal="die" from="healthSystem" to="." method="playerDeath"]
+[connection signal="healthUpdate" from="healthSystem" to="." method="_on_health_system_health_update"]
+[connection signal="setHealthBarVars" from="healthSystem" to="." method="_on_health_system_set_health_bar_vars"]

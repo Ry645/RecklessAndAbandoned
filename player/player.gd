@@ -2,6 +2,9 @@ extends CharacterBody3D
 
 class_name Player
 
+signal setHealthBarVars(minHealth, maxHealth, currentHealth)
+signal healthUpdate(health)
+
 @export var SPEED:float = 6.0
 @export var DASH_FACTOR:float = 3.0
 @export var JUMP_VELOCITY:float = 4.5
@@ -175,3 +178,11 @@ func _on_blocking_system_parry_window_ended():
 #TEST
 func _on_grunt_damage_player(damage):
 	takeDamage(damage)
+
+
+func _on_health_system_health_update(health):
+	emit_signal("healthUpdate", health)
+
+
+func _on_health_system_set_health_bar_vars(minHealth, maxHealth, currentHealth):
+	emit_signal("setHealthBarVars", minHealth, maxHealth, currentHealth)
