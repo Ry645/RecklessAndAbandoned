@@ -62,7 +62,6 @@ offset_top = 535.0
 offset_right = 730.0
 offset_bottom = 575.0
 step = 1.0
-show_percentage = false
 
 [connection signal="healthUpdate" from="Player" to="CanvasLayer/healthBar" method="_on_player_health_update"]
 [connection signal="setHealthBarVars" from="Player" to="CanvasLayer/healthBar" method="_on_player_set_health_bar_vars"]

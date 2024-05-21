@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://c5ppbfmo0n3a0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qj1d7"]
+bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkbit"]
+bg_color = Color(0.47451, 0.662745, 0.34902, 1)
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_qj1d7")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_dkbit")
+RichTextLabel/font_sizes/normal_font_size = 28
