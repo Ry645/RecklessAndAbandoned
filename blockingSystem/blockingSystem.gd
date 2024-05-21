@@ -1,3 +1,6 @@
+#TODO
+#remove block cooldown and replace with 3 tick stamina bar for starting blocks
+
 extends Node
 
 class_name ParrySystem
@@ -21,6 +24,7 @@ var canParry:bool = false
 var isCoyoteParrying:bool = false
 
 @export var willEverBlock:bool = true
+@export var blockDamageReduction:float = 0.5
 
 func startBlock():
 	if canStartBlock:
@@ -60,6 +64,7 @@ func takeDamage(damage):
 		else:
 			print("blocked")
 			emit_signal("attackBlocked")
+			emit_signal("damageHealth", damage * blockDamageReduction)
 			recentlyParried = false
 	else:
 		recentlyParried = false

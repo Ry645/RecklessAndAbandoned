@@ -6,10 +6,12 @@ extends Node3D
 class_name Main
 
 @export var allEnemies:Array[CharacterBody3D]
+@export var healthBarScene:PackedScene
 
 #TEST
 @onready var combat_manager = %combatManager
 
+var healthBars
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,3 +20,9 @@ func _ready():
 		enemy.connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
 		enemy.connect("died", Callable(combat_manager, "enemyForgotTarget"))
 	
+
+func _process(delta):
+	pass
+
+func createHealthBar():
+	pass
