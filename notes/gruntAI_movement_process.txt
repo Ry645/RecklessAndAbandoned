@@ -5,7 +5,7 @@ WANDER:
 NOTICE:
     grunt detects player
         sight cone?
-        sound detection?
+        sound detection? (probably too complicated)
 
 SURROUND
     go to min circle radius

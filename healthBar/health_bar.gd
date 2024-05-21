@@ -1,3 +1,6 @@
+#INFO
+#use camera.unproject_position(Vector3) for the health bars appearing above enemies
+
 extends ProgressBar
 
 @onready var healthText = %healthText
