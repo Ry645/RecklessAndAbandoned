@@ -31,6 +31,8 @@ signal died(selfRef)
 @onready var health_system = %healthSystem
 #TEST
 @onready var attack_indicator = %attackIndicator
+@onready var health_bar_position = %healthBarPosition
+
 
 @export var hurtboxScene:PackedScene
 #TEST

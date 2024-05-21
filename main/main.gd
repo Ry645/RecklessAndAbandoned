@@ -6,23 +6,21 @@ extends Node3D
 class_name Main
 
 @export var allEnemies:Array[CharacterBody3D]
-@export var healthBarScene:PackedScene
 
+@onready var hud_layer:HudLayer = %hudLayer
 #TEST
 @onready var combat_manager = %combatManager
 
-var healthBars
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for enemy in allEnemies:
-		enemy.connect("targetFreed", Callable(combat_manager, "lostTarget"))
-		enemy.connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
-		enemy.connect("died", Callable(combat_manager, "enemyForgotTarget"))
+	#loops through all enemies
+	for i in range(allEnemies.size()):
+		allEnemies[i].connect("targetFreed", Callable(combat_manager, "lostTarget"))
+		allEnemies[i].connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
+		allEnemies[i].connect("died", Callable(combat_manager, "enemyForgotTarget"))
+		
+		hud_layer.setHealthBarVars(allEnemies[i].health_bar_position, i)
 	
 
-func _process(delta):
-	pass
-
-func createHealthBar():
-	pass
+#func createHealthBar():
+	#pass

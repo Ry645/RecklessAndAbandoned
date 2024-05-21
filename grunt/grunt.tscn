@@ -57,6 +57,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71913, 0.675291)
 visible = false
 mesh = SubResource("SphereMesh_c10pf")
 
+[node name="healthBarPosition" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
 [connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]
 [connection signal="die" from="healthSystem" to="." method="die"]

@@ -49,6 +49,10 @@ Development Process:
             gauntlets block 100% of damage and negates blockbreakers
             best for practice
     try to study rhythm games for accurate inputs
+    progression system
+        make it like Terraria
+        disarm enemies for rare swords for crafting new gear
+        enemies show accessories
     
     10 levels
     journal to keep info when go back in 3 years

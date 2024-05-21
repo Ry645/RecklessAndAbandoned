@@ -3,6 +3,8 @@
 
 extends ProgressBar
 
+class_name HealthBar
+
 @onready var healthText = %healthText
 
 

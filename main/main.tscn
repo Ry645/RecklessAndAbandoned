@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cgrftiuecsb7s" path="res://land/land.tscn" id="3_pj3ja"]
 [ext_resource type="Script" path="res://combatManager/combat_manager.gd" id="5_qdibi"]
 [ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="6_wr0w2"]
-[ext_resource type="Script" path="res://controlLayer/controlLayer.gd" id="7_dpvck"]
+[ext_resource type="Script" path="res://hudLayer/hudLayer.gd" id="7_dpvck"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,7 +23,6 @@ tonemap_mode = 2
 [node name="main" type="Node3D" node_paths=PackedStringArray("allEnemies")]
 script = ExtResource("1_hg6xi")
 allEnemies = [NodePath("grunt"), NodePath("grunt2"), NodePath("grunt3")]
-healthBarScene = ExtResource("6_wr0w2")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -34,8 +33,6 @@ environment = SubResource("Environment_4qs63")
 
 [node name="Player" parent="." instance=ExtResource("2_hdhtc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 0)
-
-[node name="hudLayer" type="CanvasLayer" parent="."]
 
 [node name="land" parent="." instance=ExtResource("3_pj3ja")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.4391, 0)
@@ -56,15 +53,17 @@ targetBody = NodePath("../Player")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5424, 1.8979, 0)
 targetBody = NodePath("../Player")
 
-[node name="controlLayer" type="CanvasLayer" parent="."]
+[node name="hudLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 script = ExtResource("7_dpvck")
+healthBarScene = ExtResource("6_wr0w2")
 
-[node name="healthBar" parent="controlLayer" instance=ExtResource("6_wr0w2")]
+[node name="healthBar" parent="hudLayer" instance=ExtResource("6_wr0w2")]
 offset_left = 399.0
 offset_top = 535.0
 offset_right = 730.0
 offset_bottom = 575.0
 step = 1.0
 
-[connection signal="healthUpdate" from="Player" to="controlLayer/healthBar" method="_on_player_health_update"]
-[connection signal="setHealthBarVars" from="Player" to="controlLayer/healthBar" method="_on_player_set_health_bar_vars"]
+[connection signal="healthUpdate" from="Player" to="hudLayer/healthBar" method="_on_player_health_update"]
+[connection signal="setHealthBarVars" from="Player" to="hudLayer/healthBar" method="_on_player_set_health_bar_vars"]
