@@ -4,7 +4,7 @@ class_name HudLayer
 
 @export var healthBarScene:PackedScene
 
-var healthBarPositionNodes:Array[Node3D]
+var characters:Array[CharacterBody3D]
 var healthBars:Array[HealthBar]
 var playerCamera:Camera3D
 
@@ -15,23 +15,21 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#print(playerCamera.global_basis.z)
-	print((-playerCamera.global_basis.z).normalized().dot((healthBarPositionNodes[0].global_position-playerCamera.global_position).normalized()))
 	for i in range(healthBars.size()):
-		healthBars[i].position = playerCamera.unproject_position(healthBarPositionNodes[i].global_position)
-		if (-playerCamera.global_basis.z).normalized().dot((healthBarPositionNodes[i].global_position-playerCamera.global_position).normalized()) < 0:
+		healthBars[i].position = playerCamera.unproject_position(characters[i].health_bar_position.global_position)
+		if playerCamera.is_position_behind(characters[i].health_bar_position.global_position):
 			healthBars[i].visible = false
 		else:
 			healthBars[i].visible = true
 
-func setHealthBarVars(healthBarPositionNode, index:int):
-	healthBarPositionNodes.append(healthBarPositionNode)
+func setHealthBarVars(character, _index:int):
+	characters.append(character)
 	var newHealthBar = healthBarScene.instantiate()
 	add_child(newHealthBar)
 	healthBars.append(newHealthBar)
 
-func deleteHealthBar(enemy):
-	var i = healthBarPositionNodes.find(enemy.health_bar_position)
-	healthBarPositionNodes.remove_at(i)
+func deleteHealthBar(character):
+	var i = characters.find(character)
+	characters.remove_at(i)
 	healthBars[i].queue_free()
 	healthBars.remove_at(i)

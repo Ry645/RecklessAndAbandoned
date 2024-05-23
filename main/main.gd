@@ -24,7 +24,7 @@ func _ready():
 		allEnemies[i].connect("died", Callable(combat_manager, "enemyForgotTarget"))
 		allEnemies[i].connect("died", Callable(hud_layer, "deleteHealthBar"))
 		
-		hud_layer.setHealthBarVars(allEnemies[i].health_bar_position, i)
+		hud_layer.setHealthBarVars(allEnemies[i], i)
 	
 
 
