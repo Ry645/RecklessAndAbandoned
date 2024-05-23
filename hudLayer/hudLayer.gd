@@ -6,6 +6,7 @@ class_name HudLayer
 
 var healthBarPositionNodes:Array[Node3D]
 var healthBars:Array[HealthBar]
+var playerCamera:Camera3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,7 +15,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	for i in range(healthBars.size()):
+		healthBars[i].position = playerCamera.unproject_position(healthBarPositionNodes[i].global_position)
 
 func setHealthBarVars(healthBarPositionNode, index:int):
 	healthBarPositionNodes.append(healthBarPositionNode)
