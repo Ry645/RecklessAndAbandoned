@@ -25,6 +25,8 @@ func _process(delta):
 func setHealthBarVars(character, _index:int):
 	characters.append(character)
 	var newHealthBar = healthBarScene.instantiate()
+	character.health_system.connect("healthUpdate", Callable(newHealthBar, "_on_health_update"))
+	character.health_system.connect("setHealthBarVars", Callable(newHealthBar, "_on_set_health_bar_vars"))
 	add_child(newHealthBar)
 	healthBars.append(newHealthBar)
 
@@ -33,3 +35,6 @@ func deleteHealthBar(character):
 	characters.remove_at(i)
 	healthBars[i].queue_free()
 	healthBars.remove_at(i)
+	
+	
+

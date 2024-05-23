@@ -67,5 +67,5 @@ offset_right = 730.0
 offset_bottom = 575.0
 step = 1.0
 
-[connection signal="healthUpdate" from="Player" to="hudLayer/healthBar" method="_on_player_health_update"]
-[connection signal="setHealthBarVars" from="Player" to="hudLayer/healthBar" method="_on_player_set_health_bar_vars"]
+[connection signal="healthUpdate" from="Player" to="hudLayer/healthBar" method="_on_health_update"]
+[connection signal="setHealthBarVars" from="Player" to="hudLayer/healthBar" method="on_set_health_bar_vars"]
