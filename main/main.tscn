@@ -20,9 +20,10 @@ background_mode = 2
 sky = SubResource("Sky_c68fs")
 tonemap_mode = 2
 
-[node name="main" type="Node3D" node_paths=PackedStringArray("allEnemies")]
+[node name="main" type="Node3D" node_paths=PackedStringArray("allEnemies", "player")]
 script = ExtResource("1_hg6xi")
 allEnemies = [NodePath("grunt"), NodePath("grunt2"), NodePath("grunt3")]
+player = NodePath("Player")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -59,6 +60,7 @@ script = ExtResource("7_dpvck")
 healthBarScene = ExtResource("6_wr0w2")
 
 [node name="healthBar" parent="hudLayer" instance=ExtResource("6_wr0w2")]
+z_index = 1
 offset_left = 399.0
 offset_top = 535.0
 offset_right = 730.0
