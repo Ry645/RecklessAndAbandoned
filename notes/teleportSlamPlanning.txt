@@ -1,0 +1,5 @@
+first add lock on system
+
+get locked on target
+get position as vector3
+teleport slam and spawn hurtbox

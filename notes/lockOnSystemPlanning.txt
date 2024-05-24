@@ -1,0 +1,7 @@
+lockOn preview cursor (like in botw)
+
+press key
+lock on
+cursor turns yellow (or whatever color I want)
+camera focuses on locked on enemy
+stores enemy in variable
