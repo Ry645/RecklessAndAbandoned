@@ -14,7 +14,7 @@ func _on_health_update(health):
 	healthText.text = str(health)
 
 
-func on_set_health_bar_vars(minHealth, maxHealth, currentHealth):
+func _on_set_health_bar_vars(minHealth, maxHealth, currentHealth):
 	min_value = minHealth
 	max_value = maxHealth
 	_on_health_update(currentHealth)

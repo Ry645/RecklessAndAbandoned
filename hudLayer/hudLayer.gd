@@ -29,6 +29,9 @@ func setHealthBarVars(character, _index:int):
 	character.health_system.connect("setHealthBarVars", Callable(newHealthBar, "_on_set_health_bar_vars"))
 	add_child(newHealthBar)
 	healthBars.append(newHealthBar)
+	#HACK
+	#sort of
+	#character.health_system._ready()
 
 func deleteHealthBar(character):
 	var i = characters.find(character)
