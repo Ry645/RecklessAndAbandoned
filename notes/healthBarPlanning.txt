@@ -1,11 +1,15 @@
-ready:
-    grunt spawns
-    main connects signals from grunt to hudLayer
-    also sets hard reference of grunt's healthBarPosition node in hudLayer (probably won't change this later)
+FINISHED:
+    ready:
+        grunt spawns
+        main connects signals from grunt to hudLayer
+        also sets hard reference of grunt's healthBarPosition node in hudLayer (probably won't change this later)
 
-process:
-    hudLayer constantly updates healthBar position in viewport to align with healthBarPosition node (in grunt instance) (healthBarPosition.get_position) (use camera unproject function)
+    process:
+        hudLayer constantly updates healthBar position in viewport to align with healthBarPosition node (in grunt instance) (healthBarPosition.get_position) (use camera unproject function)
 
-grunt emits signal: health updated
+    grunt emits signal: health updated
 
-hudLayer takes this signal and updates healthBar to sync with health change
+    hudLayer takes this signal and updates healthBar to sync with health change
+
+UNFINISHED:
+    make health bar update with enemy health
