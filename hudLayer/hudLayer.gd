@@ -24,14 +24,18 @@ func _process(delta):
 
 func setHealthBarVars(character, _index:int):
 	characters.append(character)
-	var newHealthBar = healthBarScene.instantiate()
+	var newHealthBar
+	if character.healthBarScene:
+		newHealthBar = character.healthBarScene.instantiate()
+	else:
+		newHealthBar = healthBarScene.instantiate()
 	character.health_system.connect("healthUpdate", Callable(newHealthBar, "_on_health_update"))
 	character.health_system.connect("setHealthBarVars", Callable(newHealthBar, "_on_set_health_bar_vars"))
 	add_child(newHealthBar)
 	healthBars.append(newHealthBar)
 	#HACK
 	#sort of
-	#character.health_system._ready()
+	character.health_system._ready()
 
 func deleteHealthBar(character):
 	var i = characters.find(character)

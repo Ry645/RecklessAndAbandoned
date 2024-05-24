@@ -35,6 +35,7 @@ signal died(selfRef)
 
 
 @export var hurtboxScene:PackedScene
+@export var healthBarScene:PackedScene
 #TEST
 @export var targetBody:Node3D
 
