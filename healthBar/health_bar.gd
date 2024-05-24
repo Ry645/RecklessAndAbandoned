@@ -6,7 +6,10 @@ extends ProgressBar
 class_name HealthBar
 
 @onready var healthText = %healthText
+var positionOffset
 
+func _ready():
+	positionOffset = position
 
 func _on_health_update(health):
 	value = health

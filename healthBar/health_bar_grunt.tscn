@@ -1,6 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://emnfrhb3js5m"]
 
-[ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthbar/health_bar.tscn" id="1_7jalk"]
+[ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="1_7jalk"]
 
 [node name="healthBar" instance=ExtResource("1_7jalk")]
-offset_right = 241.0
+offset_left = -120.0
+offset_top = -45.0
+offset_right = 121.0
+offset_bottom = -5.0
+metadata/_edit_group_ = true
