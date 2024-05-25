@@ -5,3 +5,10 @@ lock on
 cursor turns yellow (or whatever color I want)
 camera focuses on locked on enemy
 stores enemy in variable
+
+previous enemy disengages player while recently attacked enemy engages with player (might change to a different system for consistency purposes) (player might accidentally attack an enemy)
+honor system determines player credibility while attacking
+    high honor makes enemies predictable and less likely to interrupt a one-on-one
+    low honor encourages enemies to try and interrupt (since the player did so) (but some enemies are more likely to do so)
+honor lost by attacking enemies in the strafing (non engagement) state
+honor gained by ??? (over time?) (something else?)
