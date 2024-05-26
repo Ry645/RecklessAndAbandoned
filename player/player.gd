@@ -1,3 +1,6 @@
+#TODO
+#make player disappear like in botw so first person looks better
+
 extends CharacterBody3D
 
 class_name Player

@@ -2,12 +2,11 @@ extends Node
 
 class_name LockOnSystem
 
-@onready var main:Node3D
-
 var enemyManager:EnemyManager
 var camera:Camera3D
 var player:Player
 var targetedEnemy
+var lockOnRange:float = 500.0
 
 signal updateCursor(closestEnemy:CharacterBody3D)
 signal disappearCursor
@@ -19,13 +18,17 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #SLOW
-func _process(_delta: float) -> void:
-	if enemyManager.allEnemies.size() > 0:
-		var closestEnemy = enemyManager.allEnemies[0]
-		for enemy in enemyManager.allEnemies:
-			if camera.is_position_behind(enemy.global_position):
-				if (player.global_position - enemy.global_position).length() < (player.global_position - closestEnemy.global_position).length():
-					closestEnemy = enemy
+func _physics_process(_delta: float) -> void:
+	var closestEnemy = null
+	var closestDistance = lockOnRange
+	for enemy in enemyManager.allEnemies:
+		if !camera.is_position_behind(enemy.global_position):
+			if (player.global_position - enemy.global_position).length() < closestDistance:
+				closestEnemy = enemy
+				closestDistance = (player.global_position - enemy.global_position).length()
+		else:
+			pass
+	if closestEnemy != null:
 		emit_signal("updateCursor", closestEnemy)
 		targetedEnemy = closestEnemy
 	else:

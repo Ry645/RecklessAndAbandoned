@@ -16,7 +16,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	for i in range(healthBars.size()):
 		healthBars[i].position = playerCamera.unproject_position(characters[i].health_bar_position.global_position) + healthBars[i].positionOffset
 		if playerCamera.is_position_behind(characters[i].health_bar_position.global_position):
