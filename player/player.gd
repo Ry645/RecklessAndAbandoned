@@ -31,6 +31,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var blocking_transform = %blockingTransform
 @onready var parry_transform = %parryTransform
 @onready var stance_transform = %stanceTransform
+@onready var lock_on_system: LockOnSystem = %lockOnSystem
+
 
 func _unhandled_input(event):
 	# if not tabbed out (ie playing game)
@@ -105,9 +107,13 @@ func inputProcess(): # to be called in physics process
 	
 	if Input.is_action_just_pressed("skill1"):
 		teleportSmash(Vector3(0,position.y,0))
+		#change this to config with lockOn system
 	
 	if Input.is_action_just_pressed("attack"):
 		swingShovel()
+	
+	if Input.is_action_just_pressed("lockOn"):
+		pass
 
 #to be used with camera lock
 func toggleCameraLock():

@@ -7,7 +7,7 @@ class_name Main
 
 #TEST
 @export var allEnemies:Array[CharacterBody3D]
-@export var player:CharacterBody3D
+@export var player:Player
 
 @onready var hud_layer:HudLayer = %hudLayer
 #TEST
@@ -17,6 +17,7 @@ class_name Main
 func _ready():
 	#loops through all enemies
 	hud_layer.playerCamera = player.camera
+	player.lock_on_system.setVarsFromMain(self)
 	
 	for i in range(allEnemies.size()):
 		allEnemies[i].connect("targetFreed", Callable(combat_manager, "lostTarget"))

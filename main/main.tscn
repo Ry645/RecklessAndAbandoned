@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dj28tblre2dfe"]
+[gd_scene load_steps=12 format=3 uid="uid://dj28tblre2dfe"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_hg6xi"]
 [ext_resource type="PackedScene" uid="uid://daiaeolk8hlnj" path="res://player/player.tscn" id="2_hdhtc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://combatManager/combat_manager.gd" id="5_qdibi"]
 [ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="6_wr0w2"]
 [ext_resource type="Script" path="res://hudLayer/hudLayer.gd" id="7_dpvck"]
+[ext_resource type="PackedScene" uid="uid://cjbu1e2d0docn" path="res://lockOnSystem/lockOnCursor.tscn" id="8_m7anq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -66,6 +67,11 @@ offset_top = 535.0
 offset_right = 730.0
 offset_bottom = 575.0
 step = 1.0
+
+[node name="lockOnCursor" parent="hudLayer" instance=ExtResource("8_m7anq")]
+anchors_preset = 0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="healthUpdate" from="Player" to="hudLayer/healthBar" method="_on_health_update"]
 [connection signal="setHealthBarVars" from="Player" to="hudLayer/healthBar" method="_on_set_health_bar_vars"]

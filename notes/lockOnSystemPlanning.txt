@@ -1,4 +1,18 @@
-lockOn preview cursor (like in botw)
+lockOn preview cursor (like in botw) (currently on crosshair as TEST)
+    get all enemies from main
+    get camera from main
+
+    auto target for quick key press
+    manual target for hold key
+    auto target:
+        get nearest enemy to player in view of the camera
+            is behind camera
+            array of all enemies (main has that array)
+            compare magnitude of transforms
+                for enemy in array:
+                    if larger:
+                        temp = enemy
+                        return temp
 
 press key
 lock on

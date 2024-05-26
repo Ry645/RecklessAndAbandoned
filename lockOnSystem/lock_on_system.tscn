@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3n11tg8rrqkk"]
+
+[ext_resource type="Script" path="res://lockOnSystem/lock_on_system.gd" id="1_ly70s"]
+
+[node name="lockOnSystem" type="Node"]
+script = ExtResource("1_ly70s")

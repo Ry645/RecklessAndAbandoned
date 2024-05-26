@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=13 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cmrgi6ajxlu82" path="res://blockingSystem/blockingSystem.tscn" id="5_5thp2"]
 [ext_resource type="Shape3D" uid="uid://cch5we41l6ejk" path="res://player/playerCollision.tres" id="5_njuh6"]
 [ext_resource type="PackedScene" uid="uid://1l5roa5kttpy" path="res://healthSystem/health_system.tscn" id="6_x2e85"]
+[ext_resource type="PackedScene" uid="uid://b3n11tg8rrqkk" path="res://lockOnSystem/lock_on_system.tscn" id="8_u82b1"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_x8clj"]
 size = Vector3(1, 1, 2)
@@ -81,6 +82,9 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 maxHealth = 200.0
 health = 200.0
+
+[node name="lockOnSystem" parent="." instance=ExtResource("8_u82b1")]
+unique_name_in_owner = true
 
 [connection signal="attackParried" from="blockingSystem" to="." method="_on_blocking_system_attack_parried"]
 [connection signal="blockEnded" from="blockingSystem" to="." method="_on_blocking_system_block_ended"]
