@@ -1,6 +1,8 @@
 extends Node
 
-var allEnemies:Array[CharacterBody3D]
+class_name EnemyManager
+
+var allEnemies:Array[Node]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

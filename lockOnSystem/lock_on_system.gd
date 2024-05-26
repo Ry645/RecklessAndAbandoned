@@ -4,7 +4,7 @@ class_name LockOnSystem
 
 @onready var main:Node3D
 
-var allEnemies:Array[CharacterBody3D]
+var enemyManager
 var camera:Camera3D
 var player:Player
 
@@ -18,8 +18,10 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #SLOW
 func _process(_delta: float) -> void:
-	var closestEnemy = allEnemies[0]
-	for enemy in allEnemies:
+	var closestEnemy = enemyManager.allEnemies[0]
+	for enemy in enemyManager.allEnemies:
+		#BUG
+		#need to update original array in enemy manager in order for this to work
 		if camera.is_position_behind(enemy.global_position):
 			if (player.global_position - enemy.global_position).length() < (player.global_position - closestEnemy.global_position).length():
 				closestEnemy = enemy
@@ -28,6 +30,6 @@ func _process(_delta: float) -> void:
 #INFO
 #template for setting vars from now on
 func setVarsFromMain(main:Main):
-	allEnemies = main.allEnemies
+	enemyManager = main.enemy_manager
 	camera = main.player.camera
 	player = main.player

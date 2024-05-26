@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dj28tblre2dfe"]
+[gd_scene load_steps=13 format=3 uid="uid://dj28tblre2dfe"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_hg6xi"]
 [ext_resource type="PackedScene" uid="uid://daiaeolk8hlnj" path="res://player/player.tscn" id="2_hdhtc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="6_wr0w2"]
 [ext_resource type="Script" path="res://hudLayer/hudLayer.gd" id="7_dpvck"]
 [ext_resource type="PackedScene" uid="uid://cjbu1e2d0docn" path="res://lockOnSystem/lockOnCursor.tscn" id="8_m7anq"]
+[ext_resource type="PackedScene" uid="uid://68iflmbfafh8" path="res://enemyManager/enemy_manager.tscn" id="9_78v2d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -21,9 +22,8 @@ background_mode = 2
 sky = SubResource("Sky_c68fs")
 tonemap_mode = 2
 
-[node name="main" type="Node3D" node_paths=PackedStringArray("allEnemies", "player")]
+[node name="main" type="Node3D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_hg6xi")
-allEnemies = [NodePath("grunt"), NodePath("grunt2"), NodePath("grunt3")]
 player = NodePath("Player")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -39,7 +39,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 0)
 [node name="land" parent="." instance=ExtResource("3_pj3ja")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.4391, 0)
 
-[node name="grunt" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
+[node name="grunt" parent="." node_paths=PackedStringArray("targetBody") groups=["enemy"] instance=ExtResource("3_helk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.6878)
 targetBody = NodePath("../Player")
 
@@ -47,11 +47,11 @@ targetBody = NodePath("../Player")
 unique_name_in_owner = true
 script = ExtResource("5_qdibi")
 
-[node name="grunt2" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
+[node name="grunt2" parent="." node_paths=PackedStringArray("targetBody") groups=["enemy"] instance=ExtResource("3_helk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.6304, 2.34375, 0)
 targetBody = NodePath("../Player")
 
-[node name="grunt3" parent="." node_paths=PackedStringArray("targetBody") instance=ExtResource("3_helk4")]
+[node name="grunt3" parent="." node_paths=PackedStringArray("targetBody") groups=["enemy"] instance=ExtResource("3_helk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5424, 1.8979, 0)
 targetBody = NodePath("../Player")
 
@@ -72,6 +72,8 @@ step = 1.0
 unique_name_in_owner = true
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="enemyManager" parent="." instance=ExtResource("9_78v2d")]
 
 [connection signal="healthUpdate" from="Player" to="hudLayer/healthBar" method="_on_health_update"]
 [connection signal="setHealthBarVars" from="Player" to="hudLayer/healthBar" method="_on_set_health_bar_vars"]
