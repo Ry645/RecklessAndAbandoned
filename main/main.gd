@@ -23,13 +23,13 @@ func _ready():
 	player.lock_on_system.connect("updateCursor", Callable(hud_layer, "updateLockOnCursor"))
 	
 	for i in range(allEnemies.size()):
-		allEnemies[i].connect("targetFreed", Callable(combat_manager, "lostTarget"))
-		allEnemies[i].connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
-		allEnemies[i].connect("died", Callable(combat_manager, "enemyForgotTarget"))
+		combat_manager.connectSignalsFromEnemyToSelf(allEnemies[i])
 		allEnemies[i].connect("died", Callable(hud_layer, "deleteHealthBar"))
 		
 		
-		
+		#TODO
+		#HACK
+		#later make this attached to enemy manager in some way
 		hud_layer.setHealthBarVars(allEnemies[i], i)
 	
 
