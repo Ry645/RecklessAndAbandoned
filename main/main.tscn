@@ -69,7 +69,7 @@ offset_bottom = 575.0
 step = 1.0
 
 [node name="lockOnCursor" parent="hudLayer" instance=ExtResource("8_m7anq")]
-anchors_preset = 0
+unique_name_in_owner = true
 grow_horizontal = 1
 grow_vertical = 1
 

@@ -8,6 +8,8 @@ var characters:Array[CharacterBody3D]
 var healthBars:Array[HealthBar]
 var playerCamera:Camera3D
 
+@onready var lock_on_cursor: Control = %lockOnCursor
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -44,6 +46,4 @@ func deleteHealthBar(character):
 	healthBars.remove_at(i)
 
 func updateLockOnCursor(closestEnemy:CharacterBody3D):
-	#START
-	#need to show lock on cursor above enemy
-	pass
+	lock_on_cursor.position = playerCamera.unproject_position(closestEnemy.global_position)
