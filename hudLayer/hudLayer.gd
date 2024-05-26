@@ -46,4 +46,8 @@ func deleteHealthBar(character):
 	healthBars.remove_at(i)
 
 func updateLockOnCursor(closestEnemy:CharacterBody3D):
+	lock_on_cursor.visible = true
 	lock_on_cursor.position = playerCamera.unproject_position(closestEnemy.global_position)
+
+func disappearLockOnCursor():
+	lock_on_cursor.visible = false

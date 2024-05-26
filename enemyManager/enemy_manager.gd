@@ -18,3 +18,7 @@ func addEnemy(enemy:CharacterBody3D):
 
 func removeEnemy(enemy:CharacterBody3D):
 	allEnemies.erase(enemy)
+
+func connectSignalsFromEnemyToSelf(enemy):
+	enemy.connect("died", Callable(self, "removeEnemy"))
+
