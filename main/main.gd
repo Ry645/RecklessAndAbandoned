@@ -17,13 +17,18 @@ class_name Main
 func _ready():
 	#loops through all enemies
 	hud_layer.playerCamera = player.camera
+	
+	#lock on system
 	player.lock_on_system.setVarsFromMain(self)
+	player.lock_on_system.connect("updateCursor", Callable(hud_layer, "updateLockOnCursor"))
 	
 	for i in range(allEnemies.size()):
 		allEnemies[i].connect("targetFreed", Callable(combat_manager, "lostTarget"))
 		allEnemies[i].connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
 		allEnemies[i].connect("died", Callable(combat_manager, "enemyForgotTarget"))
 		allEnemies[i].connect("died", Callable(hud_layer, "deleteHealthBar"))
+		
+		
 		
 		hud_layer.setHealthBarVars(allEnemies[i], i)
 	

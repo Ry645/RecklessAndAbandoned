@@ -42,6 +42,8 @@ func deleteHealthBar(character):
 	characters.remove_at(i)
 	healthBars[i].queue_free()
 	healthBars.remove_at(i)
-	
-	
 
+func updateLockOnCursor(closestEnemy:CharacterBody3D):
+	#START
+	#need to show lock on cursor above enemy
+	pass
