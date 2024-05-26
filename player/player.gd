@@ -22,6 +22,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var hurtboxScene:PackedScene
 
 #  :=  symbol means I KNOW WHAT TYPE THIS VAR IS instead of eh its whatever
+#maybe just use actual type hinting such as h:Node3D or player:Player
 @onready var h := %h
 @onready var v := %v
 @onready var camera:Camera3D = %Camera3D
