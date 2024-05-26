@@ -1,9 +1,9 @@
-#TODO
-#make player disappear like in botw so first person looks better
-
 extends CharacterBody3D
 
 class_name Player
+
+#TODO
+#make player disappear like in botw so first person looks better
 
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
 signal healthUpdate(health)
@@ -35,7 +35,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var blocking_transform = %blockingTransform
 @onready var parry_transform = %parryTransform
 @onready var stance_transform = %stanceTransform
-@onready var lock_on_system: LockOnSystem = %lockOnSystem
+@onready var lock_on_system:LockOnSystem = %lockOnSystem
 
 
 func _unhandled_input(event):
@@ -110,14 +110,14 @@ func inputProcess(): # to be called in physics process
 		blocking_system.endBlock()
 	
 	if Input.is_action_just_pressed("skill1"):
-		teleportSmash(Vector3(0,position.y,0))
+		teleportSmash(lock_on_system.targetedEnemy)
 		#change this to config with lockOn system
 	
 	if Input.is_action_just_pressed("attack"):
 		swingShovel()
 	
 	if Input.is_action_just_pressed("lockOn"):
-		pass
+		lock_on_system.lockOn()
 
 #to be used with camera lock
 func toggleCameraLock():
@@ -149,12 +149,15 @@ func pickItemForInventory():
 	inventory.addToInventory(itemRes)
 
 #FIXME
-func teleportSmash(target:Vector3):
+func teleportSmash(target):
 	if canTeleportSmash:
+		var targetPostition:Vector3
+		if target == null:
+			target = self
 		canTeleportSmash = false
 		print("FUSTO")
 		await get_tree().create_timer(0.75).timeout
-		position = target
+		position = target.position
 		print("RAA")
 		await get_tree().create_timer(1.0).timeout
 		canTeleportSmash = true

@@ -16,9 +16,22 @@ lockOn preview cursor (like in botw) (currently on crosshair as TEST)
 
 press key
 lock on
+    set locked on target for teleport slam to get
+
 cursor turns yellow (or whatever color I want)
-camera focuses on locked on enemy
-stores enemy in variable
+target enemy variable doesn't change
+
+press same key
+lock off
+cursor turns black
+
+hold key
+cursor turns black
+cursor snaps to mouse position
+hover over enemy to target it
+locks on
+
+
 
 previous enemy disengages player while recently attacked enemy engages with player (might change to a different system for consistency purposes) (player might accidentally attack an enemy)
 honor system determines player credibility while attacking
