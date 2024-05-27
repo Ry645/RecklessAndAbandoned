@@ -11,7 +11,7 @@ var positionOffset
 func _ready():
 	positionOffset = position
 
-func _on_health_update(health):
+func _on_health_update(health): #DEPRECATED
 	value = health
 	healthText = %healthText # needed b/c onready order is off
 	healthText.text = str(health)

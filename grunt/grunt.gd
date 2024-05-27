@@ -23,6 +23,8 @@ signal targetNoticed(targetBody, selfRef)
 signal targetFreed(selfRef)
 signal died(selfRef)
 
+signal mouseHoveredOverMe(selfRef)
+
 @onready var attack_interval_timer = %attackIntervalTimer
 @onready var attack_startup_timer = %attackStartupTimer
 @onready var mesh_instance_3d = %MeshInstance3D
@@ -149,3 +151,7 @@ func _on_attack_startup_timer_timeout():
 	hurtbox_location.add_child(hurtbox)
 	#attack_cooldown_timer.start()
 
+
+
+func _on_mouse_entered() -> void:
+	emit_signal("mouseHoveredOverMe", self)

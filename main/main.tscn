@@ -1,13 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dj28tblre2dfe"]
+[gd_scene load_steps=11 format=3 uid="uid://dj28tblre2dfe"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_hg6xi"]
 [ext_resource type="PackedScene" uid="uid://daiaeolk8hlnj" path="res://player/player.tscn" id="2_hdhtc"]
 [ext_resource type="PackedScene" uid="uid://dwroxvcp0kf32" path="res://grunt/grunt.tscn" id="3_helk4"]
 [ext_resource type="PackedScene" uid="uid://cgrftiuecsb7s" path="res://land/land.tscn" id="3_pj3ja"]
 [ext_resource type="Script" path="res://combatManager/combat_manager.gd" id="5_qdibi"]
-[ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="6_wr0w2"]
-[ext_resource type="Script" path="res://hudLayer/hudLayer.gd" id="7_dpvck"]
-[ext_resource type="PackedScene" uid="uid://cjbu1e2d0docn" path="res://lockOnSystem/lockOnCursor.tscn" id="8_m7anq"]
+[ext_resource type="PackedScene" uid="uid://cbm5dr8xvcwvi" path="res://hudLayer/hud_layer.tscn" id="6_u7a7d"]
 [ext_resource type="PackedScene" uid="uid://68iflmbfafh8" path="res://enemyManager/enemy_manager.tscn" id="9_78v2d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3yj2r"]
@@ -55,25 +53,7 @@ targetBody = NodePath("../Player")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5424, 1.8979, 0)
 targetBody = NodePath("../Player")
 
-[node name="hudLayer" type="CanvasLayer" parent="."]
+[node name="hudLayer" parent="." instance=ExtResource("6_u7a7d")]
 unique_name_in_owner = true
-script = ExtResource("7_dpvck")
-healthBarScene = ExtResource("6_wr0w2")
-
-[node name="healthBar" parent="hudLayer" instance=ExtResource("6_wr0w2")]
-z_index = 1
-offset_left = 399.0
-offset_top = 535.0
-offset_right = 730.0
-offset_bottom = 575.0
-step = 1.0
-
-[node name="lockOnCursor" parent="hudLayer" instance=ExtResource("8_m7anq")]
-unique_name_in_owner = true
-grow_horizontal = 1
-grow_vertical = 1
 
 [node name="enemyManager" parent="." instance=ExtResource("9_78v2d")]
-
-[connection signal="healthUpdate" from="Player" to="hudLayer/healthBar" method="_on_health_update"]
-[connection signal="setHealthBarVars" from="Player" to="hudLayer/healthBar" method="_on_set_health_bar_vars"]

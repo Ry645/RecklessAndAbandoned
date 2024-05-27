@@ -8,15 +8,17 @@ var player:Player
 var targetedEnemy
 var lockOnRange:float = 500.0
 
-var isLockedOn:bool
+var currentLockState:int = LockOnState.DEFAULT
 var lockOnTarget
+var targetingFromThisTarget
 
 signal updateCursor(closestEnemy:CharacterBody3D)
 signal disappearCursor
 signal setCursorState(cursorState:int)
 
-enum CursorState {
+enum LockOnState {
 	DEFAULT,
+	READY,
 	LOCKED
 }
 
@@ -29,7 +31,7 @@ func _ready() -> void:
 #SLOW
 func _physics_process(_delta: float) -> void:
 	targetingProcess()
-	updateCursorPosition()
+	updateCursorPositionFromAutoLock()
 
 #INFO
 #template for setting vars from now on
@@ -42,11 +44,20 @@ func setVarsFromMain(main:Main):
 #add manual lock on later
 #like a cursor hovering over screen
 func lockOn():
-	isLockedOn = true
-	emit_signal("setCursorState", CursorState.LOCKED)
+	setAndNotifyLockOnState(LockOnState.LOCKED)
+
+func readyLockOn():
+	targetingFromThisTarget = targetedEnemy
+	setAndNotifyLockOnState(LockOnState.READY)
+
+func tryLockOn():
+	if targetingFromThisTarget == targetedEnemy:
+		setAndNotifyLockOnState(LockOnState.DEFAULT)
+	else:
+		setAndNotifyLockOnState(LockOnState.LOCKED)
 
 func targetingProcess():
-	if isLockedOn:
+	if currentLockState != LockOnState.DEFAULT:
 		return
 	
 	var closestEnemy = null
@@ -59,8 +70,17 @@ func targetingProcess():
 	
 	targetedEnemy = closestEnemy
 
-func updateCursorPosition():
+func updateCursorPositionFromAutoLock():
 	if targetedEnemy != null && !camera.is_position_behind(targetedEnemy.global_position):
-		emit_signal("updateCursor", targetedEnemy)
+		if currentLockState != LockOnState.READY:
+			emit_signal("updateCursor", targetedEnemy)
 	else:
 		emit_signal("disappearCursor")
+
+func setHoveredTarget(enemy):
+	if currentLockState == LockOnState.READY:
+		targetedEnemy = enemy
+
+func setAndNotifyLockOnState(state:int):
+	currentLockState = state
+	emit_signal("setCursorState", state)

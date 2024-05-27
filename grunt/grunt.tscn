@@ -63,6 +63,7 @@ mesh = SubResource("SphereMesh_c10pf")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]
 [connection signal="die" from="healthSystem" to="." method="die"]

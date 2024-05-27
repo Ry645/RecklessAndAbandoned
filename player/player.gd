@@ -30,7 +30,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var inventory = %inventory
 @onready var mesh = %mesh
 @onready var blocking_system = %blockingSystem
-@onready var health_system = %healthSystem
+@onready var health_system:HealthSystem = %healthSystem
 @onready var sword:Node3D = %sword
 @onready var blocking_transform = %blockingTransform
 @onready var parry_transform = %parryTransform
@@ -117,7 +117,10 @@ func inputProcess(): # to be called in physics process
 		swingShovel()
 	
 	if Input.is_action_just_pressed("lockOn"):
-		lock_on_system.lockOn()
+		lock_on_system.readyLockOn()
+	
+	if Input.is_action_just_released("lockOn"):
+		lock_on_system.tryLockOn()
 
 #to be used with camera lock
 func toggleCameraLock():
@@ -151,7 +154,6 @@ func pickItemForInventory():
 #FIXME
 func teleportSmash(target):
 	if canTeleportSmash:
-		var targetPostition:Vector3
 		if target == null:
 			target = self
 		canTeleportSmash = false

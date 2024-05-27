@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjbu1e2d0docn"]
+[gd_scene load_steps=5 format=3 uid="uid://cjbu1e2d0docn"]
 
 [ext_resource type="Script" path="res://lockOnSystem/lockOnCursor.gd" id="1_exqx6"]
 [ext_resource type="Texture2D" uid="uid://bmssehd11p2rv" path="res://player/crosshair.png" id="1_k2ax1"]
+[ext_resource type="Texture2D" uid="uid://dx5mvbanskl3y" path="res://player/whiteCrosshair.png" id="3_iolgb"]
 [ext_resource type="Texture2D" uid="uid://cnp006djaex5p" path="res://player/goldenCrosshair.png" id="3_tumk2"]
 
 [node name="lockOnCursor" type="Control"]
@@ -9,8 +10,9 @@ layout_mode = 3
 anchors_preset = 0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_exqx6")
-cursorStates = Array[Texture]([ExtResource("1_k2ax1"), ExtResource("3_tumk2")])
+cursorStates = Array[Texture]([ExtResource("1_k2ax1"), ExtResource("3_iolgb"), ExtResource("3_tumk2")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
 unique_name_in_owner = true
