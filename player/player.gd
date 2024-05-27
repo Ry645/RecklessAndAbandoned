@@ -116,6 +116,9 @@ func inputProcess(): # to be called in physics process
 	if Input.is_action_just_pressed("attack"):
 		swingShovel()
 	
+	#START
+	#make there be two cursors ################DONE
+	#and also tap lock on when not locked on to accept lock from auto target
 	if Input.is_action_just_pressed("lockOn"):
 		lock_on_system.readyLockOn()
 	

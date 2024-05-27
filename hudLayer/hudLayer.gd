@@ -11,12 +11,7 @@ var currentCursorState:int = 0
 
 @onready var lock_on_cursor: Control = %lockOnCursor
 @onready var health_bar: HealthBar = %healthBar
-
-
-enum CursorState {
-	DEFAULT,
-	LOCKED
-}
+@onready var preview_lock_cursor: Control = %previewLockCursor
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -78,3 +73,10 @@ func setCursorState(state:int):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func updatePreviewLockCursor(enemy):
+	if enemy != null:
+		preview_lock_cursor.visible = true
+		preview_lock_cursor.position = playerCamera.unproject_position(enemy.global_position)
+	else:
+		preview_lock_cursor.visible = false

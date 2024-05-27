@@ -27,6 +27,7 @@ func _ready():
 	player.lock_on_system.connect("disappearCursor", Callable(hud_layer, "disappearLockOnCursor"))
 	player.lock_on_system.connect("setCursorState", Callable(hud_layer.lock_on_cursor, "setCursorState"))
 	player.lock_on_system.connect("setCursorState", Callable(hud_layer, "setCursorState"))
+	player.lock_on_system.connect("updatePreviewCursorPosition", Callable(hud_layer, "updatePreviewLockCursor"))
 	
 	player.health_system.connect("healthUpdate", Callable(hud_layer.health_bar, "_on_health_update"))
 	player.health_system.connect("setHealthBarVars", Callable(hud_layer.health_bar, "_on_set_health_bar_vars"))

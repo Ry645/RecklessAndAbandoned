@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbm5dr8xvcwvi"]
+[gd_scene load_steps=5 format=3 uid="uid://cbm5dr8xvcwvi"]
 
 [ext_resource type="Script" path="res://hudLayer/hudLayer.gd" id="1_rvfe4"]
 [ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="2_lkqww"]
 [ext_resource type="PackedScene" uid="uid://cjbu1e2d0docn" path="res://lockOnSystem/lockOnCursor.tscn" id="3_ucvnw"]
+[ext_resource type="Texture2D" uid="uid://cnp006djaex5p" path="res://player/goldenCrosshair.png" id="4_48awm"]
 
 [node name="hudLayer" type="CanvasLayer"]
 script = ExtResource("1_rvfe4")
@@ -21,3 +22,13 @@ step = 1.0
 unique_name_in_owner = true
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="previewLockCursor" parent="." instance=ExtResource("3_ucvnw")]
+unique_name_in_owner = true
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="TextureRect" parent="previewLockCursor" index="0"]
+texture = ExtResource("4_48awm")
+
+[editable path="previewLockCursor"]

@@ -15,6 +15,7 @@ var targetingFromThisTarget
 signal updateCursor(closestEnemy:CharacterBody3D)
 signal disappearCursor
 signal setCursorState(cursorState:int)
+signal updatePreviewCursorPosition(enemy)
 
 enum LockOnState {
 	DEFAULT,
@@ -74,6 +75,9 @@ func updateCursorPositionFromAutoLock():
 	if targetedEnemy != null && !camera.is_position_behind(targetedEnemy.global_position):
 		if currentLockState != LockOnState.READY:
 			emit_signal("updateCursor", targetedEnemy)
+			emit_signal("updatePreviewCursorPosition", null)
+		else:
+			emit_signal("updatePreviewCursorPosition", targetedEnemy)
 	else:
 		emit_signal("disappearCursor")
 
