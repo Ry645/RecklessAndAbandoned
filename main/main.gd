@@ -23,11 +23,7 @@ func _ready():
 	
 	#lock on system
 	player.lock_on_system.setVarsFromMain(self)
-	player.lock_on_system.connect("updateCursor", Callable(hud_layer, "updateLockOnCursorFromAutoTarget"))
-	player.lock_on_system.connect("disappearCursor", Callable(hud_layer, "disappearLockOnCursor"))
-	player.lock_on_system.connect("setCursorState", Callable(hud_layer.lock_on_cursor, "setCursorState"))
-	player.lock_on_system.connect("setCursorState", Callable(hud_layer, "setCursorState"))
-	player.lock_on_system.connect("updatePreviewCursorPosition", Callable(hud_layer, "updatePreviewLockCursor"))
+	lockOnSystemConnectSignals()
 	
 	player.health_system.connect("healthUpdate", Callable(hud_layer.health_bar, "_on_health_update"))
 	player.health_system.connect("setHealthBarVars", Callable(hud_layer.health_bar, "_on_set_health_bar_vars"))
@@ -41,7 +37,7 @@ func _ready():
 		
 		enemy_manager.allEnemies[i].connect("mouseHoveredOverMe", Callable(player.lock_on_system, "setHoveredTarget"))
 		
-		enemy_manager.connectSignalsFromEnemyToSelf(enemy_manager.allEnemies[i])
+		enemyManagerConnectSignals(enemy_manager.allEnemies[i])
 		
 		#TODO
 		#HACK
@@ -51,3 +47,13 @@ func _ready():
 
 func getEnemies():
 	return get_tree().get_nodes_in_group("enemy")
+
+func enemyManagerConnectSignals(enemy):
+	enemy.connect("died", Callable(enemy_manager, "removeEnemy"))
+
+func lockOnSystemConnectSignals():
+	player.lock_on_system.connect("updateCursor", Callable(hud_layer, "updateLockOnCursorFromAutoTarget"))
+	player.lock_on_system.connect("disappearCursor", Callable(hud_layer, "disappearLockOnCursor"))
+	player.lock_on_system.connect("setCursorState", Callable(hud_layer.lock_on_cursor, "setCursorState"))
+	player.lock_on_system.connect("setCursorState", Callable(hud_layer, "setCursorState"))
+	player.lock_on_system.connect("updatePreviewCursorPosition", Callable(hud_layer, "updatePreviewLockCursor"))

@@ -88,3 +88,4 @@ func setHoveredTarget(enemy):
 func setAndNotifyLockOnState(state:int):
 	currentLockState = state
 	emit_signal("setCursorState", state)
+
