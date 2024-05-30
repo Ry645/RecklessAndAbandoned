@@ -6,7 +6,11 @@ var enemyManager:EnemyManager
 var camera:Camera3D
 var player:Player
 var targetedEnemy
+var lockedEnemy
 var lockOnRange:float = 500.0
+
+var timeSinceReadyLockOn:float = 0
+var tapLockThreshold:float = 0.1
 
 var currentLockState:int = LockOnState.DEFAULT
 var lockOnTarget
@@ -30,9 +34,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #SLOW
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	targetingProcess()
 	updateCursorPositionFromAutoLock()
+	timeSinceReadyLockOn += delta
 
 #INFO
 #template for setting vars from now on
@@ -48,11 +53,12 @@ func lockOn():
 	setAndNotifyLockOnState(LockOnState.LOCKED)
 
 func readyLockOn():
-	targetingFromThisTarget = targetedEnemy
+	timeSinceReadyLockOn = 0
+	targetingFromThisTarget = lockedEnemy
 	setAndNotifyLockOnState(LockOnState.READY)
 
 func tryLockOn():
-	if targetingFromThisTarget == targetedEnemy:
+	if targetingFromThisTarget != null && targetingFromThisTarget == targetedEnemy && timeSinceReadyLockOn < tapLockThreshold:
 		setAndNotifyLockOnState(LockOnState.DEFAULT)
 	else:
 		setAndNotifyLockOnState(LockOnState.LOCKED)
@@ -87,5 +93,10 @@ func setHoveredTarget(enemy):
 
 func setAndNotifyLockOnState(state:int):
 	currentLockState = state
+	match state:
+		LockOnState.LOCKED:
+			lockedEnemy = targetedEnemy
+		LockOnState.DEFAULT:
+			lockedEnemy = null
 	emit_signal("setCursorState", state)
 

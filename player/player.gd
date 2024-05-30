@@ -140,15 +140,6 @@ func turnPlayerTowardsMovement(direction:Vector3, delta):
 	else:
 		pass
 
-#func dash():
-	#if canDash:
-		#canDash = false
-		#SPEED = SPEED*DASH_FACTOR
-		#await get_tree().create_timer(0.5).timeout
-		#SPEED = SPEED/DASH_FACTOR
-		#await get_tree().create_timer(0.5).timeout
-		#canDash = true
-
 func pickItemForInventory():
 	var itemRes = pickup_ray.pickup()
 	inventory.addToInventory(itemRes)
