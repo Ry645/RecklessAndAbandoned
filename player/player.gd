@@ -110,7 +110,7 @@ func inputProcess(): # to be called in physics process
 		blocking_system.endBlock()
 	
 	if Input.is_action_just_pressed("skill1"):
-		teleportSmash(lock_on_system.targetedEnemy)
+		teleportSmash(lock_on_system.lockedEnemy)
 		#change this to config with lockOn system
 	
 	if Input.is_action_just_pressed("attack"):

@@ -18,10 +18,11 @@ blocking
 	player can sheathe weapon to block with hands
 	ATTACKING AND SKILLS HAVE NO EFFECT (includes healing and buffs)
 	same parry effects, but...
-	hand blocking negates ALL damage
+	gauntlet blocking negates ALL damage (well it negates all damage anyways so that doesn't matter)
 	sword blocking only halves damage
 	
 	blockbreakers can only break regular sword blocks
+    parries can pretty much block anything
 	
 	tutorial starts with no weapon so the player can learn
 
@@ -39,24 +40,31 @@ Development Process:
                 behavior tree
             hurtboxes
                 area3d
-                maybe add in damage type resource
+                add in damage type resource
             make models and anmimations in blender
             sync up blender anmimations with script
             make sure everything is in its own component for resusablity
             
-        no sword
+        no weapon
             block with reklite branded gauntlets
-            gauntlets block 100% of damage and negates blockbreakers
+            gauntlets block 100% of damage all the time, no matter the block state
             best for practice
+            use when lost a full health bar
+                meant for players to first freak out from a cracked boss fight then get a chance to practice and parry moves
+            requires parrying to restore healthbar
+            pretty much like any other weapon except it has NO DAMAGE
+            can only use once: when health bar is first depleted
+    
     try to study rhythm games for accurate inputs
     progression system
         make it like Terraria
-        disarm enemies for rare swords for crafting new gear
+        disarm enemies for rare weapons for crafting new gear
         enemies show accessories
     
     10 levels
     journal to keep info when go back in 3 years
     stone islands in sky
     fights eventually devolve into unapolegetic airplane mode
+        parry fall damage
     gain skills
-    get better swords
+    get better weapons
