@@ -31,7 +31,7 @@ func _ready():
 	player.health_system._ready()
 	
 	for i in range(enemy_manager.allEnemies.size()):
-		combat_manager.connectSignalsFromEnemyToSelf(enemy_manager.allEnemies[i])
+		combatManagerConnectSignals(enemy_manager.allEnemies[i])
 		enemy_manager.allEnemies[i].connect("died", Callable(hud_layer, "deleteHealthBar"))
 		
 		
@@ -48,12 +48,17 @@ func _ready():
 func getEnemies():
 	return get_tree().get_nodes_in_group("enemy")
 
-func enemyManagerConnectSignals(enemy):
-	enemy.connect("died", Callable(enemy_manager, "removeEnemy"))
-
 func lockOnSystemConnectSignals():
 	player.lock_on_system.connect("updateCursor", Callable(hud_layer, "updateLockOnCursorFromAutoTarget"))
 	player.lock_on_system.connect("disappearCursor", Callable(hud_layer, "disappearLockOnCursor"))
 	player.lock_on_system.connect("setCursorState", Callable(hud_layer.lock_on_cursor, "setCursorState"))
 	player.lock_on_system.connect("setCursorState", Callable(hud_layer, "setCursorState"))
 	player.lock_on_system.connect("updatePreviewCursorPosition", Callable(hud_layer, "updatePreviewLockCursor"))
+
+func enemyManagerConnectSignals(enemy):
+	enemy.connect("died", Callable(enemy_manager, "removeEnemy"))
+
+func combatManagerConnectSignals(enemy):
+	enemy.connect("targetFreed", Callable(combat_manager, "lostTarget"))
+	enemy.connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
+	enemy.connect("died", Callable(combat_manager, "enemyForgotTarget"))

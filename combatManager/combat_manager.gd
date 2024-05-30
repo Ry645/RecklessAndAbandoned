@@ -29,8 +29,3 @@ func enemyNoticedTarget(targetBody1, selfRef):
 	if engagedEnemy == null:
 		gainTarget()
 	
-
-func connectSignalsFromEnemyToSelf(enemy):
-	enemy.connect("targetFreed", Callable(self, "lostTarget"))
-	enemy.connect("targetNoticed", Callable(self, "enemyNoticedTarget"))
-	enemy.connect("died", Callable(self, "enemyForgotTarget"))
