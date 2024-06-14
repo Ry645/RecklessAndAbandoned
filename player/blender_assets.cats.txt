@@ -8,7 +8,9 @@ VERSION 1
 
 0cfb9156-8cf9-4f76-a4a9-22650477ee89:Poses:Poses
 53ce0ca5-4a35-4a88-b509-d4ab623e0f76:Poses/arms:Poses-arms
-895a3e23-e149-4ef2-87fd-b7928e2b33d0:Poses/hands:Poses-hands
 855f53ff-8929-4f6a-83ce-a9d2fab74abd:Poses/head:Poses-head
 53fd83dd-638a-4284-80a5-05e4172451b5:Poses/legs:Poses-legs
+8b2d31ec-f5f7-468c-96c1-6d802afcb353:Poses/spine:Poses-spine
+f2495af6-e827-445b-abe1-5d8f64982af1:Poses/torso:Poses-torso
+22a81ddc-ca69-4c98-9193-56bbcda00d88:Poses/walkWorkflow:Poses-walkWorkflow
 d8ea2ea6-7648-4b53-a443-7480b7b0e451:Poses/wholeBody:Poses-wholeBody
