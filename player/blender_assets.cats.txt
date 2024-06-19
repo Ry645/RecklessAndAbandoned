@@ -6,6 +6,9 @@
 
 VERSION 1
 
+5bd0552b-f617-475c-bb5b-694db4d7b43e:Animations:Animations
+56e1205e-0286-4bae-a46d-92ac8634b28c:Animations/block:Animations-block
+ee8cb606-020e-419e-9710-1b2ad337db56:Animations/walk:Animations-walk
 0cfb9156-8cf9-4f76-a4a9-22650477ee89:Poses:Poses
 53ce0ca5-4a35-4a88-b509-d4ab623e0f76:Poses/arms:Poses-arms
 855f53ff-8929-4f6a-83ce-a9d2fab74abd:Poses/head:Poses-head
