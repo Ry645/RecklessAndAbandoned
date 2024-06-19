@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=13 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
@@ -8,7 +8,6 @@
 [ext_resource type="Shape3D" uid="uid://cch5we41l6ejk" path="res://player/playerCollision.tres" id="5_njuh6"]
 [ext_resource type="PackedScene" uid="uid://1l5roa5kttpy" path="res://healthSystem/health_system.tscn" id="6_x2e85"]
 [ext_resource type="PackedScene" uid="uid://b3n11tg8rrqkk" path="res://lockOnSystem/lock_on_system.tscn" id="8_u82b1"]
-[ext_resource type="PackedScene" uid="uid://bgyn4e4solygs" path="res://player/playerCharacterModel.blend" id="9_lj04v"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_x8clj"]
 size = Vector3(1, 1, 2)
@@ -25,19 +24,14 @@ bottom_radius = 0.1
 script = ExtResource("1_gw48f")
 hurtboxScene = ExtResource("2_nfmsb")
 
-[node name="playerCharacterModel" parent="." instance=ExtResource("9_lj04v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-
 [node name="mesh" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 1.50996e-07, -6.60024e-15, 0, -4.37114e-08, -1, -1.50996e-07, -1, 4.37114e-08, 0, 0, 0)
-visible = false
 mesh = SubResource("PrismMesh_x8clj")
 
 [node name="sword" type="MeshInstance3D" parent="mesh"]
 unique_name_in_owner = true
 transform = Transform3D(-7.5904e-09, -4.30473e-08, 1, -0.984808, 0.173648, 0, -0.173648, -0.984807, -4.37114e-08, 0, 0.9, -0.5)
-visible = false
 mesh = SubResource("CylinderMesh_fhr7g")
 
 [node name="blockingTransform" type="Node3D" parent="mesh"]
