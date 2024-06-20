@@ -5,6 +5,8 @@ class_name Player
 #TODO
 #make player disappear like in botw so first person looks better
 
+var animationsToPlay:Array[StringName]
+
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
 signal healthUpdate(health)
 
@@ -29,6 +31,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var pickup_ray = %pickupRay
 @onready var inventory = %inventory
 @onready var mesh = %mesh
+@onready var meshAnimationPlayer:AnimationPlayer = %mesh.get_node("AnimationPlayer")
 @onready var blocking_system = %blockingSystem
 @onready var health_system:HealthSystem = %healthSystem
 @onready var sword:Node3D = %sword
@@ -36,7 +39,6 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var parry_transform = %parryTransform
 @onready var stance_transform = %stanceTransform
 @onready var lock_on_system:LockOnSystem = %lockOnSystem
-
 
 func _unhandled_input(event):
 	# if not tabbed out (ie playing game)
@@ -82,19 +84,33 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		
+		animationsToPlay.append("walkAnimation")
 		turnPlayerTowardsMovement(direction, delta)
+	
 	else:
 		#used to stop player
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
+		
+		animationsToPlay.append("stopWalk")
 	
 	inputProcess()
 	
 	move_and_slide()
+	
+	updateAnimations()
 
 
 
-
+func updateAnimations():
+	for i in range(animationsToPlay.size()):
+		if animationsToPlay[i] == "stopWalk":
+			meshAnimationPlayer.play("Armature")
+			break
+		
+		meshAnimationPlayer.play(animationsToPlay[i])
+	
+	animationsToPlay.clear()
 
 func inputProcess(): # to be called in physics process
 	if Input.is_action_just_pressed("pickup"):
