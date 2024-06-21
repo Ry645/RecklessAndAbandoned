@@ -7,6 +7,8 @@ class_name Main
 
 
 @export var player:Player
+@export var devSettingsEnabled:bool = false
+@export var enemyClass:PackedScene
 
 @onready var hud_layer:HudLayer = %hudLayer
 #TEST
@@ -44,6 +46,14 @@ func _ready():
 		#later make this attached to enemy manager in some way
 		hud_layer.setHealthBarVars(enemy_manager.allEnemies[i], i)
 	
+
+func _process(delta):
+	if devSettingsEnabled:
+		if Input.is_action_just_pressed("spawnEnemy"):
+			var node = enemyClass.instantiate() as Grunt
+			add_child(node)
+			node.global_position = player.global_position
+			node.targetBody = player
 
 func getEnemies():
 	return get_tree().get_nodes_in_group("enemy")

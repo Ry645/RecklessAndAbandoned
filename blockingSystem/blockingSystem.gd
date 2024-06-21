@@ -3,7 +3,7 @@
 
 extends Node
 
-class_name ParrySystem
+class_name BlockingSystem
 
 signal damageHealth(damage)
 signal attackParried
@@ -15,44 +15,35 @@ signal parryWindowEnded
 var elapsedBlockTime:float = 0.0
 
 var isBlocking:bool = false
-var canStartBlock:bool = true
 
 var parryWindow:float = 0.25
-var parryCooldown:float = 0.5 #only on fail
 var recentlyParried:bool = false
 var canParry:bool = false
-var isCoyoteParrying:bool = false
 
 @export var willEverBlock:bool = true
 @export var blockDamageReduction:float = 0.5
 
+@onready var timer:Timer = %Timer
+
 func startBlock():
-	if canStartBlock:
-		emit_signal("blockStarted")
-		elapsedBlockTime = 0.0
-		canParry = true # you can parry
-		recentlyParried = false # no you just started a block
-		isBlocking = true # yes you are blocking
-		canStartBlock = false # no you can't block while blocking you already are
+	emit_signal("blockStarted")
+	timer.stop()
+	elapsedBlockTime = 0.0
+	canParry = true # you can parry
+	recentlyParried = false # no you just started a block
+	isBlocking = true # yes you are blocking
 
 func endBlock():
-	if isCoyoteParrying: # wait for the endBlock to finish man
+	if elapsedBlockTime < parryWindow: # if tapped the parry button
+		timer.start(parryWindow-elapsedBlockTime)
 		return
 	
-	if elapsedBlockTime < parryWindow: # if tapped the parry button
-		#print("hey")
-		isCoyoteParrying = true
-		await get_tree().create_timer(parryWindow-elapsedBlockTime).timeout
-		#print("listen")
-	isCoyoteParrying = false
+	blockTimeOut()
+
+func blockTimeOut():
 	isBlocking = false
 	elapsedBlockTime = 0.0
 	emit_signal("blockEnded")
-	if recentlyParried: # skip parry cooldown
-		canStartBlock = true
-	else: # wait it out
-		await get_tree().create_timer(0.5).timeout
-		canStartBlock = true
 
 func takeDamage(damage):
 	if isBlocking:
@@ -61,12 +52,15 @@ func takeDamage(damage):
 			emit_signal("attackParried")
 			canParry = false
 			recentlyParried = true
+			#if elapsedBlockTime < parryWindow: #cancel block when attack hits you so you can block again
+				#blockTimeOut()
 		else:
 			print("blocked")
 			emit_signal("attackBlocked")
 			emit_signal("damageHealth", damage * blockDamageReduction)
 			recentlyParried = false
 	else:
+		print("ow")
 		recentlyParried = false
 		emit_signal("damageHealth", damage)
 

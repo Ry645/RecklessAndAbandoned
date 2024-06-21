@@ -23,6 +23,8 @@ tonemap_mode = 2
 [node name="main" type="Node3D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_hg6xi")
 player = NodePath("Player")
+devSettingsEnabled = true
+enemyClass = ExtResource("3_helk4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -41,6 +43,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.4391, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.6878)
 targetBody = NodePath("../Player")
 
+[node name="attackIntervalTimer" parent="grunt" index="1"]
+wait_time = 0.001
+
+[node name="attackStartupTimer" parent="grunt" index="2"]
+wait_time = 0.2
+
+[node name="healthSystem" parent="grunt" index="6"]
+hasGodMode = true
+
 [node name="combatManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("5_qdibi")
@@ -57,3 +68,9 @@ targetBody = NodePath("../Player")
 unique_name_in_owner = true
 
 [node name="enemyManager" parent="." instance=ExtResource("9_78v2d")]
+
+[connection signal="die" from="grunt/healthSystem" to="grunt" method="die"]
+
+[editable path="Player"]
+[editable path="Player/mesh"]
+[editable path="grunt"]
