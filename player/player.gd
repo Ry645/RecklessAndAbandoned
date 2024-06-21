@@ -5,7 +5,15 @@ class_name Player
 #TODO
 #make player disappear like in botw so first person looks better
 
-var animationsToPlay:Array[StringName]
+var animationConditions:Array[StringName]
+
+var animationDict = AnimationDictionaries.player
+var parryAnimationDict = {
+	"raiseQuickBlock" = "parameters/ArmState/conditions/firstParry",
+	"parry1" = "parameters/ArmState/conditions/secondParry",
+	"parry2" = "parameters/ArmState/conditions/swtichParry1",
+	"parry3" = "parameters/ArmState/conditions/swtichParry2"
+}
 
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
 signal healthUpdate(health)
@@ -31,8 +39,9 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var pickup_ray = %pickupRay
 @onready var inventory = %inventory
 @onready var mesh = %mesh
-@onready var meshAnimationPlayer:AnimationPlayer = %mesh.get_node("AnimationPlayer")
-@onready var blocking_system = %blockingSystem
+@onready var animationPlayer:AnimationPlayer = %mesh.get_node("AnimationPlayer")
+@onready var animationTree:AnimationTree = %AnimationTree
+@onready var blocking_system:BlockingSystem = %blockingSystem
 @onready var health_system:HealthSystem = %healthSystem
 @onready var sword:Node3D = %sword
 @onready var blocking_transform = %blockingTransform
@@ -84,7 +93,7 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		
-		animationsToPlay.append("walkAnimation")
+		animationConditions.append("parameters/legState/conditions/walk")
 		turnPlayerTowardsMovement(direction, delta)
 	
 	else:
@@ -92,7 +101,7 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		
-		animationsToPlay.append("stopWalk")
+		animationConditions.append("parameters/legState/conditions/idle")
 	
 	inputProcess()
 	
@@ -103,14 +112,16 @@ func _physics_process(delta):
 
 
 func updateAnimations():
-	for i in range(animationsToPlay.size()):
-		if animationsToPlay[i] == "stopWalk":
-			meshAnimationPlayer.play("Armature")
-			break
+	for condition in animationConditions:
+		match condition:
+			"parry":
+				condition = parryAnimationDict[animationTree["parameters/ArmState/playback"].get_current_node()]
 		
-		meshAnimationPlayer.play(animationsToPlay[i])
+		for conditionStruct in animationDict[condition]:
+			animationTree[conditionStruct[0]] = conditionStruct[1]
+		
 	
-	animationsToPlay.clear()
+	animationConditions.clear()
 
 func inputProcess(): # to be called in physics process
 	if Input.is_action_just_pressed("pickup"):
@@ -185,19 +196,19 @@ func takeDamage(damage):
 	blocking_system.takeDamage(damage)
 
 func _on_blocking_system_attack_parried():
-	sword.transform = blocking_transform.transform
+	animationConditions.append("parry")
 
 
 func _on_blocking_system_block_started():
-	sword.transform = parry_transform.transform
+	animationConditions.append("parameters/ArmState/conditions/block")
 
 
 func _on_blocking_system_block_ended():
-	sword.transform = stance_transform.transform
+	animationConditions.append("parameters/ArmState/conditions/lowerBlock")
 
 
 func _on_blocking_system_parry_window_ended():
-	sword.transform = blocking_transform.transform
+	pass
 
 #TEST
 func _on_grunt_damage_player(damage):
