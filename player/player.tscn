@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=45 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
@@ -1923,9 +1923,6 @@ nodes/walkBlend/node = SubResource("AnimationNodeBlend2_ibfe6")
 nodes/walkBlend/position = Vector2(200, 160)
 node_connections = [&"output", 0, &"walkBlend", &"walkBlend", 0, &"ArmState", &"walkBlend", 1, &"legState"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_x8clj"]
-size = Vector3(1, 1, 2)
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_fhr7g"]
 top_radius = 0.1
 bottom_radius = 0.1
@@ -2020,29 +2017,12 @@ bones/50/position = Vector3(0.274473, 0.790642, 0.0176065)
 bones/50/rotation = Quaternion(0.00119016, -9.9629e-07, 0.999999, 2.51672e-06)
 bones/50/scale = Vector3(1, 1, 1)
 
-[node name="mesh_001" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 1.50996e-07, -6.60024e-15, 0, -4.37114e-08, -1, -1.50996e-07, -1, 4.37114e-08, 0, 0, 0)
+[node name="sword" type="MeshInstance3D" parent="mesh"]
+unique_name_in_owner = true
+transform = Transform3D(2.27206e-07, -8.44483e-08, 1, 0.173648, 0.984807, 4.37114e-08, -0.984808, 0.173648, 2.38419e-07, -2.14577e-07, 1.5, 0.9)
 visible = false
-mesh = SubResource("PrismMesh_x8clj")
-
-[node name="sword" type="MeshInstance3D" parent="mesh_001"]
-unique_name_in_owner = true
-transform = Transform3D(-7.5904e-09, -4.30473e-08, 1, -0.984808, 0.173648, 0, -0.173648, -0.984807, -4.37114e-08, 0, 0.9, -0.5)
 mesh = SubResource("CylinderMesh_fhr7g")
-
-[node name="blockingTransform" type="Node3D" parent="mesh_001"]
-unique_name_in_owner = true
-transform = Transform3D(-3.09086e-08, 0.707107, 0.707107, -1, -4.37114e-08, -1.77636e-15, 3.09086e-08, -0.707107, 0.707107, 0.2, 0.7, -0.5)
-rotation_edit_mode = 2
-
-[node name="parryTransform" type="Node3D" parent="mesh_001"]
-unique_name_in_owner = true
-transform = Transform3D(3.09086e-08, -0.707107, 0.707107, -1, -4.37114e-08, 0, 3.09086e-08, -0.707107, -0.707107, -0.2, 0.7, -0.5)
-rotation_edit_mode = 2
-
-[node name="stanceTransform" type="Node3D" parent="mesh_001"]
-unique_name_in_owner = true
-transform = Transform3D(-7.5904e-09, -4.30473e-08, 1, -0.984808, 0.173648, 2.00713e-15, -0.173648, -0.984808, -4.37114e-08, 0, 0.9, -0.5)
+skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 visible = false

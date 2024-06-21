@@ -44,9 +44,6 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var blocking_system:BlockingSystem = %blockingSystem
 @onready var health_system:HealthSystem = %healthSystem
 @onready var sword:Node3D = %sword
-@onready var blocking_transform = %blockingTransform
-@onready var parry_transform = %parryTransform
-@onready var stance_transform = %stanceTransform
 @onready var lock_on_system:LockOnSystem = %lockOnSystem
 
 func _unhandled_input(event):
