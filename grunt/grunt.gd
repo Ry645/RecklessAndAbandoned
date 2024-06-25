@@ -1,5 +1,6 @@
 #TODO
 #migrate ai to a component somehow
+#make grunt face the player so it actually hits the player
 
 extends CharacterBody3D
 
@@ -138,6 +139,7 @@ func die():
 
 func setHurtboxVars(hurtbox:Hurtbox):
 	hurtbox.damageValue = damage
+	hurtbox.hurtBoxType = 1
 
 #TEST
 func _on_attack_interval_timer_timeout():

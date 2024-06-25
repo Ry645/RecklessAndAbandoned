@@ -4,6 +4,7 @@ class_name Player
 
 #TODO
 #make player disappear like in botw so first person looks better
+#migrate hit testing to new hitbox node; redirection function in player script
 
 var animationConditions:Array[StringName]
 
@@ -38,8 +39,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera:Camera3D = %Camera3D
 @onready var pickup_ray = %pickupRay
 @onready var inventory = %inventory
-@onready var mesh = %mesh
-@onready var animationPlayer:AnimationPlayer = %mesh.get_node("AnimationPlayer")
+@onready var mesh = %mesh1
+@onready var animationPlayer:AnimationPlayer = %mesh1.get_node("AnimationPlayer")
 @onready var animationTree:AnimationTree = %AnimationTree
 @onready var blocking_system:BlockingSystem = %blockingSystem
 @onready var health_system:HealthSystem = %healthSystem

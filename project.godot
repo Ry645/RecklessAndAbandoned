@@ -97,6 +97,11 @@ spawnEnemy={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="PhysicsCollision"
+3d_physics/layer_2="hitTesting"
+
 [rendering]
 
 renderer/rendering_method.mobile="gl_compatibility"

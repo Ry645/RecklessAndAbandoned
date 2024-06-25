@@ -8,6 +8,8 @@ VERSION 1
 
 5bd0552b-f617-475c-bb5b-694db4d7b43e:Animations:Animations
 56e1205e-0286-4bae-a46d-92ac8634b28c:Animations/block:Animations-block
+4fe09ae2-b73e-44ab-b6e7-80fb3c2c4207:Animations/hardBlock:Animations-hardBlock
+c4479c82-6fc3-45ab-bf33-d9af1a2d1c07:Animations/swing:Animations-swing
 ee8cb606-020e-419e-9710-1b2ad337db56:Animations/walk:Animations-walk
 0cfb9156-8cf9-4f76-a4a9-22650477ee89:Poses:Poses
 53ce0ca5-4a35-4a88-b509-d4ab623e0f76:Poses/arms:Poses-arms
