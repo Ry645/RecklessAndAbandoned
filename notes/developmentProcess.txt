@@ -3,7 +3,7 @@ ONLY PARRY FRAMES AND BLOCKING
 
 
 strafing:
-	like Peroxide circle around player when fighting npcs but the player actually earns the kill 
+	like Peroxide circle around player when fighting npcs but the player actually earns the kill (no execution)
 	strafe in circle around player
 
 player attacks wildly and quickly
@@ -15,7 +15,7 @@ blockbreaker attacks have a red flash and distinct sound (kinda like mettaton ex
 	end game eneimes do whatever the fuck they want idk
 
 blocking
-	player can sheathe weapon to block with hands
+	player can sheathe weapon to block with hands only when health is fully depleted
 	ATTACKING AND SKILLS HAVE NO EFFECT (includes healing and buffs)
 	same parry effects, but...
 	gauntlet blocking negates ALL damage (well it negates all damage anyways so that doesn't matter)
