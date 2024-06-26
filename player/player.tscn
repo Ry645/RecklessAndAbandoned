@@ -3474,7 +3474,7 @@ bottom_radius = 0.1
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_xbuqj"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["hitGroup2"]]
 collision_layer = 3
 script = ExtResource("1_gw48f")
 hurtboxScene = ExtResource("2_nfmsb")

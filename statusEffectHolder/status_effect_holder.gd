@@ -16,17 +16,13 @@ var dictStatusEffect = {
 
 @export var statusEffects:Array[Array]
 
-
-"""
-plan:
-gain effect
-lose effect
-
-"""
-
 #TODO
 #maybe add a max to the duration on multiple hits
 func gainEffect(effect:String):
+	if !dictStatusEffect.has(effect):
+		print(self, ": status effect does not exist")
+		return
+	
 	var index = FunctionLibrary.keySearch(statusEffects, effect)
 	if index != -1:
 		statusEffects[index][1] += dictStatusEffect[effect][1]
@@ -40,6 +36,8 @@ func loseEffect(effect:String):
 			break
 	
 
+#INFO
+#handle each status effect manually here
 func _physics_process(delta):
 	for effect in statusEffects:
 		if effect[2] != -1 && effect[2] < effect[4]: #if i say so and long enough then fire effect damage

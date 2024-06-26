@@ -170,6 +170,7 @@ func pickItemForInventory():
 	inventory.addToInventory(itemRes)
 
 #FIXME
+#TODO change teleport slam to attack dash that snaps onto enemies
 func teleportSmash(target):
 	if canTeleportSmash:
 		if target == null:
@@ -184,8 +185,9 @@ func teleportSmash(target):
 
 #TEST
 func swingShovel():
-	var hurtbox = hurtboxScene.instantiate()
-	hurtbox.damageValue = 20
+	var hurtbox = hurtboxScene.instantiate() as Hurtbox
+	hurtbox.setVars("playerSword")
+	add_child(hurtbox)
 
 func playerDeath():
 	print("die")

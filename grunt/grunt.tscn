@@ -15,7 +15,7 @@
 radius = 0.25
 height = 0.5
 
-[node name="grunt" type="CharacterBody3D"]
+[node name="grunt" type="CharacterBody3D" groups=["hitGroup1"]]
 collision_layer = 3
 script = ExtResource("1_e3166")
 hurtboxScene = ExtResource("2_kaw0i")

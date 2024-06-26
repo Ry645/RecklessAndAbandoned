@@ -38,7 +38,7 @@ func updateHealthBarPosition():
 func updateCursorPositionFromMouse(event:InputEventMouseMotion):
 	lock_on_cursor.position = event.position
 
-func setHealthBarVars(character, _index:int):
+func setHealthBarVars(character, _index:int = -1):
 	characters.append(character)
 	var newHealthBar
 	if character.healthBarScene:

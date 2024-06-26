@@ -46,9 +46,6 @@ func setVarsFromMain(main:Main):
 	camera = main.player.camera
 	player = main.player
 
-#TEST
-#add manual lock on later
-#like a cursor hovering over screen
 func lockOn():
 	setAndNotifyLockOnState(LockOnState.LOCKED)
 

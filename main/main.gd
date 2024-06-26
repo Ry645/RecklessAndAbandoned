@@ -11,7 +11,7 @@ class_name Main
 @export var enemyClass:PackedScene
 
 @onready var hud_layer:HudLayer = %hudLayer
-#TEST
+#TEST eventually get all combat managers in the level
 @onready var combat_manager = %combatManager
 @onready var enemy_manager:EnemyManager = $enemyManager
 
@@ -33,24 +33,15 @@ func _ready():
 	player.health_system._ready()
 	
 	for i in range(enemy_manager.allEnemies.size()):
-		combatManagerConnectSignals(enemy_manager.allEnemies[i])
-		enemy_manager.allEnemies[i].connect("died", Callable(hud_layer, "deleteHealthBar"))
-		
-		
-		enemy_manager.allEnemies[i].connect("mouseHoveredOverMe", Callable(player.lock_on_system, "setHoveredTarget"))
-		
-		enemyManagerConnectSignals(enemy_manager.allEnemies[i])
-		
-		#TODO
-		#HACK
-		#later make this attached to enemy manager in some way
-		hud_layer.setHealthBarVars(enemy_manager.allEnemies[i], i)
+		setUpEnemySignals(enemy_manager.allEnemies[i])
 	
 
 func _process(delta):
 	if devSettingsEnabled:
 		if Input.is_action_just_pressed("spawnEnemy"):
+			#TEST doesn't add a health bar
 			var node = enemyClass.instantiate() as Grunt
+			call_deferred("setUpEnemySignals", node)
 			add_child(node)
 			node.global_position = player.global_position
 			node.targetBody = player
@@ -72,3 +63,17 @@ func combatManagerConnectSignals(enemy):
 	enemy.connect("targetFreed", Callable(combat_manager, "lostTarget"))
 	enemy.connect("targetNoticed", Callable(combat_manager, "enemyNoticedTarget"))
 	enemy.connect("died", Callable(combat_manager, "enemyForgotTarget"))
+
+func setUpEnemySignals(enemy):
+	combatManagerConnectSignals(enemy)
+	enemy.connect("died", Callable(hud_layer, "deleteHealthBar"))
+	
+	
+	enemy.connect("mouseHoveredOverMe", Callable(player.lock_on_system, "setHoveredTarget"))
+	
+	enemyManagerConnectSignals(enemy)
+	
+	#TODO
+	#HACK
+	#later make this attached to enemy manager in some way
+	hud_layer.setHealthBarVars(enemy)

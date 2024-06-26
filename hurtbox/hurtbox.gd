@@ -7,21 +7,44 @@ extends Area3D
 
 class_name Hurtbox
 
+#TODO add more weapon types
+#TODO migrate all script dictionaries to their own static class
+var dictHurtBox:Dictionary = {
+	"playerSword" = [20, 0.1, 0, 2],
+	"gruntSword" = [20, 0.1, 0, 1]
+}
+
 @onready var timer = $Timer
 
-#TODO
+#TODO but not really very important
 #later to damage res
+var propertyList:Array[String] = ["damageValue", "duration", "hurtBoxType", "hitGroup", "statusEffect"]
+
 @export var damageValue:float
 @export var duration:float = 1
 @export_enum("oneShot", "lingering") var hurtBoxType:int
 @export var hitGroup:StringName = "hitGroup1"
+@export var statusEffect:String
 
 #oneShot: tracks enemies so it doesn't hit them again
 #lingering: tracks enemies currently in its radius to set status effects
 var enteredBodies:Array
 
+func setVars(hitBoxType):
+	var array
+	if hitBoxType is Array:
+		array = hitBoxType
+	elif hitBoxType is String:
+		array = dictHurtBox[hitBoxType]
+	
+	if array[3] is int:
+		array[3] = "hitGroup" + str(array[3])
+	
+	for i in range(array.size()):
+		set(propertyList[i], array[i])
+
 func _ready():
-	add_to_group("hitGroup")
+	add_to_group(hitGroup)
 	timer.start(duration)
 
 #INFO
@@ -41,7 +64,7 @@ func _on_body_entered(body:Node3D):
 					
 				1: #put status effect on enemy on enter and remove it on leave
 					if body.has_node("statusEffectHolder"):
-						body.get_node("statusEffectHolder").gainEffect("Fire") #TEST
+						body.get_node("statusEffectHolder").gainEffect(statusEffect)
 					
 	
 

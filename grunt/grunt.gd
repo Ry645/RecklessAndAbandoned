@@ -32,14 +32,14 @@ signal mouseHoveredOverMe(selfRef)
 @onready var hurtbox_location = %hurtboxLocation
 @onready var movement_component:MovementComponent = %movementComponent
 @onready var health_system = %healthSystem
-#TEST
+#TEST add animation model for grunt to fix
 @onready var attack_indicator = %attackIndicator
 @onready var health_bar_position = %healthBarPosition
 
 
 @export var hurtboxScene:PackedScene
 @export var healthBarScene:PackedScene
-#TEST
+#TEST notice player somehow
 @export var targetBody:Node3D
 
 enum aiState {
@@ -139,13 +139,15 @@ func die():
 
 func setHurtboxVars(hurtbox:Hurtbox):
 	hurtbox.damageValue = damage
-	hurtbox.hurtBoxType = 1
+	hurtbox.hurtBoxType = 0
 
-#TEST
+#TEST i honestly have no idea; investigate further on what i meant
+#maybe using timers is a bad thing?
+#low priority
 func _on_attack_interval_timer_timeout():
 	currentAiState = aiState.APPROACH
 
-#TEST
+#TEST same
 func _on_attack_startup_timer_timeout():
 	currentAiState = aiState.BACKPEDAL
 	var hurtbox = hurtboxScene.instantiate()
