@@ -29,6 +29,9 @@ func _input(event: InputEvent) -> void:
 
 func updateHealthBarPosition():
 	for i in range(healthBars.size()):
+		if healthBars[i] == null:
+			continue
+		
 		healthBars[i].position = playerCamera.unproject_position(characters[i].health_bar_position.global_position) + healthBars[i].positionOffset
 		if playerCamera.is_position_behind(characters[i].health_bar_position.global_position):
 			healthBars[i].visible = false

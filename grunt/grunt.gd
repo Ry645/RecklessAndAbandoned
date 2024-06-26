@@ -64,6 +64,8 @@ var combatManager:CombatManager
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+var isDead:bool = false
+
 #TODO
 #SEED
 # Called when the node enters the scene tree for the first time.
@@ -133,7 +135,11 @@ func takeDamage(damageVal):
 	health_system.takeDamage(damageVal)
 
 func die():
+	if isDead:
+		return
+	
 	emit_signal("died", self)
+	isDead = true
 	print("dead")
 	queue_free()
 
