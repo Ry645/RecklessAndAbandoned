@@ -1,5 +1,6 @@
-#TODO
+#TODO migrate ai : complex and annoying
 #migrate ai to a component somehow
+#TODO facing to player: simple
 #make grunt face the player so it actually hits the player
 
 extends CharacterBody3D
@@ -66,7 +67,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var isDead:bool = false
 
-#TODO
+#TODO new feature
 #SEED
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -74,7 +75,7 @@ func _ready():
 	#add random sign here
 
 #SLOW
-#TODO
+#TODO new feature
 #use nav mesh later
 func _physics_process(delta):
 	movement_component.applyGravity(delta)

@@ -1,14 +1,9 @@
-#BUG
-#enemies take damage from their own attacks
-#so does the player
-#fix this soon
-
 extends Area3D
 
 class_name Hurtbox
 
-#TODO add more weapon types
-#TODO migrate all script dictionaries to their own static class
+#TODO add more weapon types: new feature 
+#TODO migrate all script dictionaries to their own static class : simple and annoying
 var dictHurtBox:Dictionary = {
 	"playerSword" = [20, 0.1, 0, 2],
 	"gruntSword" = [20, 0.1, 0, 1]
@@ -16,7 +11,7 @@ var dictHurtBox:Dictionary = {
 
 @onready var timer = $Timer
 
-#TODO but not really very important
+#TODO but not really very important : new feature
 #later to damage res
 var propertyList:Array[String] = ["damageValue", "duration", "hurtBoxType", "hitGroup", "statusEffect"]
 

@@ -1,6 +1,6 @@
 extends Node3D
 
-#TODO
+#TODO new feature
 #will later have a bunch of nodes handling the enemy spawning and combat
 
 class_name Main
@@ -73,7 +73,7 @@ func setUpEnemySignals(enemy):
 	
 	enemyManagerConnectSignals(enemy)
 	
-	#TODO
+	#TODO enemy manager setup : complex and annoying
 	#HACK
 	#later make this attached to enemy manager in some way
 	hud_layer.setHealthBarVars(enemy)

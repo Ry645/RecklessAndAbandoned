@@ -16,7 +16,7 @@ var dictStatusEffect = {
 
 @export var statusEffects:Array[Array]
 
-#TODO
+#TODO not important
 #maybe add a max to the duration on multiple hits
 func gainEffect(effect:String):
 	if !dictStatusEffect.has(effect):

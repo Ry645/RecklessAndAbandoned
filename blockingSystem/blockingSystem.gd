@@ -1,4 +1,4 @@
-#TODO
+#TODO stamina: simple
 #remove block cooldown and replace with 3 tick stamina bar for starting blocks
 #switch between parry mode and block mode with F
 #and indicate player block state with a circle outline at the player's feet

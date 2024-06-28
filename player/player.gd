@@ -2,18 +2,19 @@ extends CharacterBody3D
 
 class_name Player
 
-#TODO
+#TODO better first person culling : complex
 #make player disappear like in botw so first person looks better
+#TODO migrate to hitbox node : simple
 #migrate hit testing to new hitbox node; redirection function in player script
 
 var animationsToTravelTo:Array
 
-#TODO
+#TODO migrate anim class : annoying
 #migrate to a separate class
 #actually migrate all of this animation logic to an animation component that connects to the animation tree
 var dictPossibleAnimationDestinations = {
 	#blockState
-	#TODO have lower swing for each in place of holdSwordArm
+	#TODO have lower swing for each in place of holdSwordArm: new feature
 	"holdSwordArm" = ["raiseQuickBlock", "swing"],
 	"lowerQuickBlock" = ["raiseQuickBlock"],
 	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
@@ -213,8 +214,8 @@ func pickItemForInventory():
 	var itemRes = pickup_ray.pickup()
 	inventory.addToInventory(itemRes)
 
-#FIXME
-#TODO change teleport slam to attack dash that snaps onto enemies
+#TODO change teleport slam to attack dash that snaps onto enemies : new feature fun
+#TODO will also have a skill bar : new feature complex
 func teleportSmash(target):
 	if canTeleportSmash:
 		if target == null:
