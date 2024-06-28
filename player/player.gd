@@ -6,14 +6,33 @@ class_name Player
 #make player disappear like in botw so first person looks better
 #migrate hit testing to new hitbox node; redirection function in player script
 
-var animationConditions:Array[StringName]
+var animationsToTravelTo:Array
 
-var animationDict = AnimationDictionaries.player
-var parryAnimationDict = {
-	"raiseQuickBlock" = "parameters/ArmState/conditions/firstParry",
-	"parry1" = "parameters/ArmState/conditions/secondParry",
-	"parry2" = "parameters/ArmState/conditions/swtichParry1",
-	"parry3" = "parameters/ArmState/conditions/swtichParry2"
+#TODO
+#migrate to a separate class
+var dictPossibleAnimationDestinations = {
+	#blockState
+	"holdSwordArm" = ["raiseQuickBlock"],
+	"lowerQuickBlock" = ["raiseQuickBlock"],
+	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
+	"parry1" = ["lowerQuickBlock", "parry2"],
+	"parry2" = ["lowerQuickBlock", "parry3"],
+	"parry3" = ["lowerQuickBlock", "parry2"],
+	
+	#legState
+	"rest" = "walkAnimation",
+	"walkAnimation" = "rest"
+}
+
+var dictArmAnimationTravel = {
+	"raiseQuickBlock" = "parry1",
+	"parry1" = "parry2",
+	"parry2" = "parry3",
+	"parry3" = "parry2",
+	
+	#"swing" = 
+	#"swing_001"
+	#"swing_002"
 }
 
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
@@ -24,6 +43,8 @@ signal healthUpdate(health)
 @export var JUMP_VELOCITY:float = 4.5
 @export var gravityMultiplier:float = 1.0
 @export var turnSpeed:float = 10.0
+
+@export var attackInterval:float = 0.3
 
 var b_cameraLock:bool = false
 var canTeleportSmash:bool = true
@@ -46,6 +67,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var health_system:HealthSystem = %healthSystem
 @onready var sword:Node3D = %sword
 @onready var lock_on_system:LockOnSystem = %lockOnSystem
+@onready var attack_cooldown:Timer = %attackCooldown
+
 
 func _unhandled_input(event):
 	# if not tabbed out (ie playing game)
@@ -91,7 +114,7 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		
-		animationConditions.append("parameters/legState/conditions/walk")
+		appendAnimation("parameters/legState/playback", "walkAnimation")
 		turnPlayerTowardsMovement(direction, delta)
 	
 	else:
@@ -99,7 +122,7 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		
-		animationConditions.append("parameters/legState/conditions/idle")
+		appendAnimation("parameters/legState/playback", "rest")
 	
 	inputProcess()
 	
@@ -108,18 +131,29 @@ func _physics_process(delta):
 	updateAnimations()
 
 
+func appendAnimation(parameterPath, stateToTravel:String):
+	animationsToTravelTo.append([parameterPath, stateToTravel])
 
 func updateAnimations():
-	for condition in animationConditions:
-		match condition:
-			"parry":
-				condition = parryAnimationDict[animationTree["parameters/ArmState/playback"].get_current_node()]
+	for animation in animationsToTravelTo:
+		var animationPlayback:AnimationNodeStateMachinePlayback = animationTree.get(animation[0])
 		
-		for conditionStruct in animationDict[condition]:
-			animationTree[conditionStruct[0]] = conditionStruct[1]
+		match animation[1]:
+			#custom animation
+			"parry":
+				animation[1] = dictArmAnimationTravel[animationPlayback.get_current_node()] #get current to play next
+			"attack":
+				animation[1] = dictArmAnimationTravel[animationPlayback.get_current_node()]
+		
+		# get current animation, and all possible nodes to travel to using a dictionary
+		# if you travel to a animation, then it checks to see if it's even possible using the dictionary
+		# if not, stop, if yes, start new animation
+		
+		if animationPlayback.get_current_node() && animation[1] in dictPossibleAnimationDestinations[animationPlayback.get_current_node()]:
+			animationPlayback.travel(animation[1])
 		
 	
-	animationConditions.clear()
+	animationsToTravelTo.clear()
 
 func inputProcess(): # to be called in physics process
 	if Input.is_action_just_pressed("pickup"):
@@ -141,7 +175,9 @@ func inputProcess(): # to be called in physics process
 	#START
 	#slow this down to a cooldown timer node
 	if Input.is_action_pressed("attack"):
-		swingShovel()
+		if attack_cooldown.is_stopped():
+			swingShovel()
+			attack_cooldown.start(attackInterval)
 	
 	if Input.is_action_just_pressed("lockOn"):
 		lock_on_system.readyLockOn()
@@ -196,15 +232,15 @@ func takeDamage(damage):
 	blocking_system.takeDamage(damage)
 
 func _on_blocking_system_attack_parried():
-	animationConditions.append("parry")
+	appendAnimation("parameters/blockState/playback", "parry")
 
 
 func _on_blocking_system_block_started():
-	animationConditions.append("parameters/ArmState/conditions/block")
+	appendAnimation("parameters/blockState/playback", "raiseQuickBlock")
 
 
 func _on_blocking_system_block_ended():
-	animationConditions.append("parameters/ArmState/conditions/lowerBlock")
+	appendAnimation("parameters/blockState/playback", "lowerQuickBlock")
 
 
 func _on_blocking_system_parry_window_ended():
