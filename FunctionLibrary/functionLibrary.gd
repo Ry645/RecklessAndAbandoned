@@ -27,3 +27,8 @@ static func findArrayLevel(array, keyIndex, counter = 0):
 		return findArrayLevel(array[keyIndex], keyIndex, counter)
 	else:
 		return counter
+
+#I'm a fuckin theif
+static func positiveModFunctionIStoleFromStackOverflow(number, mod):
+	return (number % mod + mod) % mod
+#ok fine credit where credit is due: https://stackoverflow.com/questions/14997165/fastest-way-to-get-a-positive-modulo-in-c-c

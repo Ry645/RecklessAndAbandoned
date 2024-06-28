@@ -1,7 +1,7 @@
 #TODO stamina: simple
 #remove block cooldown and replace with 3 tick stamina bar for starting blocks
-#TODO switch between parry mode and block mode with F
 #TODO and indicate player block state with a circle outline at the player's feet
+#TODO improve parry animation so the parry stance comes up instantly with some kind of visual flash, and after the parry window is over, slowly return to holdSwordArm (like Lucina parry down special fail)
 
 extends Node
 
@@ -16,24 +16,28 @@ signal parryWindowEnded
 
 var elapsedBlockTime:float = 0.0
 
-var isBlocking:bool = false
+enum BlockMode{
+	BLOCK,
+	PARRY
+}
+var currentBlockMode = BlockMode.BLOCK
+var isBlocking:bool = false # depends on your block state whether you parry or hard block
 
 var parryWindow:float = 0.25
-var recentlyParried:bool = false
-var canParry:bool = false
 
 @export var willEverBlock:bool = true
 @export var blockDamageReduction:float = 0.5
 
+func incrementBlockMode(num = 1):
+	currentBlockMode = FunctionLibrary.positiveModFunctionIStoleFromStackOverflow(currentBlockMode+num, 2)
+
 func startBlock():
 	emit_signal("blockStarted")
 	elapsedBlockTime = 0.0
-	canParry = true # you can parry
-	recentlyParried = false # no you just started a block
 	isBlocking = true # yes you are blocking
 
 func endBlock():
-	if elapsedBlockTime < parryWindow: # if tapped the parry button
+	if currentBlockMode == 1 && elapsedBlockTime < parryWindow: # if tapped the parry button
 		return
 	
 	blockTimeOut()
@@ -45,29 +49,25 @@ func blockTimeOut():
 
 func takeDamage(damage):
 	if isBlocking:
-		if elapsedBlockTime < parryWindow && canParry:
+		if currentBlockMode == 1:
 			print("parried!")
 			emit_signal("attackParried")
-			canParry = false
-			recentlyParried = true
-			#if elapsedBlockTime < parryWindow: #cancel block when attack hits you so you can block again
-				#blockTimeOut()
+			isBlocking = false
+			elapsedBlockTime = 0.0
 		else:
 			print("blocked")
 			emit_signal("attackBlocked")
 			emit_signal("damageHealth", damage * blockDamageReduction)
-			recentlyParried = false
 	else:
 		print("ow")
-		recentlyParried = false
 		emit_signal("damageHealth", damage)
 
 func _process(delta):
 	if isBlocking:
 		elapsedBlockTime += delta
-		if elapsedBlockTime >= parryWindow && canParry:
+		if elapsedBlockTime >= parryWindow && currentBlockMode == 1:
+			blockTimeOut()
 			emit_signal("parryWindowEnded")
-			canParry = false
 
 
 

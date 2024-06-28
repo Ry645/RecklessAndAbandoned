@@ -16,7 +16,7 @@ var dictPossibleAnimationDestinations = {
 	#blockState
 	#TODO have lower swing for each in place of holdSwordArm: new feature
 	"holdSwordArm" = ["raiseQuickBlock", "swing"],
-	"lowerQuickBlock" = ["raiseQuickBlock"],
+	"lowerQuickBlock" = ["raiseQuickBlock", "swing"],
 	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
 	"parry1" = ["holdSwordArm", "parry2"],
 	"parry2" = ["holdSwordArm", "parry3"],
@@ -38,6 +38,7 @@ var dictParryProcess = {
 	"parry3" = "parry2",
 }
 var dictAttackProcess = {
+	"lowerQuickBlock" = "swing",
 	"holdSwordArm" = "swing",
 	"swing" = "swing_001",
 	"swing_001" = "swing_002",
@@ -201,6 +202,9 @@ func inputProcess(): # to be called in physics process
 	
 	if Input.is_action_just_released("lockOn"):
 		lock_on_system.tryLockOn()
+	
+	if Input.is_action_just_pressed("switchBlockMode"):
+		blocking_system.incrementBlockMode()
 
 #to be used with camera lock
 func toggleCameraLock():
@@ -260,7 +264,7 @@ func _on_blocking_system_block_started():
 
 
 func _on_blocking_system_block_ended():
-	appendAnimation("parameters/armState/playback", "lowerQuickBlock")
+	appendAnimation("parameters/armState/playback", "lowerSword")
 
 
 func _on_blocking_system_parry_window_ended():
