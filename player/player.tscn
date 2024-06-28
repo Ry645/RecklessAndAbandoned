@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=49 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
@@ -3357,6 +3357,35 @@ _data = {
 "walkAnimation": SubResource("Animation_di3l8")
 }
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_yondo"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v2c6h"]
+animation = &"holdSwordArm"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wfedx"]
+animation = &"swing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1dbab"]
+animation = &"swing_001"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pdy1w"]
+animation = &"swing_002"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtwkp"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_kvudv"]
+states/holdSwordArm/node = SubResource("AnimationNodeAnimation_v2c6h")
+states/holdSwordArm/position = Vector2(355, 100)
+states/swing/node = SubResource("AnimationNodeAnimation_wfedx")
+states/swing/position = Vector2(355, 154)
+states/swing_001/node = SubResource("AnimationNodeAnimation_1dbab")
+states/swing_001/position = Vector2(355, 210)
+states/swing_002/node = SubResource("AnimationNodeAnimation_pdy1w")
+states/swing_002/position = Vector2(355, 265)
+transitions = ["Start", "holdSwordArm", SubResource("AnimationNodeStateMachineTransition_mtwkp")]
+graph_offset = Vector2(-394, -9)
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ymt7"]
 animation = &"holdSwordArm"
 
@@ -3417,15 +3446,19 @@ filter_enabled = true
 filters = ["Armature/Skeleton3D:calf.L", "Armature/Skeleton3D:calf.R", "Armature/Skeleton3D:control.foot.L", "Armature/Skeleton3D:control.foot.R", "Armature/Skeleton3D:control.torso", "Armature/Skeleton3D:foot.L", "Armature/Skeleton3D:foot.R", "Armature/Skeleton3D:pivot.foot.L", "Armature/Skeleton3D:pivot.foot.R", "Armature/Skeleton3D:pivot.heel.L", "Armature/Skeleton3D:pivot.heel.R", "Armature/Skeleton3D:pivot.toe.L", "Armature/Skeleton3D:pivot.toe.R", "Armature/Skeleton3D:roll.out.L", "Armature/Skeleton3D:roll.out.R", "Armature/Skeleton3D:thigh.001.L", "Armature/Skeleton3D:thigh.001.R", "Armature/Skeleton3D:toe.L", "Armature/Skeleton3D:toe.R"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_pje7o"]
-graph_offset = Vector2(-1021.29, 17.0478)
+graph_offset = Vector2(-1321.29, -152.952)
+nodes/armBlend/node = SubResource("AnimationNodeBlend2_yondo")
+nodes/armBlend/position = Vector2(-180, 0)
+nodes/attackState/node = SubResource("AnimationNodeStateMachine_kvudv")
+nodes/attackState/position = Vector2(-380, -80)
 nodes/blockState/node = SubResource("AnimationNodeStateMachine_87r6m")
-nodes/blockState/position = Vector2(-120, 100)
+nodes/blockState/position = Vector2(-380, 100)
 nodes/legState/node = SubResource("AnimationNodeStateMachine_pqbj2")
 nodes/legState/position = Vector2(-120, 320)
 nodes/output/position = Vector2(440, 180)
 nodes/walkBlend/node = SubResource("AnimationNodeBlend2_ibfe6")
 nodes/walkBlend/position = Vector2(200, 160)
-node_connections = [&"output", 0, &"walkBlend", &"walkBlend", 0, &"blockState", &"walkBlend", 1, &"legState"]
+node_connections = [&"armBlend", 0, &"attackState", &"armBlend", 1, &"blockState", &"output", 0, &"walkBlend", &"walkBlend", 0, &"armBlend", &"walkBlend", 1, &"legState"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_fhr7g"]
 top_radius = 0.1
@@ -3448,6 +3481,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_pje7o")
 anim_player = NodePath("../mesh1/AnimationPlayer")
+parameters/armBlend/blend_amount = 0.0
 parameters/walkBlend/blend_amount = 1.0
 
 [node name="mesh1" parent="." instance=ExtResource("3_8raho")]
@@ -3474,11 +3508,11 @@ bones/26/rotation = Quaternion(0.0229078, -0.036769, -0.706743, 0.706143)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/rotation = Quaternion(0.00349577, -0.00725022, 0.846815, 0.531827)
 bones/27/scale = Vector3(1, 1, 1)
-bones/28/rotation = Quaternion(0.118322, -0.39477, 0.36062, 0.836725)
+bones/28/rotation = Quaternion(0.864707, -0.237957, -0.195051, 0.397005)
 bones/28/scale = Vector3(1, 1, 1)
-bones/29/rotation = Quaternion(0.126772, 1.22949e-07, -0.0107285, 0.991874)
+bones/29/rotation = Quaternion(0.54553, 9.01637e-08, -0.0461675, 0.836819)
 bones/30/rotation = Quaternion(-0.00759444, 0.736279, -0.00697781, 0.6766)
-bones/31/position = Vector3(-0.0399009, 0.399028, -0.0195539)
+bones/31/position = Vector3(-0.0399008, 0.399028, -0.0195539)
 bones/31/rotation = Quaternion(0.183253, 0.516549, 0.5653, 0.616467)
 bones/31/scale = Vector3(1, 1, 1)
 bones/32/rotation = Quaternion(-0.0197403, -0.0266073, 0.999362, -0.0133701)
@@ -3501,14 +3535,15 @@ bones/41/rotation = Quaternion(0.267606, 0.019382, -0.00538395, 0.963319)
 bones/41/scale = Vector3(1, 1, 1)
 bones/42/position = Vector3(0.315531, -0.212134, 0.00695217)
 bones/42/rotation = Quaternion(-0.500596, -0.499405, -0.499405, 0.500593)
+bones/43/position = Vector3(-0.0830313, 0.553311, 0.787037)
 bones/43/rotation = Quaternion(0.5, 0.5, -0.5, -0.5)
-bones/44/position = Vector3(-0.444829, -0.217626, -0.0146681)
+bones/44/position = Vector3(0.278807, 0.414371, 0.209059)
 bones/44/rotation = Quaternion(-0.500596, 0.499405, 0.499405, 0.500593)
 bones/44/scale = Vector3(1, 1, 1)
 bones/47/rotation = Quaternion(0, 0.020116, 0, 0.999798)
 bones/48/rotation = Quaternion(0, -0.020116, 0, 0.999798)
-bones/49/position = Vector3(-0.447227, 0.777754, -0.0509197)
-bones/49/rotation = Quaternion(-0.21323, -0.0169186, 0.821167, -0.529085)
+bones/49/position = Vector3(0.35696, 1.44727, 0.214039)
+bones/49/rotation = Quaternion(0.790336, -0.531988, 0.252111, -0.169699)
 bones/49/scale = Vector3(1, 1, 1)
 bones/50/position = Vector3(0.274473, 0.790642, 0.0176065)
 bones/50/rotation = Quaternion(0.00119016, -9.9629e-07, 0.999999, 2.51672e-06)

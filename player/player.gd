@@ -12,7 +12,8 @@ var animationsToTravelTo:Array
 #migrate to a separate class
 var dictPossibleAnimationDestinations = {
 	#blockState
-	"holdSwordArm" = ["raiseQuickBlock"],
+	#TODO lower block for parry
+	"holdSwordArm" = ["raiseQuickBlock", "swing"],
 	"lowerQuickBlock" = ["raiseQuickBlock"],
 	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
 	"parry1" = ["lowerQuickBlock", "parry2"],
@@ -21,7 +22,13 @@ var dictPossibleAnimationDestinations = {
 	
 	#legState
 	"rest" = "walkAnimation",
-	"walkAnimation" = "rest"
+	"walkAnimation" = "rest",
+	
+	#attackState
+	#TODO have lower swing for each
+	"swing" = ["swing_001"],
+	"swing_001" = ["swing_002"],
+	"swing_002" = ["swing_001"],
 }
 
 var dictArmAnimationTravel = {
@@ -30,9 +37,10 @@ var dictArmAnimationTravel = {
 	"parry2" = "parry3",
 	"parry3" = "parry2",
 	
-	#"swing" = 
-	#"swing_001"
-	#"swing_002"
+	"holdSwordArm" = "swing",
+	"swing" = "swing_001",
+	"swing_001" = "swing_002",
+	"swing_002" = "swing_001",
 }
 
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
@@ -172,8 +180,6 @@ func inputProcess(): # to be called in physics process
 		teleportSmash(lock_on_system.lockedEnemy)
 		#change this to config with lockOn system
 	
-	#START
-	#slow this down to a cooldown timer node
 	if Input.is_action_pressed("attack"):
 		if attack_cooldown.is_stopped():
 			swingShovel()
@@ -224,6 +230,8 @@ func swingShovel():
 	var hurtbox = hurtboxScene.instantiate() as Hurtbox
 	hurtbox.setVars("playerSword")
 	add_child(hurtbox)
+	
+	appendAnimation("parameters/attackState/playback", "attack")
 
 func playerDeath():
 	print("die")
