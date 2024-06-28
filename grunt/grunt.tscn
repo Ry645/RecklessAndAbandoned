@@ -27,6 +27,7 @@ unique_name_in_owner = true
 [node name="attackIntervalTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 process_callback = 0
+wait_time = 0.1
 one_shot = true
 
 [node name="attackStartupTimer" type="Timer" parent="."]

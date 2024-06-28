@@ -10,33 +10,33 @@ var animationsToTravelTo:Array
 
 #TODO
 #migrate to a separate class
+#actually migrate all of this animation logic to an animation component that connects to the animation tree
 var dictPossibleAnimationDestinations = {
 	#blockState
-	#TODO lower block for parry
+	#TODO have lower swing for each in place of holdSwordArm
 	"holdSwordArm" = ["raiseQuickBlock", "swing"],
 	"lowerQuickBlock" = ["raiseQuickBlock"],
 	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
-	"parry1" = ["lowerQuickBlock", "parry2"],
-	"parry2" = ["lowerQuickBlock", "parry3"],
-	"parry3" = ["lowerQuickBlock", "parry2"],
+	"parry1" = ["holdSwordArm", "parry2"],
+	"parry2" = ["holdSwordArm", "parry3"],
+	"parry3" = ["holdSwordArm", "parry2"],
+	
+	"swing" = ["swing_001", "holdSwordArm"],
+	"swing_001" = ["swing_002", "holdSwordArm"],
+	"swing_002" = ["swing_001", "holdSwordArm"],
 	
 	#legState
 	"rest" = "walkAnimation",
 	"walkAnimation" = "rest",
-	
-	#attackState
-	#TODO have lower swing for each
-	"swing" = ["swing_001"],
-	"swing_001" = ["swing_002"],
-	"swing_002" = ["swing_001"],
 }
 
-var dictArmAnimationTravel = {
+var dictParryProcess = {
 	"raiseQuickBlock" = "parry1",
 	"parry1" = "parry2",
 	"parry2" = "parry3",
 	"parry3" = "parry2",
-	
+}
+var dictAttackProcess = {
 	"holdSwordArm" = "swing",
 	"swing" = "swing_001",
 	"swing_001" = "swing_002",
@@ -149,9 +149,11 @@ func updateAnimations():
 		match animation[1]:
 			#custom animation
 			"parry":
-				animation[1] = dictArmAnimationTravel[animationPlayback.get_current_node()] #get current to play next
+				if animationPlayback.get_current_node() in dictParryProcess:
+					animation[1] = dictParryProcess[animationPlayback.get_current_node()] #get current to play next
 			"attack":
-				animation[1] = dictArmAnimationTravel[animationPlayback.get_current_node()]
+				if animationPlayback.get_current_node() in dictAttackProcess:
+					animation[1] = dictAttackProcess[animationPlayback.get_current_node()]
 		
 		# get current animation, and all possible nodes to travel to using a dictionary
 		# if you travel to a animation, then it checks to see if it's even possible using the dictionary
@@ -230,8 +232,8 @@ func swingShovel():
 	var hurtbox = hurtboxScene.instantiate() as Hurtbox
 	hurtbox.setVars("playerSword")
 	add_child(hurtbox)
-	
-	appendAnimation("parameters/attackState/playback", "attack")
+	$lowerSwordTimer.start(0.5)
+	appendAnimation("parameters/armState/playback", "attack")
 
 func playerDeath():
 	print("die")
@@ -240,15 +242,15 @@ func takeDamage(damage):
 	blocking_system.takeDamage(damage)
 
 func _on_blocking_system_attack_parried():
-	appendAnimation("parameters/blockState/playback", "parry")
+	appendAnimation("parameters/armState/playback", "parry")
 
 
 func _on_blocking_system_block_started():
-	appendAnimation("parameters/blockState/playback", "raiseQuickBlock")
+	appendAnimation("parameters/armState/playback", "raiseQuickBlock")
 
 
 func _on_blocking_system_block_ended():
-	appendAnimation("parameters/blockState/playback", "lowerQuickBlock")
+	appendAnimation("parameters/armState/playback", "lowerQuickBlock")
 
 
 func _on_blocking_system_parry_window_ended():
@@ -265,3 +267,7 @@ func _on_health_system_health_update(health):
 
 func _on_health_system_set_health_bar_vars(minHealth, maxHealth, currentHealth):
 	emit_signal("setHealthBarVars", minHealth, maxHealth, currentHealth)
+
+
+func _on_lower_sword_timer_timeout():
+	appendAnimation("parameters/armState/playback", "holdSwordArm")
