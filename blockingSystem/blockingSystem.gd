@@ -1,3 +1,4 @@
+#START add stamina bar
 #TODO stamina: simple
 #remove block cooldown and replace with 3 tick stamina bar for starting blocks
 #TODO and indicate player block state with a circle outline at the player's feet
