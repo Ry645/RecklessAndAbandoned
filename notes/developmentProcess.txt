@@ -29,7 +29,7 @@ blocking
 
 Gist:
     only melee Fighting game, inspired by Pilgrammed, but with constant parrying
-    1v1 fighting system with communicative ai
+    1v1 fighting system with communicative ai (basically just talk to a combat manager)
 
 
 Development Process:

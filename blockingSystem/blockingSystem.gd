@@ -25,11 +25,8 @@ var canParry:bool = false
 @export var willEverBlock:bool = true
 @export var blockDamageReduction:float = 0.5
 
-@onready var timer:Timer = %Timer
-
 func startBlock():
 	emit_signal("blockStarted")
-	timer.stop()
 	elapsedBlockTime = 0.0
 	canParry = true # you can parry
 	recentlyParried = false # no you just started a block
@@ -37,7 +34,6 @@ func startBlock():
 
 func endBlock():
 	if elapsedBlockTime < parryWindow: # if tapped the parry button
-		timer.start(parryWindow-elapsedBlockTime)
 		return
 	
 	blockTimeOut()

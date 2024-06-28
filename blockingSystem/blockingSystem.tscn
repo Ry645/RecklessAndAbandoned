@@ -4,9 +4,3 @@
 
 [node name="blockingSystem" type="Node"]
 script = ExtResource("1_nu7dy")
-
-[node name="Timer" type="Timer" parent="."]
-unique_name_in_owner = true
-one_shot = true
-
-[connection signal="timeout" from="Timer" to="." method="blockTimeOut"]
