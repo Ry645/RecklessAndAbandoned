@@ -73,7 +73,6 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var pickup_ray = %pickupRay
 @onready var inventory = %inventory
 @onready var mesh = %mesh1
-@onready var animationPlayer:AnimationPlayer = %mesh1.get_node("AnimationPlayer")
 @onready var animationTree:AnimationTree = %AnimationTree
 @onready var blocking_system:BlockingSystem = %blockingSystem
 @onready var health_system:HealthSystem = %healthSystem
