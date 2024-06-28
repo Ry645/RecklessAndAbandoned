@@ -3583,6 +3583,7 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="lowerSwordTimer" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [connection signal="attackParried" from="blockingSystem" to="." method="_on_blocking_system_attack_parried"]

@@ -43,6 +43,9 @@ var dictAttackProcess = {
 	"swing_001" = "swing_002",
 	"swing_002" = "swing_001",
 }
+var dictLowerSwordProcess = {
+	"raiseQuickBlock" = "lowerQuickBlock",
+}
 
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
 signal healthUpdate(health)
@@ -155,6 +158,12 @@ func updateAnimations():
 			"attack":
 				if animationPlayback.get_current_node() in dictAttackProcess:
 					animation[1] = dictAttackProcess[animationPlayback.get_current_node()]
+			"lowerSword":
+				if animationPlayback.get_current_node() in dictLowerSwordProcess:
+					animation[1] = dictLowerSwordProcess[animationPlayback.get_current_node()]
+				else:
+					#HACK will later just add in new animations to cover holdSwordArm
+					animation[1] = "holdSwordArm"
 		
 		# get current animation, and all possible nodes to travel to using a dictionary
 		# if you travel to a animation, then it checks to see if it's even possible using the dictionary
@@ -233,7 +242,7 @@ func swingShovel():
 	var hurtbox = hurtboxScene.instantiate() as Hurtbox
 	hurtbox.setVars("playerSword")
 	add_child(hurtbox)
-	$lowerSwordTimer.start(0.5)
+	$lowerSwordTimer.start()
 	appendAnimation("parameters/armState/playback", "attack")
 
 func playerDeath():
@@ -244,6 +253,7 @@ func takeDamage(damage):
 
 func _on_blocking_system_attack_parried():
 	appendAnimation("parameters/armState/playback", "parry")
+	$lowerSwordTimer.start()
 
 
 func _on_blocking_system_block_started():
@@ -255,7 +265,7 @@ func _on_blocking_system_block_ended():
 
 
 func _on_blocking_system_parry_window_ended():
-	pass
+	$lowerSwordTimer.start()
 
 #TEST
 func _on_grunt_damage_player(damage):
@@ -271,4 +281,4 @@ func _on_health_system_set_health_bar_vars(minHealth, maxHealth, currentHealth):
 
 
 func _on_lower_sword_timer_timeout():
-	appendAnimation("parameters/armState/playback", "holdSwordArm")
+	appendAnimation("parameters/armState/playback", "lowerSword")
