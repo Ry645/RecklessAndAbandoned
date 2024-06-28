@@ -9,18 +9,25 @@ class_name Player
 
 var animationsToTravelTo:Array
 
+#INFO process of adding a new animation to character
+#1: add to state machine visual graph
+#2: add to dictPossibleAnimationDestinations
+#3: add to any alias dicts
+
 #TODO migrate anim class : annoying
 #migrate to a separate class
 #actually migrate all of this animation logic to an animation component that connects to the animation tree
 var dictPossibleAnimationDestinations = {
-	#blockState
+	#armState
 	#TODO have lower swing for each in place of holdSwordArm: new feature
-	"holdSwordArm" = ["raiseQuickBlock", "swing"],
-	"lowerQuickBlock" = ["raiseQuickBlock", "swing"],
+	"holdSwordArm" = ["raiseQuickBlock", "swing", "hardBlock"],
+	"lowerQuickBlock" = ["raiseQuickBlock", "swing", "hardBlock"],
 	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
 	"parry1" = ["holdSwordArm", "parry2"],
 	"parry2" = ["holdSwordArm", "parry3"],
 	"parry3" = ["holdSwordArm", "parry2"],
+	
+	"hardBlock" = ["holdSwordArm"],
 	
 	"swing" = ["swing_001", "holdSwordArm"],
 	"swing_001" = ["swing_002", "holdSwordArm"],
@@ -31,6 +38,8 @@ var dictPossibleAnimationDestinations = {
 	"walkAnimation" = "rest",
 }
 
+#TODO alias dict
+#might rename to alias dict
 var dictParryProcess = {
 	"raiseQuickBlock" = "parry1",
 	"parry1" = "parry2",
@@ -146,6 +155,7 @@ func _physics_process(delta):
 func appendAnimation(parameterPath, stateToTravel:String):
 	animationsToTravelTo.append([parameterPath, stateToTravel])
 
+#TODO add error messages to updateAnimations()
 func updateAnimations():
 	for animation in animationsToTravelTo:
 		var animationPlayback:AnimationNodeStateMachinePlayback = animationTree.get(animation[0])
@@ -260,7 +270,10 @@ func _on_blocking_system_attack_parried():
 
 
 func _on_blocking_system_block_started():
-	appendAnimation("parameters/armState/playback", "raiseQuickBlock")
+	if blocking_system.currentBlockMode == 1:
+		appendAnimation("parameters/armState/playback", "raiseQuickBlock")
+	else:
+		appendAnimation("parameters/armState/playback", "hardBlock")
 
 
 func _on_blocking_system_block_ended():

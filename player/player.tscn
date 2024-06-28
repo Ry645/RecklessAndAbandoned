@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=46 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
@@ -3357,6 +3357,9 @@ _data = {
 "walkAnimation": SubResource("Animation_di3l8")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6b04d"]
+animation = &"hardBlock"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ymt7"]
 animation = &"holdSwordArm"
 
@@ -3388,7 +3391,10 @@ animation = &"swing_002"
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_87r6m"]
+states/End/position = Vector2(1091, 100)
 states/Start/position = Vector2(207, 100)
+states/hardBlock/node = SubResource("AnimationNodeAnimation_6b04d")
+states/hardBlock/position = Vector2(784, 100)
 states/holdSwordArm/node = SubResource("AnimationNodeAnimation_3ymt7")
 states/holdSwordArm/position = Vector2(417, 100)
 states/lowerQuickBlock/node = SubResource("AnimationNodeAnimation_jjkxx")
@@ -3402,13 +3408,13 @@ states/parry3/position = Vector2(417, 410)
 states/raiseQuickBlock/node = SubResource("AnimationNodeAnimation_ik6ul")
 states/raiseQuickBlock/position = Vector2(417, 242)
 states/swing/node = SubResource("AnimationNodeAnimation_1nqjd")
-states/swing/position = Vector2(641, 100)
+states/swing/position = Vector2(617, 100)
 states/swing_001/node = SubResource("AnimationNodeAnimation_x87gu")
-states/swing_001/position = Vector2(641, 153)
+states/swing_001/position = Vector2(617, 153)
 states/swing_002/node = SubResource("AnimationNodeAnimation_m0k5l")
-states/swing_002/position = Vector2(641, 217)
+states/swing_002/position = Vector2(617, 217)
 transitions = ["Start", "holdSwordArm", SubResource("AnimationNodeStateMachineTransition_qrvhr")]
-graph_offset = Vector2(-524, 48)
+graph_offset = Vector2(-436, -2)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ivfc0"]
 animation = &"rest"
@@ -3432,7 +3438,7 @@ filter_enabled = true
 filters = ["Armature/Skeleton3D:calf.L", "Armature/Skeleton3D:calf.R", "Armature/Skeleton3D:control.foot.L", "Armature/Skeleton3D:control.foot.R", "Armature/Skeleton3D:control.torso", "Armature/Skeleton3D:foot.L", "Armature/Skeleton3D:foot.R", "Armature/Skeleton3D:pivot.foot.L", "Armature/Skeleton3D:pivot.foot.R", "Armature/Skeleton3D:pivot.heel.L", "Armature/Skeleton3D:pivot.heel.R", "Armature/Skeleton3D:pivot.toe.L", "Armature/Skeleton3D:pivot.toe.R", "Armature/Skeleton3D:roll.out.L", "Armature/Skeleton3D:roll.out.R", "Armature/Skeleton3D:thigh.001.L", "Armature/Skeleton3D:thigh.001.R", "Armature/Skeleton3D:toe.L", "Armature/Skeleton3D:toe.R"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_pje7o"]
-graph_offset = Vector2(-1177.29, -47.9522)
+graph_offset = Vector2(-563, 50)
 nodes/armState/node = SubResource("AnimationNodeStateMachine_87r6m")
 nodes/armState/position = Vector2(-120, 100)
 nodes/legState/node = SubResource("AnimationNodeStateMachine_pqbj2")
