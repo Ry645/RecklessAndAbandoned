@@ -32,6 +32,9 @@ func _ready():
 	#HACK
 	player.health_system._ready()
 	
+	#stamina bar
+	player.stamina_system.connect("staminaChanged", Callable(hud_layer.stamina_bar, "update"))
+	
 	for i in range(enemy_manager.allEnemies.size()):
 		setUpEnemySignals(enemy_manager.allEnemies[i])
 	

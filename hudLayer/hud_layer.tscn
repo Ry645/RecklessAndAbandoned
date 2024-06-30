@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbm5dr8xvcwvi"]
+[gd_scene load_steps=6 format=3 uid="uid://cbm5dr8xvcwvi"]
 
 [ext_resource type="Script" path="res://hudLayer/hudLayer.gd" id="1_rvfe4"]
 [ext_resource type="PackedScene" uid="uid://dmlcxlxhjtldd" path="res://healthBar/health_bar.tscn" id="2_lkqww"]
 [ext_resource type="PackedScene" uid="uid://cjbu1e2d0docn" path="res://lockOnSystem/lockOnCursor.tscn" id="3_ucvnw"]
 [ext_resource type="Texture2D" uid="uid://cnp006djaex5p" path="res://player/goldenCrosshair.png" id="4_48awm"]
+[ext_resource type="PackedScene" uid="uid://bqivhmilj1xbv" path="res://staminaBar/stamina_bar.tscn" id="5_8edei"]
 
 [node name="hudLayer" type="CanvasLayer"]
 script = ExtResource("1_rvfe4")
@@ -30,5 +31,13 @@ grow_vertical = 1
 
 [node name="TextureRect" parent="previewLockCursor" index="0"]
 texture = ExtResource("4_48awm")
+
+[node name="staminaBar" parent="." instance=ExtResource("5_8edei")]
+unique_name_in_owner = true
+offset_left = 565.0
+offset_top = 578.0
+offset_right = -587.0
+offset_bottom = -70.0
+scale = Vector2(20, 1)
 
 [editable path="previewLockCursor"]

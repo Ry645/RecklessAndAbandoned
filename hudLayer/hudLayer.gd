@@ -11,6 +11,7 @@ var currentCursorState:int = 0
 
 @onready var lock_on_cursor: Control = %lockOnCursor
 @onready var health_bar: HealthBar = %healthBar
+@onready var stamina_bar = %staminaBar
 @onready var preview_lock_cursor: Control = %previewLockCursor
 
 # Called when the node enters the scene tree for the first time.

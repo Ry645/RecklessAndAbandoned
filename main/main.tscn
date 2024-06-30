@@ -66,4 +66,6 @@ unique_name_in_owner = true
 
 [node name="enemyManager" parent="." instance=ExtResource("9_78v2d")]
 
+[connection signal="die" from="grunt/healthSystem" to="grunt" method="die"]
+
 [editable path="grunt"]

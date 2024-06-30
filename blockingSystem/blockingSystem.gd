@@ -23,6 +23,7 @@ enum BlockMode{
 }
 var currentBlockMode = BlockMode.BLOCK
 var isBlocking:bool = false # depends on your block state whether you parry or hard block
+var canBlock:bool
 
 var parryWindow:float = 0.25
 
@@ -33,9 +34,10 @@ func incrementBlockMode(num = 1):
 	currentBlockMode = FunctionLibrary.positiveModFunctionIStoleFromStackOverflow(currentBlockMode+num, 2)
 
 func startBlock():
-	emit_signal("blockStarted")
-	elapsedBlockTime = 0.0
-	isBlocking = true # yes you are blocking
+	if canBlock:
+		emit_signal("blockStarted")
+		elapsedBlockTime = 0.0
+		isBlocking = true # yes you are blocking
 
 func endBlock():
 	if currentBlockMode == 1 && elapsedBlockTime < parryWindow: # if tapped the parry button

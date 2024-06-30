@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://daiaeolk8hlnj"]
+[gd_scene load_steps=47 format=3 uid="uid://daiaeolk8hlnj"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_gw48f"]
 [ext_resource type="PackedScene" uid="uid://dpgh67au5po0c" path="res://hurtbox/hurtbox.tscn" id="2_nfmsb"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://1l5roa5kttpy" path="res://healthSystem/health_system.tscn" id="6_x2e85"]
 [ext_resource type="PackedScene" uid="uid://b3n11tg8rrqkk" path="res://lockOnSystem/lock_on_system.tscn" id="8_u82b1"]
 [ext_resource type="PackedScene" uid="uid://devcxdl8cuc4c" path="res://statusEffectHolder/status_effect_holder.tscn" id="10_0tmet"]
+[ext_resource type="PackedScene" uid="uid://cq07iysj487s2" path="res://staminaSystem/stamina_system.tscn" id="10_hxc3n"]
 
 [sub_resource type="Animation" id="Animation_82gcj"]
 resource_name = "hardBlockArms"
@@ -3581,6 +3582,9 @@ health = 200.0
 [node name="lockOnSystem" parent="." instance=ExtResource("8_u82b1")]
 unique_name_in_owner = true
 
+[node name="staminaSystem" parent="." instance=ExtResource("10_hxc3n")]
+unique_name_in_owner = true
+
 [node name="statusEffectHolder" parent="." instance=ExtResource("10_0tmet")]
 unique_name_in_owner = true
 
@@ -3600,6 +3604,7 @@ one_shot = true
 [connection signal="die" from="healthSystem" to="." method="playerDeath"]
 [connection signal="healthUpdate" from="healthSystem" to="." method="_on_health_system_health_update"]
 [connection signal="setHealthBarVars" from="healthSystem" to="." method="_on_health_system_set_health_bar_vars"]
+[connection signal="staminaChanged" from="staminaSystem" to="." method="_on_stamina_system_stamina_changed"]
 [connection signal="damage" from="statusEffectHolder" to="." method="takeDamage"]
 [connection signal="timeout" from="lowerSwordTimer" to="." method="_on_lower_sword_timer_timeout"]
 

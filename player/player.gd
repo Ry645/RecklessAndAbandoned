@@ -89,6 +89,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var sword:Node3D = %sword
 @onready var lock_on_system:LockOnSystem = %lockOnSystem
 @onready var attack_cooldown:Timer = %attackCooldown
+@onready var stamina_system:StaminaSystem = %staminaSystem
 
 
 func _unhandled_input(event):
@@ -270,6 +271,7 @@ func _on_blocking_system_attack_parried():
 
 
 func _on_blocking_system_block_started():
+	stamina_system.changeStamina(-1)
 	if blocking_system.currentBlockMode == 1:
 		appendAnimation("parameters/armState/playback", "raiseQuickBlock")
 	else:
@@ -298,3 +300,7 @@ func _on_health_system_set_health_bar_vars(minHealth, maxHealth, currentHealth):
 
 func _on_lower_sword_timer_timeout():
 	appendAnimation("parameters/armState/playback", "lowerSword")
+
+
+func _on_stamina_system_stamina_changed(rawStaminaVal, minVal, maxVal):
+	blocking_system.canBlock = stamina_system.stamina >= 1.0
