@@ -79,6 +79,8 @@ func _ready():
 #use nav mesh later
 func _physics_process(delta):
 	movement_component.applyGravity(delta)
+	look_at(targetBody.position)
+	rotate(Vector3(0, 1, 0), PI)
 	
 	match currentAiState:
 		aiState.WANDER:
