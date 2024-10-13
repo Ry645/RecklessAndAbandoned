@@ -35,6 +35,12 @@ environment = SubResource("Environment_4qs63")
 
 [node name="Player" parent="." instance=ExtResource("2_hdhtc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 0)
+SPEED = 6.0
+DASH_FACTOR = 3.0
+JUMP_VELOCITY = 4.5
+gravityMultiplier = 1.0
+turnSpeed = 10.0
+attackInterval = 0.3
 
 [node name="land" parent="." instance=ExtResource("3_pj3ja")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33.4391, 0)
@@ -69,3 +75,4 @@ unique_name_in_owner = true
 [connection signal="die" from="grunt/healthSystem" to="grunt" method="die"]
 
 [editable path="grunt"]
+[editable path="grunt/gruntModel"]

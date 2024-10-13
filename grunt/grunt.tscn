@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwroxvcp0kf32"]
+[gd_scene load_steps=28 format=3 uid="uid://dwroxvcp0kf32"]
 
 [ext_resource type="Script" path="res://grunt/grunt.gd" id="1_e3166"]
 [ext_resource type="Shape3D" uid="uid://cormmvva23cay" path="res://grunt/gruntCollision.tres" id="2_hqj1o"]
@@ -8,12 +8,96 @@
 [ext_resource type="Script" path="res://deleteOnRuntime/deleteOnRuntime.gd" id="4_du8d8"]
 [ext_resource type="Shape3D" uid="uid://c1w18gsgixkbg" path="res://grunt/gruntHurtbox.tres" id="5_qdhs3"]
 [ext_resource type="PackedScene" uid="uid://1l5roa5kttpy" path="res://healthSystem/health_system.tscn" id="7_yf5w2"]
-
-[sub_resource type="PrismMesh" id="PrismMesh_f12ks"]
+[ext_resource type="PackedScene" uid="uid://d2sgnkdpnb7pd" path="res://player/playerCharacterModel.blend" id="9_glqka"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_c10pf"]
 radius = 0.25
 height = 0.5
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ymt7"]
+animation = &"holdSwordArm"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jjkxx"]
+animation = &"lowerQuickBlock"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ybrsa"]
+animation = &"parry1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_56ewm"]
+animation = &"parry2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_32qnr"]
+animation = &"parry3"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ik6ul"]
+animation = &"raiseQuickBlock"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1nqjd"]
+animation = &"swing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x87gu"]
+animation = &"swing_001"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m0k5l"]
+animation = &"swing_002"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qrvhr"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_87r6m"]
+states/Start/position = Vector2(207, 100)
+states/holdSwordArm/node = SubResource("AnimationNodeAnimation_3ymt7")
+states/holdSwordArm/position = Vector2(417, 100)
+states/lowerQuickBlock/node = SubResource("AnimationNodeAnimation_jjkxx")
+states/lowerQuickBlock/position = Vector2(417, 177)
+states/parry1/node = SubResource("AnimationNodeAnimation_ybrsa")
+states/parry1/position = Vector2(417, 295)
+states/parry2/node = SubResource("AnimationNodeAnimation_56ewm")
+states/parry2/position = Vector2(417, 350)
+states/parry3/node = SubResource("AnimationNodeAnimation_32qnr")
+states/parry3/position = Vector2(417, 410)
+states/raiseQuickBlock/node = SubResource("AnimationNodeAnimation_ik6ul")
+states/raiseQuickBlock/position = Vector2(417, 242)
+states/swing/node = SubResource("AnimationNodeAnimation_1nqjd")
+states/swing/position = Vector2(641, 100)
+states/swing_001/node = SubResource("AnimationNodeAnimation_x87gu")
+states/swing_001/position = Vector2(641, 153)
+states/swing_002/node = SubResource("AnimationNodeAnimation_m0k5l")
+states/swing_002/position = Vector2(641, 217)
+transitions = ["Start", "holdSwordArm", SubResource("AnimationNodeStateMachineTransition_qrvhr")]
+graph_offset = Vector2(-177, 2)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ivfc0"]
+animation = &"rest"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pl12y"]
+animation = &"walkAnimation"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur0ah"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_pqbj2"]
+states/rest/node = SubResource("AnimationNodeAnimation_ivfc0")
+states/rest/position = Vector2(385, 113)
+states/walkAnimation/node = SubResource("AnimationNodeAnimation_pl12y")
+states/walkAnimation/position = Vector2(385, 171)
+transitions = ["Start", "rest", SubResource("AnimationNodeStateMachineTransition_ur0ah")]
+graph_offset = Vector2(-83, -36)
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ibfe6"]
+filter_enabled = true
+filters = ["Armature/Skeleton3D:calf.L", "Armature/Skeleton3D:calf.R", "Armature/Skeleton3D:control.foot.L", "Armature/Skeleton3D:control.foot.R", "Armature/Skeleton3D:control.torso", "Armature/Skeleton3D:foot.L", "Armature/Skeleton3D:foot.R", "Armature/Skeleton3D:pivot.foot.L", "Armature/Skeleton3D:pivot.foot.R", "Armature/Skeleton3D:pivot.heel.L", "Armature/Skeleton3D:pivot.heel.R", "Armature/Skeleton3D:pivot.toe.L", "Armature/Skeleton3D:pivot.toe.R", "Armature/Skeleton3D:roll.out.L", "Armature/Skeleton3D:roll.out.R", "Armature/Skeleton3D:thigh.001.L", "Armature/Skeleton3D:thigh.001.R", "Armature/Skeleton3D:toe.L", "Armature/Skeleton3D:toe.R"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_jxwmq"]
+graph_offset = Vector2(-490.068, 133.171)
+nodes/armState/node = SubResource("AnimationNodeStateMachine_87r6m")
+nodes/armState/position = Vector2(-120, 100)
+nodes/legState/node = SubResource("AnimationNodeStateMachine_pqbj2")
+nodes/legState/position = Vector2(-120, 320)
+nodes/output/position = Vector2(440, 180)
+nodes/walkBlend/node = SubResource("AnimationNodeBlend2_ibfe6")
+nodes/walkBlend/position = Vector2(200, 160)
+node_connections = [&"output", 0, &"walkBlend", &"walkBlend", 0, &"armState", &"walkBlend", 1, &"legState"]
 
 [node name="grunt" type="CharacterBody3D" groups=["hitGroup1"]]
 collision_layer = 3
@@ -34,10 +118,6 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 0.25
 one_shot = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-unique_name_in_owner = true
-mesh = SubResource("PrismMesh_f12ks")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = ExtResource("2_hqj1o")
@@ -65,8 +145,46 @@ mesh = SubResource("SphereMesh_c10pf")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[node name="gruntModel" parent="." instance=ExtResource("9_glqka")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Skeleton3D" parent="gruntModel/Armature" index="0"]
+bones/5/rotation = Quaternion(0, 0, 1, 0)
+bones/6/rotation = Quaternion(0.00538423, 0.963319, 0.267605, 0.019382)
+bones/11/rotation = Quaternion(0, 0, 1, 0)
+bones/12/rotation = Quaternion(-0.00538423, 0.963319, 0.267605, -0.019382)
+bones/15/position = Vector3(0.381822, 0.427317, -0.328371)
+bones/23/rotation = Quaternion(-0.0262719, 0.209697, -0.473844, 0.854874)
+bones/24/rotation = Quaternion(0.305723, -1.07626e-07, 0.0258733, 0.951769)
+bones/28/rotation = Quaternion(0.118322, -0.39477, 0.36062, 0.836725)
+bones/29/rotation = Quaternion(0.126772, 1.22949e-07, -0.0107285, 0.991874)
+bones/31/position = Vector3(-0.0399009, 0.399028, -0.0195539)
+bones/31/rotation = Quaternion(0.183253, 0.516549, 0.5653, 0.616467)
+bones/33/rotation = Quaternion(0.0509806, -0.0200924, -0.0122489, 0.998422)
+bones/34/rotation = Quaternion(-0.0328524, 1.67112e-09, -0.00132244, 0.999459)
+bones/35/rotation = Quaternion(0.499266, 0.0177691, 0.0106416, 0.866201)
+bones/36/rotation = Quaternion(0.267606, -0.019382, 0.00538392, 0.963319)
+bones/38/rotation = Quaternion(0.0509763, 0.0200925, 0.0122492, 0.998423)
+bones/39/rotation = Quaternion(-0.0328524, -2.61061e-09, 0.00132244, 0.999459)
+bones/40/rotation = Quaternion(0.499262, -0.0177691, -0.0106413, 0.866203)
+bones/41/rotation = Quaternion(0.267606, 0.019382, -0.00538395, 0.963319)
+bones/42/position = Vector3(0.315531, -0.212134, 0.00695217)
+bones/44/position = Vector3(-0.444829, -0.217626, -0.0146681)
+bones/49/position = Vector3(-0.447227, 0.777754, -0.0509197)
+bones/49/rotation = Quaternion(-0.21323, -0.0169186, 0.821167, -0.529085)
+bones/50/position = Vector3(0.274473, 0.790642, 0.0176065)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../gruntModel")
+tree_root = SubResource("AnimationNodeBlendTree_jxwmq")
+anim_player = NodePath("../gruntModel/AnimationPlayer")
+parameters/walkBlend/blend_amount = 1.0
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="timeout" from="attackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="timeout" from="attackStartupTimer" to="." method="_on_attack_startup_timer_timeout"]
 [connection signal="area_entered" from="hurtboxLocation/Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="die" from="healthSystem" to="." method="die"]
+
+[editable path="gruntModel"]

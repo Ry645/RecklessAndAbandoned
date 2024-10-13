@@ -9,43 +9,8 @@ class_name Player
 
 var animationsToTravelTo:Array
 
-#TODO migrate anim class : annoying
-#migrate to a separate class
-#actually migrate all of this animation logic to an animation component that connects to the animation tree
-var dictPossibleAnimationDestinations = {
-	#blockState
-	#TODO have lower swing for each in place of holdSwordArm: new feature
-	"holdSwordArm" = ["raiseQuickBlock", "swing"],
-	"lowerQuickBlock" = ["raiseQuickBlock"],
-	"raiseQuickBlock" = ["lowerQuickBlock", "parry1"],
-	"parry1" = ["holdSwordArm", "parry2"],
-	"parry2" = ["holdSwordArm", "parry3"],
-	"parry3" = ["holdSwordArm", "parry2"],
-	
-	"swing" = ["swing_001", "holdSwordArm"],
-	"swing_001" = ["swing_002", "holdSwordArm"],
-	"swing_002" = ["swing_001", "holdSwordArm"],
-	
-	#legState
-	"rest" = "walkAnimation",
-	"walkAnimation" = "rest",
-}
-
-var dictParryProcess = {
-	"raiseQuickBlock" = "parry1",
-	"parry1" = "parry2",
-	"parry2" = "parry3",
-	"parry3" = "parry2",
-}
-var dictAttackProcess = {
-	"holdSwordArm" = "swing",
-	"swing" = "swing_001",
-	"swing_001" = "swing_002",
-	"swing_002" = "swing_001",
-}
-var dictLowerSwordProcess = {
-	"raiseQuickBlock" = "lowerQuickBlock",
-}
+#animation object
+var humanoidAnimHandler:HumanoidAnim
 
 signal setHealthBarVars(minHealth, maxHealth, currentHealth)
 signal healthUpdate(health)
@@ -80,6 +45,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var lock_on_system:LockOnSystem = %lockOnSystem
 @onready var attack_cooldown:Timer = %attackCooldown
 
+func _ready():
+	humanoidAnimHandler = HumanoidAnim.new(animationTree)
 
 func _unhandled_input(event):
 	# if not tabbed out (ie playing game)
@@ -143,36 +110,10 @@ func _physics_process(delta):
 
 
 func appendAnimation(parameterPath, stateToTravel:String):
-	animationsToTravelTo.append([parameterPath, stateToTravel])
+	humanoidAnimHandler.appendAnimation(parameterPath, stateToTravel)
 
 func updateAnimations():
-	for animation in animationsToTravelTo:
-		var animationPlayback:AnimationNodeStateMachinePlayback = animationTree.get(animation[0])
-		
-		match animation[1]:
-			#custom animation
-			"parry":
-				if animationPlayback.get_current_node() in dictParryProcess:
-					animation[1] = dictParryProcess[animationPlayback.get_current_node()] #get current to play next
-			"attack":
-				if animationPlayback.get_current_node() in dictAttackProcess:
-					animation[1] = dictAttackProcess[animationPlayback.get_current_node()]
-			"lowerSword":
-				if animationPlayback.get_current_node() in dictLowerSwordProcess:
-					animation[1] = dictLowerSwordProcess[animationPlayback.get_current_node()]
-				else:
-					#HACK will later just add in new animations to cover holdSwordArm
-					animation[1] = "holdSwordArm"
-		
-		# get current animation, and all possible nodes to travel to using a dictionary
-		# if you travel to a animation, then it checks to see if it's even possible using the dictionary
-		# if not, stop, if yes, start new animation
-		
-		if animationPlayback.get_current_node() && animation[1] in dictPossibleAnimationDestinations[animationPlayback.get_current_node()]:
-			animationPlayback.travel(animation[1])
-		
-	
-	animationsToTravelTo.clear()
+	humanoidAnimHandler.updateAnimations()
 
 func inputProcess(): # to be called in physics process
 	if Input.is_action_just_pressed("pickup"):
